@@ -3,205 +3,295 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Utama - Aplikasi Administrasi Mengajar Guru KMA 1503</title>
+    <title>Portal Utama - MTsS Al Ishlah Panambangan</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome CDN -->
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        
-        /* Custom Header Styling */
-        .header-bg {
-            background: linear-gradient(135deg, #054f31 0%, #086b43 50%, #033a23 100%);
-            position: relative;
-            overflow: hidden;
+        body {
+            font-family: 'Inter', sans-serif;
         }
-        .header-bg::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0, rgba(255,255,255,0.03) 10px, transparent 10px, transparent 20px);
-            pointer-events: none;
+        .bg-madrasah-green {
+            background-color: #0b5333;
         }
-        .arabic-text {
-            font-family: 'Traditional Arabic', 'Amiri', serif;
+        .bg-madrasah-dark {
+            background-color: #063822;
+        }
+        .text-madrasah-gold {
+            color: #f1b418;
+        }
+        .bg-madrasah-gold {
+            background-color: #f1b418;
+        }
+        .border-madrasah-gold {
+            border-color: #f1b418;
         }
     </style>
 </head>
-<body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col">
+<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
 
-    <!-- ========================================== -->
-    <!-- HEADER KHAS MADRASAH                      -->
-    <!-- ========================================== -->
-    <header class="header-bg text-white shadow-lg border-b-4 border-yellow-500">
-        <div class="max-w-7xl mx-auto px-4 py-3">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                
-                <!-- Kiri: Logo (Dari folder assets) & Info Madrasah -->
-                <div class="flex items-center gap-4">
-                    <div class="w-16 h-16 bg-white rounded-xl p-1 border border-yellow-400/50 flex items-center justify-center shrink-0 shadow-inner">
-                        <img id="header-logo" src="assets/mts.png" alt="Logo MTs" class="max-h-full max-w-full object-contain">
+    <!-- HEADER UTAMA -->
+    <header class="bg-madrasah-green text-white border-b-4 border-madrasah-gold shadow-md">
+        <!-- Baris Atas Header -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-4 text-center md:text-left">
+                <!-- Logo dipanggil dari folder assets/mts.png -->
+                <img src="assets/mts.png" alt="Logo Madrasah" class="h-16 w-auto object-contain bg-white rounded-full p-1 border-2 border-madrasah-gold" onerror="this.src='https://via.placeholder.com/64?text=LOGOS'">
+                <div>
+                    <div class="flex items-center justify-center md:justify-start gap-2">
+                        <h1 class="text-xl md:text-2xl font-bold tracking-wide">MTsS Al Ishlah Panambangan</h1>
+                        <span class="bg-madrasah-gold text-xs font-bold text-gray-900 px-2 py-0.5 rounded-full uppercase tracking-wider">Cirebon</span>
                     </div>
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <h1 id="header-nama-madrasah" class="text-xl md:text-2xl font-bold text-white tracking-wide">MTs AL ISHLAH PANAMBANGAN</h1>
-                            <span class="bg-yellow-400 text-emerald-950 text-xs font-black px-2.5 py-0.5 rounded-full uppercase shadow">CIREBON</span>
-                        </div>
-                        <p class="text-xs md:text-sm text-yellow-200 mt-0.5 flex items-center gap-2">
-                            <span class="arabic-text text-base font-semibold text-amber-300">بسم الله الرحمن الرحيم</span>
-                            <span>• Aplikasi Buku Kerja Guru Berbasis <strong class="text-white">KMA Nomor 1503 Tahun 2025</strong></span>
-                        </p>
-                    </div>
+                    <p class="text-xs md:text-sm text-emerald-100 font-medium italic mt-0.5">
+                        <span class="text-madrasah-gold font-serif">بسم الله الرحمن الرحيم</span> • Aplikasi Buku Kerja Guru Berbasis <span class="font-semibold text-white">KMA Nomor 1503 Tahun 2025</span>
+                    </p>
                 </div>
-
-                <!-- Kanan: Status Portal Utama -->
-                <div class="bg-emerald-900/80 border border-emerald-600/60 rounded-xl p-3 flex items-center gap-3 shadow-md">
-                    <div class="w-10 h-10 bg-yellow-400 text-emerald-950 rounded-lg flex items-center justify-center font-bold">
-                        <i class="fa-solid fa-house-chimney text-lg"></i>
-                    </div>
-                    <div>
-                        <div class="text-[10px] uppercase tracking-wider font-extrabold text-yellow-300">PORTAL UTAMA</div>
-                        <div class="text-xs font-bold text-white">Pilih Akses Layanan</div>
-                    </div>
-                </div>
-
             </div>
 
-            <!-- Header Bottom Bar: Identity & Pimpinan (Sinkron Firebase) -->
-            <div class="mt-3 pt-2 border-t border-emerald-600/50 flex flex-wrap items-center justify-between text-xs text-emerald-100 gap-2">
-                <div class="flex flex-wrap items-center gap-4">
-                    <span class="flex items-center gap-1"><i class="fa-solid fa-id-card text-yellow-400"></i> NSM: <strong id="header-nsm" class="text-white">121232090014</strong></span>
-                    <span class="flex items-center gap-1"><i class="fa-solid fa-school text-yellow-400"></i> NPSN: <strong id="header-npsn" class="text-white">20278857</strong></span>
-                    <span class="flex items-center gap-1"><i class="fa-solid fa-location-dot text-yellow-400"></i> <span id="header-alamat">Jl. Gardu No.01 Panambangan, Sedong, Cirebon</span></span>
+            <!-- Tombol Navigasi Portal Utama Header -->
+            <div class="flex items-center">
+                <a href="./" class="bg-madrasah-gold hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-lg font-bold text-xs flex items-center gap-2 shadow transition-all duration-200">
+                    <i class="fa-solid fa-house"></i>
+                    <div class="text-left">
+                        <div class="leading-none">PORTAL UTAMA</div>
+                        <div class="text-[9px] font-normal text-gray-800">Pilih Akses Layanan</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Baris Sub-Header Info Identitas & Pimpinan (Dinamis via Operator) -->
+        <div class="bg-madrasah-dark text-emerald-100 text-xs py-2 px-4 border-t border-emerald-800">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
+                <!-- NSM, NPSN, Alamat -->
+                <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 text-[11px]">
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-id-card text-madrasah-gold"></i> <strong>NSM:</strong> <span id="header-nsm">121232090014</span></span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-school text-madrasah-gold"></i> <strong>NPSN:</strong> <span id="header-npsn">20278857</span></span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-madrasah-gold"></i> <span id="header-alamat">Jl. Gardu No.01 Desa Panambangan</span></span>
                 </div>
-                <div class="flex items-center gap-2">
-                    <span class="bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-700/50">Kamad: <strong id="header-kamad" class="text-white">Memuat...</strong></span>
-                    <span class="bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-700/50">WKS Kurikulum: <strong id="header-waka" class="text-white">Memuat...</strong></span>
+                <!-- Kamad & Waka Kurikulum -->
+                <div class="flex flex-wrap items-center justify-center md:justify-end gap-4 text-[11px]">
+                    <span class="flex items-center gap-1"><strong>Kamad:</strong> <span id="header-kamad">Siti Ramdhoni, S.Ag., M.Pd.</span></span>
+                    <span class="border-r border-emerald-700 h-3 hidden md:inline"></span>
+                    <span class="flex items-center gap-1"><strong>Waka Kurikulum:</strong> <span id="header-waka">Hendrix Nurudin, S.Pd</span></span>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- CONTAINER UTAMA / LANDING CONTENT -->
-    <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-8 flex flex-col justify-center my-auto">
-
-        <!-- Welcome Banner -->
-        <div class="text-center mb-10 space-y-3">
-            <span class="bg-emerald-100 text-emerald-800 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider border border-emerald-300">
+    <!-- KONTEN UTAMA (LANDING PAGE) -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col justify-center items-center">
+        
+        <!-- Hero Section -->
+        <div class="text-center max-w-3xl mb-12">
+            <span class="inline-block bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-3">
                 Sistem Administrasi Terpadu Madrasah
             </span>
-            <h2 class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight mb-4">
                 Selamat Datang di Portal Buku Kerja Digital
             </h2>
-            <p class="text-sm md:text-base text-slate-600 max-w-2xl mx-auto">
-                Platform pengelolaan administrasi pembelajaran guru (Buku Kerja 1 sampai 4) yang terintegrasi dengan standar regulasi <strong>KMA Nomor 1503 Tahun 2025</strong>.
+            <p class="text-base md:text-lg text-gray-600 leading-relaxed">
+                Platform pengelolaan administrasi pembelajaran guru (Buku Kerja 1 sampai 3) yang terintegrasi dengan standar regulasi <strong class="text-emerald-800">KMA Nomor 1503 Tahun 2025</strong>.
             </p>
         </div>
 
-        <!-- Pilihan Portal (Card Grid) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto w-full">
-
-            <!-- Card 1: Portal Guru -->
-            <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-8 flex flex-col justify-between hover:border-emerald-500 transition group">
-                <div class="space-y-4">
-                    <div class="w-16 h-16 bg-emerald-50 text-emerald-700 rounded-2xl flex items-center justify-center text-2xl font-bold group-hover:bg-emerald-700 group-hover:text-white transition shadow-sm">
+        <!-- 3 KARTU AKSES PORTAL TERPISAH -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl">
+            
+            <!-- KARTU 1: PORTAL GURU -->
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col justify-between p-6">
+                <div>
+                    <div class="w-14 h-14 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-700 text-2xl mb-5">
                         <i class="fa-solid fa-chalkboard-user"></i>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-slate-800">Portal Guru</h3>
-                        <p class="text-xs text-slate-500 mt-1">Ruang kerja digital guru untuk menyusun perangkat pembelajaran, absensi harian, jurnal mengajar, asesmen, dan evaluasi diri.</p>
-                    </div>
-                    <ul class="text-xs text-slate-600 space-y-1.5 pt-2 border-t border-slate-100">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600"></i> Buku Kerja 1: Perencanaan (CP, TP, ATP, Modul Ajar)</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600"></i> Buku Kerja 2: Pelaksanaan (Absensi & Jurnal)</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-600"></i> Buku Kerja 3 & 4: Penilaian & Evaluasi Diri</li>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Portal Guru</h3>
+                    <p class="text-xs text-gray-600 mb-4 leading-relaxed">
+                        Ruang kerja digital guru untuk menyusun perangkat pembelajaran, jurnal harian, pencatatan pelanggaran, serta penilaian mandiri.
+                    </p>
+                    <ul class="text-xs text-gray-700 space-y-2 mb-6 border-t border-gray-100 pt-4">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-600 mt-0.5"></i>
+                            <span><strong>Buku Kerja 1:</strong> CP, TP, ATP, Modul Ajar, Prota/Prosem & KKTP</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-600 mt-0.5"></i>
+                            <span><strong>Buku Kerja 2:</strong> Jurnal Harian & Input Pelanggaran Siswa</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-600 mt-0.5"></i>
+                            <span><strong>Buku Kerja 3:</strong> Evaluasi & Penilaian (Ekspor Mandiri)</span>
+                        </li>
                     </ul>
                 </div>
-                <div class="pt-6">
-                    <a href="guru/index.html" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-md">
-                        <span>Masuk ke Halaman Guru</span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-                </div>
+                <a href="./guru/" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors duration-200 text-sm shadow-md">
+                    <span>Masuk Portal Guru</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
             </div>
 
-            <!-- Card 2: Portal Admin -->
-            <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-8 flex flex-col justify-between hover:border-yellow-500 transition group">
-                <div class="space-y-4">
-                    <div class="w-16 h-16 bg-yellow-50 text-amber-700 rounded-2xl flex items-center justify-center text-2xl font-bold group-hover:bg-amber-600 group-hover:text-white transition shadow-sm">
-                        <i class="fa-solid fa-user-shield"></i>
+            <!-- KARTU 2: PORTAL PIMPINAN (WAKA & KAMAD) -->
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col justify-between p-6">
+                <div>
+                    <div class="w-14 h-14 bg-amber-100 rounded-xl flex items-center justify-center text-amber-700 text-2xl mb-5">
+                        <i class="fa-solid fa-user-tie"></i>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-slate-800">Portal Admin</h3>
-                        <p class="text-xs text-slate-500 mt-1">Pusat kendali dan supervisi madrasah yang terbagi khusus untuk Operator, Waka Kurikulum, dan Kepala Madrasah.</p>
-                    </div>
-                    <ul class="text-xs text-slate-600 space-y-1.5 pt-2 border-t border-slate-100">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-600"></i> <strong>Operator:</strong> Profil Sekolah, Akun Guru, & Data Siswa</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-600"></i> <strong>Waka Kurikulum:</strong> Struktur Kurikulum & Verifikasi RPP</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-600"></i> <strong>Kamad:</strong> Dashboard Eksekutif, TTD Digital, & Approval</li>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Portal Pimpinan</h3>
+                    <p class="text-xs text-gray-600 mb-4 leading-relaxed">
+                        Pusat supervisi dan pengesahan perangkat pembelajaran khusus untuk Waka Kurikulum dan Kepala Madrasah.
+                    </p>
+                    <ul class="text-xs text-gray-700 space-y-2 mb-6 border-t border-gray-100 pt-4">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-amber-600 mt-0.5"></i>
+                            <span><strong>Waka Kurikulum:</strong> Setting Master CP, Kaldik, JTM, Verifikasi BK1 & Rekap Pelanggaran</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-amber-600 mt-0.5"></i>
+                            <span><strong>Kepala Madrasah:</strong> ACC / Tanda Tangan Digital BK1 & Monitoring Progress Guru</span>
+                        </li>
                     </ul>
                 </div>
-                <div class="pt-6">
-                    <a href="admin/index.html" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-md">
-                        <span>Masuk ke Halaman Admin</span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
+                <a href="./pimpinan/" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors duration-200 text-sm shadow-md">
+                    <span>Masuk Portal Pimpinan</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+
+            <!-- KARTU 3: PORTAL OPERATOR -->
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col justify-between p-6">
+                <div>
+                    <div class="w-14 h-14 bg-slate-100 rounded-xl flex items-center justify-center text-slate-700 text-2xl mb-5">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Portal Operator</h3>
+                    <p class="text-xs text-gray-600 mb-4 leading-relaxed">
+                        Pusat kendali sistem, manajemen akun pengguna, sinkronisasi otomatis Google Drive, dan ekspor kolektif.
+                    </p>
+                    <ul class="text-xs text-gray-700 space-y-2 mb-6 border-t border-gray-100 pt-4">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-slate-600 mt-0.5"></i>
+                            <span><strong>Manajemen User:</strong> Kelola Akun Guru, Waka, Kamad & Profil Madrasah</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-slate-600 mt-0.5"></i>
+                            <span><strong>Auto-Sync Cloud:</strong> Integrasi Sinkronisasi Berkas ACC ke Google Drive</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-slate-600 mt-0.5"></i>
+                            <span><strong>Export Center:</strong> Rekap Jurnal Harian & Berkas Kolektif</span>
+                        </li>
+                    </ul>
                 </div>
+                <a href="./operator/" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors duration-200 text-sm shadow-md">
+                    <span>Masuk Portal Operator</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
             </div>
 
         </div>
 
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
-        <p>© 2026 MTs Al Ishlah Panambangan Cirebon • Aplikasi Buku Kerja Guru Berbasis KMA Nomor 1503 Tahun 2025</p>
+    <!-- FOOTER UTAMA -->
+    <footer class="bg-madrasah-dark text-white border-t-4 border-madrasah-gold mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-xs leading-relaxed">
+                
+                <!-- Kolom 1: Profil Singkat -->
+                <div>
+                    <div class="flex items-center gap-3 mb-3">
+                        <img src="assets/mts.png" alt="Logo Footer" class="h-10 w-auto bg-white rounded-full p-1 border border-madrasah-gold" onerror="this.src='https://via.placeholder.com/40'">
+                        <div>
+                            <h4 class="font-bold text-sm text-white uppercase tracking-wider">MTs AL ISHLAH PANAMBANGAN</h4>
+                            <p class="text-madrasah-gold font-medium text-[11px]">Kabupaten Cirebon</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-[11px] leading-relaxed">
+                        Aplikasi Sistem Informasi Administrasi & Buku Kerja Guru Berbasis KMA Nomor 1503 Tahun 2025. Dirancang untuk memudahkan penyusunan, pengorganisasian, serta supervisi perangkat pembelajaran secara terpadu.
+                    </p>
+                </div>
+
+                <!-- Kolom 2: Kontak Madrasah -->
+                <div>
+                    <h4 class="font-bold text-sm text-madrasah-gold mb-3 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-headset"></i> KONTAK & ALAMAT MADRASAH
+                    </h4>
+                    <ul class="space-y-2 text-gray-300 text-[11px]">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-phone text-emerald-400 w-4"></i>
+                            <span>No. Telepon / HP: <strong>085879452960</strong></span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-envelope text-emerald-400 w-4"></i>
+                            <span>Email 1: syihabadawiyah9@gmail.com</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-envelope text-emerald-400 w-4"></i>
+                            <span>Email 2: admalishlahpanambangan@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Kolom 3: Alamat Lengkap & WhatsApp -->
+                <div class="flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-start gap-2 text-gray-300 text-[11px] mb-4">
+                            <i class="fa-solid fa-location-dot text-emerald-400 w-4 mt-0.5"></i>
+                            <span>Jl. Gardu No. 01 Desa Panambangan Kec. Sedong, Kabupaten Cirebon, Jawa Barat – 45189</span>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="https://wa.me/6285879452960" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl transition-colors duration-200 text-xs shadow-md">
+                            <i class="fa-brands fa-whatsapp text-sm"></i>
+                            <span>Hubungi via WhatsApp</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Copyright Baris Bawah -->
+        <div class="bg-madrasah-gold text-gray-900 text-center py-2.5 text-[11px] font-bold tracking-wide">
+            © 2026 MTs Al Ishlah Panambangan Cirebon • Aplikasi Buku Kerja Guru Berbasis KMA Nomor 1503 Tahun 2025
+        </div>
     </footer>
 
-    <!-- SCRIPT FIREBASE & SYNC PROFIL DINAMIS -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+    <!-- SDK FIREBASE REALTIME DATABASE -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
+    <script>
+        // Konfigurasi Firebase Resmi Project
         const firebaseConfig = {
             apiKey: "AIzaSyBVLJQxY3voHItmSL2mrSO3blD4L235TFw",
             authDomain: "administrasi-mengajarguru.firebaseapp.com",
+            databaseURL: "https://administrasi-mengajarguru-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "administrasi-mengajarguru",
             storageBucket: "administrasi-mengajarguru.firebasestorage.app",
             messagingSenderId: "676731212858",
             appId: "1:676731212858:web:f2e214e72797982da99103"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        async function loadHeaderProfil() {
-            try {
-                const docSnap = await getDoc(doc(db, "profil", "sekolah"));
-                if (docSnap.exists()) {
-                    const d = docSnap.data();
-                    if(d.nama) document.getElementById('header-nama-madrasah').innerText = d.nama;
-                    if(d.nsm) document.getElementById('header-nsm').innerText = d.nsm;
-                    if(d.npsn) document.getElementById('header-npsn').innerText = d.npsn;
-                    if(d.alamat) document.getElementById('header-alamat').innerText = d.alamat;
-                    // Nama Kamad dan Waka otomatis mengikuti input dari panel Operator
-                    if(d.kamad) document.getElementById('header-kamad').innerText = d.kamad;
-                    if(d.waka) document.getElementById('header-waka').innerText = d.waka;
-                } else {
-                    document.getElementById('header-kamad').innerText = "Siti Ramdhoni, S.Ag., M.Pd.";
-                    document.getElementById('header-waka').innerText = "Hendrix Nurudin, S.Pd.I";
-                }
-            } catch (err) {
-                console.log("Gagal memuat profil database, menggunakan default.");
-                document.getElementById('header-kamad').innerText = "Siti Ramdhoni, S.Ag., M.Pd.";
-                document.getElementById('header-waka').innerText = "Hendrix Nurudin, S.Pd.I";
-            }
+        // Inisialisasi Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
         }
+        const db = firebase.database();
 
-        loadHeaderProfil();
+        // Mengambil data profil sekolah yang diatur oleh Operator dari Firebase secara otomatis
+        db.ref('profil_sekolah').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                if(data.nsm) document.getElementById('header-nsm').innerText = data.nsm;
+                if(data.npsn) document.getElementById('header-npsn').innerText = data.npsn;
+                if(data.alamat) document.getElementById('header-alamat').innerText = data.alamat;
+                if(data.nama_kamad) document.getElementById('header-kamad').innerText = data.nama_kamad;
+                if(data.nama_waka) document.getElementById('header-waka').innerText = data.nama_waka;
+            }
+        });
     </script>
 </body>
 </html>
