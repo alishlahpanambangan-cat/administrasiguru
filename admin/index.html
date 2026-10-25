@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         
         /* Custom Header Styling */
@@ -33,7 +33,7 @@
         }
     </style>
 </head>
-<body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col">
+<body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col justify-between">
 
     <!-- ========================================== -->
     <!-- HEADER KHAS MADRASAH                      -->
@@ -59,15 +59,23 @@
                     </div>
                 </div>
 
-                <!-- Kanan: Status Login & Akses Cepat (Muncul Jika Sudah Login) -->
-                <div id="header-user-card" class="hidden bg-emerald-900/80 border border-emerald-600/60 rounded-xl p-3 flex items-center justify-between gap-4 w-full md:w-auto shadow-md">
-                    <div>
-                        <div id="header-role-badge" class="text-[10px] uppercase tracking-wider font-extrabold text-yellow-300">AKUN OPERATOR AKTIF</div>
-                        <div id="header-user-name" class="text-sm font-bold text-white">Administrator</div>
+                <!-- Kanan: Akses Cepat ke Portal Utama & Status Login -->
+                <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+                    <!-- Tombol Navigasi ke Portal Utama -->
+                    <a href="../index.html" class="bg-emerald-800 hover:bg-emerald-900 text-yellow-300 px-3.5 py-2 rounded-xl text-xs font-bold border border-emerald-600 transition flex items-center gap-2 shadow-md shrink-0">
+                        <i class="fa-solid fa-house"></i> Portal Utama
+                    </a>
+
+                    <!-- Card Status Login Admin -->
+                    <div id="header-user-card" class="hidden bg-emerald-900/80 border border-emerald-600/60 rounded-xl p-2.5 flex items-center justify-between gap-3 shadow-md">
+                        <div>
+                            <div id="header-role-badge" class="text-[9px] uppercase tracking-wider font-extrabold text-yellow-300">AKUN OPERATOR AKTIF</div>
+                            <div id="header-user-name" class="text-xs font-bold text-white truncate max-w-[150px]">Administrator</div>
+                        </div>
+                        <button id="btn-logout" class="bg-red-600 hover:bg-red-700 text-white px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition shadow">
+                            <i class="fa-solid fa-right-from-bracket"></i> Keluar
+                        </button>
                     </div>
-                    <button id="btn-logout" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition shadow">
-                        <i class="fa-solid fa-right-from-bracket"></i> Keluar
-                    </button>
                 </div>
 
             </div>
@@ -113,8 +121,8 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Username / Email Admin</label>
-                    <input type="text" id="login-username" required placeholder="Masukkan username atau email" class="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1" id="label-login-username">Username / Email Admin</label>
+                    <input type="text" id="login-username" required placeholder="Masukkan email (Operator) atau angka (Waka/Kamad)" class="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                 </div>
 
                 <div>
@@ -219,7 +227,7 @@
                     </div>
                 </div>
 
-                <!-- 1C. Kelola Master Mata Pelajaran (Fitur Baru) -->
+                <!-- 1C. Kelola Master Mata Pelajaran -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                     <h3 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b flex items-center justify-between">
                         <span class="flex items-center gap-2"><i class="fa-solid fa-book text-emerald-600"></i> Kelola Master Mata Pelajaran (Mapel)</span>
@@ -244,21 +252,22 @@
                     </div>
                 </div>
 
-                <!-- 1D. Kontrol Akun Pimpinan (Kamad & Waka) -->
+                <!-- 1D. Kontrol Akun Pimpinan (Support Username Angka) -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                     <h3 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b flex items-center gap-2">
                         <i class="fa-solid fa-user-gear text-emerald-600"></i> Manajemen Akun Pimpinan (Kamad & Waka)
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Form Kamad -->
                         <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
                             <span class="text-xs font-bold text-red-600 uppercase tracking-wider">Akun Kepala Madrasah</span>
                             <div>
                                 <label class="block text-xs font-medium text-slate-600">Nama Lengkap Kamad</label>
-                                <input type="text" id="pimpinan-kamad-nama" class="w-full text-sm border rounded p-2 bg-white">
+                                <input type="text" id="pimpinan-kamad-nama" class="w-full text-sm border rounded p-2 bg-white" placeholder="Siti Ramdhoni, S.Ag., M.Pd.">
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-slate-600">Username / Email Kamad</label>
-                                <input type="text" id="pimpinan-kamad-user" class="w-full text-sm border rounded p-2 bg-white">
+                                <label class="block text-xs font-medium text-slate-600">Username Kamad (Angka / NIP)</label>
+                                <input type="text" id="pimpinan-kamad-user" class="w-full text-sm border rounded p-2 bg-white" placeholder="Contoh: 197801012005011001">
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-slate-600">Password Baru</label>
@@ -266,15 +275,17 @@
                             </div>
                             <button onclick="savePimpinanAccount('kamad')" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3 py-2 rounded shadow w-full">Simpan Akun Kamad</button>
                         </div>
+
+                        <!-- Form Waka -->
                         <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
                             <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Akun Waka Kurikulum</span>
                             <div>
                                 <label class="block text-xs font-medium text-slate-600">Nama Lengkap Waka</label>
-                                <input type="text" id="pimpinan-waka-nama" class="w-full text-sm border rounded p-2 bg-white">
+                                <input type="text" id="pimpinan-waka-nama" class="w-full text-sm border rounded p-2 bg-white" placeholder="Hendrix Nurudin, S.Pd.I">
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-slate-600">Username / Email Waka</label>
-                                <input type="text" id="pimpinan-waka-user" class="w-full text-sm border rounded p-2 bg-white">
+                                <label class="block text-xs font-medium text-slate-600">Username Waka (Angka / NIP)</label>
+                                <input type="text" id="pimpinan-waka-user" class="w-full text-sm border rounded p-2 bg-white" placeholder="Contoh: 91000079121840">
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-slate-600">Password Baru</label>
@@ -385,8 +396,8 @@
                                     <td class="p-3 border-b">Modul Ajar / Prosem PAI</td>
                                     <td class="p-3 border-b"><span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2 py-0.5 rounded">Menunggu Verifikasi</span></td>
                                     <td class="p-3 border-b text-center space-x-2">
-                                        <button class="bg-emerald-600 text-white text-xs px-2.5 py-1 rounded hover:bg-emerald-700">ACC Waka</button>
-                                        <button class="bg-red-600 text-white text-xs px-2.5 py-1 rounded hover:bg-red-700">Revisi</button>
+                                        <button class="bg-emerald-600 text-white text-xs px-2.5 py-1 rounded hover:bg-emerald-700 font-bold">ACC Waka</button>
+                                        <button class="bg-red-600 text-white text-xs px-2.5 py-1 rounded hover:bg-red-700 font-bold">Revisi</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -414,6 +425,36 @@
                                 <input type="file" id="input-ttd-kamad" accept="image/png,image/jpeg" class="hidden">
                             </label>
                         </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b flex items-center gap-2">
+                        <i class="fa-solid fa-check-double text-emerald-600"></i> Approval Final & Catatan Supervisi Kamad
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left border-collapse">
+                            <thead class="bg-slate-50 text-slate-700 text-xs uppercase font-semibold">
+                                <tr>
+                                    <th class="p-3 border-b">Guru</th>
+                                    <th class="p-3 border-b">Status Waka</th>
+                                    <th class="p-3 border-b">Catatan Supervisi Kamad</th>
+                                    <th class="p-3 border-b text-center">Aksi Kamad</th>
+                                </tr>
+                            </thead>
+                            <tbody id="list-approval-kamad">
+                                <tr>
+                                    <td class="p-3 border-b font-medium">Alifa Aulia, S.Pd.I</td>
+                                    <td class="p-3 border-b"><span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-0.5 rounded">Terverifikasi Waka</span></td>
+                                    <td class="p-3 border-b">
+                                        <input type="text" placeholder="Tulis catatan pembinaan..." class="w-full text-xs border rounded p-1.5">
+                                    </td>
+                                    <td class="p-3 border-b text-center">
+                                        <button class="bg-emerald-700 text-white text-xs px-3 py-1.5 rounded font-bold shadow hover:bg-emerald-800">Setujui (ACC)</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -480,7 +521,7 @@
         </div>
     </div>
 
-    <!-- Modal Input Guru (Dengan Dropdown Mapel) -->
+    <!-- Modal Input Guru (Dropdown Mapel) -->
     <div id="modal-guru" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-xl shadow-xl max-w-lg w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
             <h3 id="modal-guru-title" class="text-base font-bold text-slate-800">Input Data Guru Manual</h3>
@@ -495,7 +536,6 @@
             </div>
             <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Mata Pelajaran (Pilih dari Master Mapel)</label>
-                <!-- Dropdown otomatis terisi dari Firestore -->
                 <select id="modal-guru-mapel" class="w-full text-sm border rounded p-2 bg-white font-semibold">
                     <option value="">-- Pilih Mata Pelajaran --</option>
                 </select>
@@ -540,6 +580,75 @@
     </div>
 
     <!-- ========================================== -->
+    <!-- FOOTER MADRASAH                            -->
+    <!-- ========================================== -->
+    <footer class="bg-emerald-950 text-emerald-100 mt-12 border-t-4 border-yellow-500">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                
+                <!-- Kolom 1: Logo & Deskripsi Web -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-white rounded-xl p-1 border border-yellow-400 flex items-center justify-center shrink-0">
+                            <img src="../assets/mts.png" alt="Logo MTs" class="max-h-full max-w-full object-contain" onerror="this.src='https://via.placeholder.com/50?text=MTs'">
+                        </div>
+                        <div>
+                            <h2 class="text-base font-bold text-white tracking-wide">MTs AL ISHLAH PANAMBANGAN</h2>
+                            <p class="text-xs text-yellow-300 font-medium">Kabupaten Cirebon</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Aplikasi Sistem Informasi Administrasi &amp; Buku Kerja Guru Berbasis KMA Nomor 1503 Tahun 2025. Dirancang untuk memudahkan penyusunan, pengorganisasian, serta supervisi perangkat pembelajaran secara terpadu.
+                    </p>
+                </div>
+
+                <!-- Kolom 2: Contact Person & Alamat -->
+                <div class="space-y-2 text-xs md:col-span-2 md:pl-8">
+                    <h3 class="text-sm font-bold text-yellow-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-headset"></i> Kontak &amp; Alamat Madrasah
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="space-y-2">
+                            <p class="flex items-center gap-2">
+                                <i class="fa-solid fa-phone text-emerald-400 w-4"></i>
+                                <span>No. Telepon / HP: <strong>085879452960</strong></span>
+                            </p>
+                            <p class="flex items-center gap-2">
+                                <i class="fa-solid fa-envelope text-emerald-400 w-4"></i>
+                                <span>Email 1: <a href="mailto:syihabadawiyah9@gmail.com" class="hover:underline text-white">syihabadawiyah9@gmail.com</a></span>
+                            </p>
+                            <p class="flex items-center gap-2">
+                                <i class="fa-solid fa-envelope text-emerald-400 w-4"></i>
+                                <span>Email 2: <a href="mailto:admalishlahpanambangan@gmail.com" class="hover:underline text-white">admalishlahpanambangan@gmail.com</a></span>
+                            </p>
+                        </div>
+
+                        <div class="space-y-2">
+                            <p class="flex items-start gap-2">
+                                <i class="fa-solid fa-location-dot text-emerald-400 w-4 mt-0.5"></i>
+                                <span>Jl. Gardu No. 01 Desa Panambangan Kec. Sedong, Kabupaten Cirebon, Jawa Barat - 45189</span>
+                            </p>
+                            <div class="pt-1">
+                                <!-- Icon WhatsApp Terhubung Langsung -->
+                                <a href="https://wa.me/6285879452960" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition shadow">
+                                    <i class="fa-brands fa-whatsapp text-base"></i> Hubungi via WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Baris Bawah Copyright -->
+        <div class="bg-yellow-500 text-emerald-950 py-3 px-4 text-center text-xs font-bold border-t border-yellow-600">
+            © 2026 MTs Al Ishlah Panambangan Cirebon • Aplikasi Buku Kerja Guru Berbasis KMA Nomor 1503 Tahun 2025
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
     <!-- FIREBASE & LOGIKA APLIKASI SCRIPT         -->
     <!-- ========================================== -->
     <script type="module">
@@ -566,22 +675,50 @@
             document.getElementById(modalId).classList.toggle('hidden');
         }
 
-        // Login Handler
+        // Helper Konversi Username Angka Pimpinan -> Format Email Internal Auth
+        function formatAuthEmail(input, role) {
+            if (role === 'waka' || role === 'kamad') {
+                if (!input.includes('@')) {
+                    return `${input.trim()}@madrasah.internal`;
+                }
+            }
+            return input.trim();
+        }
+
+        // Handle Penyesuaian Label Input Login saat Peran Berubah
+        document.getElementById('login-role').addEventListener('change', function(e) {
+            const role = e.target.value;
+            const label = document.getElementById('label-login-username');
+            const input = document.getElementById('login-username');
+            if (role === 'operator') {
+                label.innerText = "Email Admin Operator";
+                input.placeholder = "operator@madrasah.sch.id";
+                input.type = "email";
+            } else {
+                label.innerText = `Username (${role === 'kamad' ? 'Kamad' : 'Waka'}) - Angka / NIP`;
+                input.placeholder = "Contoh: 91000079121840";
+                input.type = "text";
+            }
+        });
+
+        // LOGIN HANDLER
         document.getElementById('form-login').addEventListener('submit', async function(e) {
             e.preventDefault();
             const role = document.getElementById('login-role').value;
-            const email = document.getElementById('login-username').value;
+            const rawUser = document.getElementById('login-username').value;
             const pass = document.getElementById('login-password').value;
 
+            const authEmail = formatAuthEmail(rawUser, role);
+
             try {
-                const userCred = await signInWithEmailAndPassword(auth, email, pass);
+                const userCred = await signInWithEmailAndPassword(auth, authEmail, pass);
                 currentRole = role;
                 document.getElementById('section-login').classList.add('hidden');
                 document.getElementById('section-dashboard').classList.remove('hidden');
                 document.getElementById('header-user-card').classList.remove('hidden');
 
                 document.getElementById('header-role-badge').innerText = `AKUN ${role.toUpperCase()} AKTIF`;
-                document.getElementById('header-user-name').innerText = userCred.user.email;
+                document.getElementById('header-user-name').innerText = rawUser;
 
                 renderTabsByRole(role);
                 loadAllDataFromFirestore();
@@ -592,7 +729,7 @@
             }
         });
 
-        // Logout
+        // LOGOUT
         document.getElementById('btn-logout').addEventListener('click', function() {
             currentRole = null;
             document.getElementById('section-dashboard').classList.add('hidden');
@@ -659,9 +796,9 @@
                     document.getElementById('prof-waka').value = d.waka || '';
 
                     document.getElementById('pimpinan-kamad-nama').value = d.kamad || '';
-                    document.getElementById('pimpinan-kamad-user').value = d.kamadEmail || '';
+                    document.getElementById('pimpinan-kamad-user').value = d.kamadUser || d.kamadEmail || '';
                     document.getElementById('pimpinan-waka-nama').value = d.waka || '';
-                    document.getElementById('pimpinan-waka-user').value = d.wakaEmail || '';
+                    document.getElementById('pimpinan-waka-user').value = d.wakaUser || d.wakaEmail || '';
                 }
             } catch (err) { console.log(err); }
         }
@@ -795,18 +932,31 @@
             } catch(err) { tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-red-500">Gagal memuat mapel.</td></tr>'; }
         }
 
-        // --- 3. AKUN PIMPINAN ---
+        // --- 3. AKUN PIMPINAN (DUKUNGAN USERNAME ANGKA) ---
         window.savePimpinanAccount = async function(role) {
             const nama = document.getElementById(`pimpinan-${role}-nama`).value;
-            const email = document.getElementById(`pimpinan-${role}-user`).value;
+            const rawUser = document.getElementById(`pimpinan-${role}-user`).value;
             const pass = document.getElementById(`pimpinan-${role}-pass`).value;
+
+            if (!rawUser) {
+                alert("Username wajib diisi!");
+                return;
+            }
+
+            const authEmail = formatAuthEmail(rawUser, role);
+
             try {
-                if(pass) await createUserWithEmailAndPassword(auth, email, pass).catch(() => {});
+                if (pass) {
+                    await createUserWithEmailAndPassword(auth, authEmail, pass).catch((err) => {
+                        console.log("Auth sudah terdaftar atau notice:", err.message);
+                    });
+                }
                 const updateObj = {};
                 updateObj[role] = nama;
-                updateObj[`${role}Email`] = email;
+                updateObj[`${role}User`] = rawUser;
+                updateObj[`${role}Email`] = authEmail;
                 await setDoc(doc(db, "profil", "sekolah"), updateObj, { merge: true });
-                alert(`Akun ${role === 'kamad' ? 'Kepala Madrasah' : 'Waka Kurikulum'} berhasil disimpan!`);
+                alert(`Akun ${role === 'kamad' ? 'Kepala Madrasah' : 'Waka Kurikulum'} berhasil disimpan! Username: ${rawUser}`);
                 loadProfil();
             } catch(err) { alert("Error: " + err.message); }
         }
