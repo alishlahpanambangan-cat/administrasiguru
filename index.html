@@ -43,7 +43,6 @@
                 <!-- Kiri: Logo (Dari folder assets) & Info Madrasah -->
                 <div class="flex items-center gap-4">
                     <div class="w-16 h-16 bg-white rounded-xl p-1 border border-yellow-400/50 flex items-center justify-center shrink-0 shadow-inner">
-                        <!-- Mengambil logo dari folder assets sesuai struktur repository Anda -->
                         <img id="header-logo" src="assets/mts.png" alt="Logo MTs" class="max-h-full max-w-full object-contain">
                     </div>
                     <div>
@@ -71,7 +70,7 @@
 
             </div>
 
-            <!-- Header Bottom Bar: Identity Info -->
+            <!-- Header Bottom Bar: Identity & Pimpinan (Sinkron Firebase) -->
             <div class="mt-3 pt-2 border-t border-emerald-600/50 flex flex-wrap items-center justify-between text-xs text-emerald-100 gap-2">
                 <div class="flex flex-wrap items-center gap-4">
                     <span class="flex items-center gap-1"><i class="fa-solid fa-id-card text-yellow-400"></i> NSM: <strong id="header-nsm" class="text-white">121232090014</strong></span>
@@ -79,8 +78,8 @@
                     <span class="flex items-center gap-1"><i class="fa-solid fa-location-dot text-yellow-400"></i> <span id="header-alamat">Jl. Gardu No.01 Panambangan, Sedong, Cirebon</span></span>
                 </div>
                 <div class="flex items-center gap-2">
-                    <span class="bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-700/50">Kamad: <strong id="header-kamad" class="text-white">Siti Ramdhoni, S.Ag., M.Pd.</strong></span>
-                    <span class="bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-700/50">WKS Kurikulum: <strong id="header-waka" class="text-white">Hendrix Nurudin, S.Pd.I</strong></span>
+                    <span class="bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-700/50">Kamad: <strong id="header-kamad" class="text-white">Memuat...</strong></span>
+                    <span class="bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-700/50">WKS Kurikulum: <strong id="header-waka" class="text-white">Memuat...</strong></span>
                 </div>
             </div>
         </div>
@@ -122,7 +121,6 @@
                     </ul>
                 </div>
                 <div class="pt-6">
-                    <!-- Mengarah ke folder guru/index.html sesuai struktur repository Anda -->
                     <a href="guru/index.html" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-md">
                         <span>Masuk ke Halaman Guru</span>
                         <i class="fa-solid fa-arrow-right"></i>
@@ -147,7 +145,6 @@
                     </ul>
                 </div>
                 <div class="pt-6">
-                    <!-- Mengarah ke folder admin/index.html atau admin.html sesuai struktur repository Anda -->
                     <a href="admin/index.html" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-md">
                         <span>Masuk ke Halaman Admin</span>
                         <i class="fa-solid fa-arrow-right"></i>
@@ -164,7 +161,7 @@
         <p>© 2026 MTs Al Ishlah Panambangan Cirebon • Aplikasi Buku Kerja Guru Berbasis KMA Nomor 1503 Tahun 2025</p>
     </footer>
 
-    <!-- SCRIPT FIREBASE & SYNC PROFIL -->
+    <!-- SCRIPT FIREBASE & SYNC PROFIL DINAMIS -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
         import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
@@ -190,11 +187,17 @@
                     if(d.nsm) document.getElementById('header-nsm').innerText = d.nsm;
                     if(d.npsn) document.getElementById('header-npsn').innerText = d.npsn;
                     if(d.alamat) document.getElementById('header-alamat').innerText = d.alamat;
+                    // Nama Kamad dan Waka otomatis mengikuti input dari panel Operator
                     if(d.kamad) document.getElementById('header-kamad').innerText = d.kamad;
                     if(d.waka) document.getElementById('header-waka').innerText = d.waka;
+                } else {
+                    document.getElementById('header-kamad').innerText = "Siti Ramdhoni, S.Ag., M.Pd.";
+                    document.getElementById('header-waka').innerText = "Hendrix Nurudin, S.Pd.I";
                 }
             } catch (err) {
-                console.log("Menggunakan data default header.");
+                console.log("Gagal memuat profil database, menggunakan default.");
+                document.getElementById('header-kamad').innerText = "Siti Ramdhoni, S.Ag., M.Pd.";
+                document.getElementById('header-waka').innerText = "Hendrix Nurudin, S.Pd.I";
             }
         }
 
