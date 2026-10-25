@@ -327,7 +327,7 @@
                                 </tr>
                             </thead>
                             <tbody id="list-guru">
-                                <!-- Rendered JS via Event Listener -->
+                                <!-- Rendered JS -->
                             </tbody>
                         </table>
                     </div>
@@ -384,22 +384,14 @@
                         <table class="w-full text-sm text-left border-collapse">
                             <thead class="bg-slate-50 text-slate-700 text-xs uppercase font-semibold">
                                 <tr>
-                                    <th class="p-3 border-b">Nama Guru</th>
-                                    <th class="p-3 border-b">Dokumen</th>
+                                    <th class="p-3 border-b">Nama Guru & Mapel</th>
+                                    <th class="p-3 border-b">Dokumen Buku Kerja 1</th>
                                     <th class="p-3 border-b">Status Verifikasi</th>
                                     <th class="p-3 border-b text-center">Aksi Waka</th>
                                 </tr>
                             </thead>
                             <tbody id="list-verifikasi-waka">
-                                <tr>
-                                    <td class="p-3 border-b font-medium">Alifa Aulia, S.Pd.I</td>
-                                    <td class="p-3 border-b">Modul Ajar / Prosem PAI</td>
-                                    <td class="p-3 border-b"><span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2 py-0.5 rounded">Menunggu Verifikasi</span></td>
-                                    <td class="p-3 border-b text-center space-x-2">
-                                        <button class="bg-emerald-600 text-white text-xs px-2.5 py-1 rounded hover:bg-emerald-700 font-bold">ACC Waka</button>
-                                        <button class="bg-red-600 text-white text-xs px-2.5 py-1 rounded hover:bg-red-700 font-bold">Revisi</button>
-                                    </td>
-                                </tr>
+                                <!-- Rendered dynamically from Firestore guru & status -->
                             </tbody>
                         </table>
                     </div>
@@ -436,23 +428,14 @@
                         <table class="w-full text-sm text-left border-collapse">
                             <thead class="bg-slate-50 text-slate-700 text-xs uppercase font-semibold">
                                 <tr>
-                                    <th class="p-3 border-b">Guru</th>
+                                    <th class="p-3 border-b">Guru & Mapel</th>
                                     <th class="p-3 border-b">Status Waka</th>
                                     <th class="p-3 border-b">Catatan Supervisi Kamad</th>
                                     <th class="p-3 border-b text-center">Aksi Kamad</th>
                                 </tr>
                             </thead>
                             <tbody id="list-approval-kamad">
-                                <tr>
-                                    <td class="p-3 border-b font-medium">Alifa Aulia, S.Pd.I</td>
-                                    <td class="p-3 border-b"><span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-0.5 rounded">Terverifikasi Waka</span></td>
-                                    <td class="p-3 border-b">
-                                        <input type="text" placeholder="Tulis catatan pembinaan..." class="w-full text-xs border rounded p-1.5">
-                                    </td>
-                                    <td class="p-3 border-b text-center">
-                                        <button class="bg-emerald-700 text-white text-xs px-3 py-1.5 rounded font-bold shadow hover:bg-emerald-800">Setujui (ACC)</button>
-                                    </td>
-                                </tr>
+                                <!-- Rendered dynamically based on Waka verification status -->
                             </tbody>
                         </table>
                     </div>
@@ -654,7 +637,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBVLJQxY3voHItmSL2mrSO3blD4L235TFw",
@@ -670,13 +653,13 @@
         const auth = getAuth(app);
 
         let currentRole = null;
-        let guruDataCache = {}; // Simpan cache data guru untuk akses cepat edit
+        let guruDataCache = {}; 
+        let verifikasiCache = {};
 
         window.toggleModal = function(modalId) {
             document.getElementById(modalId).classList.toggle('hidden');
         }
 
-        // Helper Konversi Username Angka Pimpinan -> Format Email Internal Auth
         function formatAuthEmail(input, role) {
             if (role === 'waka' || role === 'kamad') {
                 if (!input.includes('@')) {
@@ -685,6 +668,43 @@
             }
             return input.trim();
         }
+
+        // --- PERSISTENT SESSION (TETAP LOGIN SAAT REFRESH) ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // Tentukan role berdasarkan email / domain internal
+                let detectedRole = 'operator';
+                let identifier = user.email;
+                if (user.email.endsWith('@madrasah.internal')) {
+                    const prefix = user.email.split('@')[0];
+                    // Cek apakah ini kamad atau waka berdasarkan profil di firestore
+                    try {
+                        const profSnap = await getDoc(doc(db, "profil", "sekolah"));
+                        if (profSnap.exists()) {
+                            const d = profSnap.data();
+                            if (d.kamadUser === prefix || d.kamadEmail === user.email) {
+                                detectedRole = 'kamad';
+                            } else {
+                                detectedRole = 'waka';
+                            }
+                        } else {
+                            detectedRole = 'waka';
+                        }
+                    } catch(e) { detectedRole = 'waka'; }
+                }
+
+                currentRole = detectedRole;
+                document.getElementById('section-login').classList.add('hidden');
+                document.getElementById('section-dashboard').classList.remove('hidden');
+                document.getElementById('header-user-card').classList.remove('hidden');
+
+                document.getElementById('header-role-badge').innerText = `AKUN ${currentRole.toUpperCase()} AKTIF`;
+                document.getElementById('header-user-name').innerText = identifier;
+
+                renderTabsByRole(currentRole);
+                loadAllDataFromFirestore();
+            }
+        });
 
         // Handle Penyesuaian Label Input Login saat Peran Berubah
         document.getElementById('login-role').addEventListener('change', function(e) {
@@ -712,7 +732,7 @@
             const authEmail = formatAuthEmail(rawUser, role);
 
             try {
-                const userCred = await signInWithEmailAndPassword(auth, authEmail, pass);
+                await signInWithEmailAndPassword(auth, authEmail, pass);
                 currentRole = role;
                 document.getElementById('section-login').classList.add('hidden');
                 document.getElementById('section-dashboard').classList.remove('hidden');
@@ -731,7 +751,8 @@
         });
 
         // LOGOUT
-        document.getElementById('btn-logout').addEventListener('click', function() {
+        document.getElementById('btn-logout').addEventListener('click', async function() {
+            await signOut(auth);
             currentRole = null;
             document.getElementById('section-dashboard').classList.add('hidden');
             document.getElementById('header-user-card').classList.add('hidden');
@@ -773,6 +794,7 @@
             loadMasterMapel();
             loadDataGuru();
             loadDataSiswa();
+            loadVerifikasiWakaKamad();
         }
 
         // --- PROFIL SEKOLAH ---
@@ -935,7 +957,7 @@
         }
         window.loadMasterMapelRef = loadMasterMapel;
 
-        // --- 3. AKUN PIMPINAN (DUKUNGAN USERNAME ANGKA) ---
+        // --- 3. AKUN PIMPINAN ---
         window.savePimpinanAccount = async function(role) {
             const nama = document.getElementById(`pimpinan-${role}-nama`).value;
             const rawUser = document.getElementById(`pimpinan-${role}-user`).value;
@@ -964,7 +986,7 @@
             } catch(err) { alert("Error: " + err.message); }
         }
 
-        // --- 4. DATA GURU (EVENT DELEGATION UNTUK EDIT/HAPUS TANPA ERROR STRINGS) ---
+        // --- 4. DATA GURU ---
         window.bukaModalGuru = function(id = '') {
             if (id && guruDataCache[id]) {
                 const d = guruDataCache[id];
@@ -1031,29 +1053,22 @@
                             <td class="p-3 border-b font-semibold text-emerald-700">${d.mapel}</td>
                             <td class="p-3 border-b">${d.username}</td>
                             <td class="p-3 border-b text-center space-x-2">
-                                <button data-action="edit-guru" data-id="${docSnap.id}" class="btn-edit-guru text-blue-600 hover:text-blue-800 font-bold p-1"><i class="fa-solid fa-pen-to-square"></i></button>
-                                <button data-action="hapus-guru" data-id="${docSnap.id}" class="btn-hapus-guru text-red-600 hover:text-red-800 font-bold p-1"><i class="fa-solid fa-trash"></i></button>
+                                <button data-action="edit-guru" data-id="${docSnap.id}" class="text-blue-600 hover:text-blue-800 font-bold p-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button data-action="hapus-guru" data-id="${docSnap.id}" class="text-red-600 hover:text-red-800 font-bold p-1"><i class="fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                     `;
                 });
             } catch(err) { tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-red-500">Gagal memuat guru.</td></tr>'; }
         }
-        window.loadDataGuruRef = loadDataGuru;
 
-        // Event Listener Terpusat untuk Tombol Edit & Hapus Guru (Bebas Error Karakter Simbol)
         document.getElementById('list-guru').addEventListener('click', function(e) {
             const targetBtn = e.target.closest('button');
             if (!targetBtn) return;
-            
             const action = targetBtn.getAttribute('data-action');
             const docId = targetBtn.getAttribute('data-id');
-
-            if (action === 'edit-guru') {
-                window.bukaModalGuru(docId);
-            } else if (action === 'hapus-guru') {
-                window.hapusData('guru', docId, loadDataGuru);
-            }
+            if (action === 'edit-guru') window.bukaModalGuru(docId);
+            else if (action === 'hapus-guru') window.hapusData('guru', docId, loadDataGuru);
         });
 
         // --- 5. DATA SISWA ---
@@ -1074,11 +1089,8 @@
                 rombel: document.getElementById('modal-siswa-rombel').value
             };
             try {
-                if(id) {
-                    await updateDoc(doc(db, "siswa", id), data);
-                } else {
-                    await addDoc(collection(db, "siswa"), data);
-                }
+                if(id) await updateDoc(doc(db, "siswa", id), data);
+                else await addDoc(collection(db, "siswa"), data);
                 window.toggleModal('modal-siswa');
                 loadDataSiswa();
             } catch(err) { alert("Error: " + err.message); }
@@ -1112,14 +1124,133 @@
         }
         window.loadDataSiswaRef = loadDataSiswa;
 
+        // --- 6. WORKFLOW WAKA & KAMAD VERIFIKASI ---
+        async function loadVerifikasiWakaKamad() {
+            const tbodyWaka = document.getElementById('list-verifikasi-waka');
+            const tbodyKamad = document.getElementById('list-approval-kamad');
+            tbodyWaka.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-slate-400">Memuat data verifikasi...</td></tr>';
+            tbodyKamad.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-slate-400">Memuat data approval...</td></tr>';
+
+            try {
+                const guruSnap = await getDocs(collection(db, "guru"));
+                const verifSnap = await getDocs(collection(db, "verifikasi_guru"));
+                
+                let verifMap = {};
+                verifSnap.forEach(v => { verifMap[v.data().guruId] = { id: v.id, ...v.data() }; });
+
+                tbodyWaka.innerHTML = '';
+                tbodyKamad.innerHTML = '';
+
+                if(guruSnap.empty) {
+                    tbodyWaka.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-slate-400">Belum ada data guru.</td></tr>';
+                    tbodyKamad.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-slate-400">Belum ada data guru.</td></tr>';
+                    return;
+                }
+
+                guruSnap.forEach((gSnap) => {
+                    const g = gSnap.data();
+                    const gId = gSnap.id;
+                    const vData = verifMap[gId] || { statusWaka: 'Menunggu Verifikasi', statusKamad: 'Belum Disetujui', catatan: '' };
+
+                    // Waka Table Row
+                    let badgeWaka = '<span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2 py-0.5 rounded">Menunggu Verifikasi</span>';
+                    if (vData.statusWaka === 'Terverifikasi Waka') badgeWaka = '<span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-0.5 rounded">Terverifikasi Waka</span>';
+                    else if (vData.statusWaka === 'Revisi') badgeWaka = '<span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-0.5 rounded">Revisi: ' + (vData.catatan || '') + '</span>';
+
+                    tbodyWaka.innerHTML += `
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 border-b font-medium">${g.nama}<br><span class="text-xs text-emerald-700 font-semibold">${g.mapel}</span></td>
+                            <td class="p-3 border-b"><a href="#" onclick="alert('Mengunduh Dokumen Buku Kerja 1 - ${g.nama}')" class="text-blue-600 hover:underline text-xs font-bold"><i class="fa-solid fa-file-pdf"></i> Unduh Buku Kerja 1 (PDF)</a></td>
+                            <td class="p-3 border-b">${badgeWaka}</td>
+                            <td class="p-3 border-b text-center space-x-2">
+                                <button onclick="window.updateStatusWaka('${gId}', 'Terverifikasi Waka')" class="bg-emerald-600 text-white text-xs px-2.5 py-1 rounded hover:bg-emerald-700 font-bold">ACC Waka</button>
+                                <button onclick="window.updateStatusWakaRevisi('${gId}')" class="bg-red-600 text-white text-xs px-2.5 py-1 rounded hover:bg-red-700 font-bold">Revisi</button>
+                            </td>
+                        </tr>
+                    `;
+
+                    // Kamad Table Row
+                    let badgeKamadState = '<span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2 py-0.5 rounded">Menunggu ACC Kamad</span>';
+                    if (vData.statusKamad === 'Disetujui Kamad') {
+                        badgeKamadState = '<span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-0.5 rounded">Disetujui & Ter-TTD Kamad</span>';
+                    } else if (vData.statusWaka === 'Revisi') {
+                        badgeKamadState = '<span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-0.5 rounded">Terkunci (Perlu Revisi Waka/Guru)</span>';
+                    }
+
+                    tbodyKamad.innerHTML += `
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 border-b font-medium">${g.nama}<br><span class="text-xs text-emerald-700 font-semibold">${g.mapel}</span></td>
+                            <td class="p-3 border-b">${badgeKamadState}</td>
+                            <td class="p-3 border-b">
+                                <input type="text" id="catatan-kamad-${gId}" value="${vData.catatanKamad || ''}" placeholder="Catatan pembinaan Kamad..." class="w-full text-xs border rounded p-1.5">
+                            </td>
+                            <td class="p-3 border-b text-center space-y-1">
+                                ${vData.statusWaka === 'Terverifikasi Waka' ? `
+                                    <button onclick="window.setujuKamad('${gId}')" class="bg-emerald-700 text-white text-xs px-3 py-1.5 rounded font-bold shadow hover:bg-emerald-800 block w-full">Setujui (ACC)</button>
+                                ` : `<span class="text-[10px] text-slate-400 italic block">Menunggu ACC Waka</span>`}
+                                ${vData.statusKamad === 'Disetujui Kamad' ? `
+                                    <a href="#" onclick="alert('Mengunduh Dokumen Final TTD Kamad - ${g.nama}')" class="text-blue-600 hover:underline text-[10px] font-bold block"><i class="fa-solid fa-file-pdf"></i> Download PDF Final</a>
+                                ` : ''}
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch(err) { console.log(err); }
+        }
+
+        window.updateStatusWaka = async function(guruId) {
+            try {
+                const verifSnap = await getDocs(collection(db, "verifikasi_guru"));
+                let targetId = null;
+                verifSnap.forEach(v => { if (v.data().guruId === guruId) targetId = v.id; });
+
+                const payload = { guruId: guruId, statusWaka: 'Terverifikasi Waka', statusKamad: 'Menunggu ACC Kamad' };
+                if (targetId) await updateDoc(doc(db, "verifikasi_guru", targetId), payload);
+                else await addDoc(collection(db, "verifikasi_guru"), payload);
+
+                alert("Perangkat Ajar Berhasil di-ACC oleh Waka!");
+                loadVerifikasiWakaKamad();
+            } catch(err) { alert("Error: " + err.message); }
+        }
+
+        window.updateStatusWakaRevisi = async function(guruId) {
+            const catatan = prompt("Tuliskan catatan revisi untuk guru:");
+            if (catatan === null) return;
+            try {
+                const verifSnap = await getDocs(collection(db, "verifikasi_guru"));
+                let targetId = null;
+                verifSnap.forEach(v => { if (v.data().guruId === guruId) targetId = v.id; });
+
+                const payload = { guruId: guruId, statusWaka: 'Revisi', catatan: catatan, statusKamad: 'Belum Disetujui' };
+                if (targetId) await updateDoc(doc(db, "verifikasi_guru", targetId), payload);
+                else await addDoc(collection(db, "verifikasi_guru"), payload);
+
+                alert("Status diatur ke Revisi dan dikembalikan.");
+                loadVerifikasiWakaKamad();
+            } catch(err) { alert("Error: " + err.message); }
+        }
+
+        window.setujuKamad = async function(guruId) {
+            const catatanKamad = document.getElementById(`catatan-kamad-${guruId}`).value;
+            try {
+                const verifSnap = await getDocs(collection(db, "verifikasi_guru"));
+                let targetId = null;
+                verifSnap.forEach(v => { if (v.data().guruId === guruId) targetId = v.id; });
+
+                const payload = { guruId: guruId, statusKamad: 'Disetujui Kamad', catatanKamad: catatanKamad };
+                if (targetId) await updateDoc(doc(db, "verifikasi_guru", targetId), payload);
+
+                alert("Dokumen Buku Kerja Guru Berhasil Disetujui (ACC Final) oleh Kepala Madrasah!");
+                loadVerifikasiWakaKamad();
+            } catch(err) { alert("Error: " + err.message); }
+        }
+
         // --- UTILITY HAPUS ---
         window.hapusData = async function(colName, id, callback) {
             if(confirm("Yakin ingin menghapus data ini?")) {
                 try {
                     await deleteDoc(doc(db, colName, id));
-                    if (typeof callback === 'function') {
-                        callback();
-                    }
+                    if (typeof callback === 'function') callback();
                 } catch(err) { alert("Gagal menghapus: " + err.message); }
             }
         }
