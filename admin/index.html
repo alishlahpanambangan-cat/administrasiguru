@@ -206,7 +206,7 @@
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                     <h3 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b flex items-center justify-between">
                         <span class="flex items-center gap-2"><i class="fa-solid fa-calendar-days text-emerald-600"></i> Kelola Tahun Ajaran & Semester</span>
-                        <button onclick="bukaModalTA()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg">
+                        <button onclick="window.bukaModalTA()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg">
                             <i class="fa-solid fa-plus"></i> Tambah TA / Semester
                         </button>
                     </h3>
@@ -231,7 +231,7 @@
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                     <h3 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b flex items-center justify-between">
                         <span class="flex items-center gap-2"><i class="fa-solid fa-book text-emerald-600"></i> Kelola Master Mata Pelajaran (Mapel)</span>
-                        <button onclick="bukaModalMapel()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg">
+                        <button onclick="window.bukaModalMapel()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg">
                             <i class="fa-solid fa-plus"></i> Tambah Mata Pelajaran
                         </button>
                     </h3>
@@ -273,7 +273,7 @@
                                 <label class="block text-xs font-medium text-slate-600">Password Baru</label>
                                 <input type="password" id="pimpinan-kamad-pass" placeholder="Kosongkan jika tidak diubah" class="w-full text-sm border rounded p-2 bg-white">
                             </div>
-                            <button onclick="savePimpinanAccount('kamad')" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3 py-2 rounded shadow w-full">Simpan Akun Kamad</button>
+                            <button onclick="window.savePimpinanAccount('kamad')" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3 py-2 rounded shadow w-full">Simpan Akun Kamad</button>
                         </div>
 
                         <!-- Form Waka -->
@@ -291,7 +291,7 @@
                                 <label class="block text-xs font-medium text-slate-600">Password Baru</label>
                                 <input type="password" id="pimpinan-waka-pass" placeholder="Kosongkan jika tidak diubah" class="w-full text-sm border rounded p-2 bg-white">
                             </div>
-                            <button onclick="savePimpinanAccount('waka')" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3 py-2 rounded shadow w-full">Simpan Akun Waka</button>
+                            <button onclick="window.savePimpinanAccount('waka')" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3 py-2 rounded shadow w-full">Simpan Akun Waka</button>
                         </div>
                     </div>
                 </div>
@@ -303,14 +303,14 @@
                             <i class="fa-solid fa-chalkboard-user text-emerald-600"></i> Data Guru
                         </h3>
                         <div class="flex flex-wrap items-center gap-2">
-                            <button onclick="downloadTemplateGuru()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1">
+                            <button onclick="window.downloadTemplateGuru()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1">
                                 <i class="fa-solid fa-download"></i> Template Excel
                             </button>
                             <label class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg cursor-pointer flex items-center gap-1">
                                 <i class="fa-solid fa-file-excel"></i> Upload Excel
-                                <input type="file" id="upload-excel-guru" accept=".xlsx,.xls" class="hidden" onchange="importGuruExcel(event)">
+                                <input type="file" id="upload-excel-guru" accept=".xlsx,.xls" class="hidden" onchange="window.importGuruExcel(event)">
                             </label>
-                            <button onclick="bukaModalGuru()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1">
+                            <button onclick="window.bukaModalGuru()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1">
                                 <i class="fa-solid fa-plus"></i> Tambah Manual
                             </button>
                         </div>
@@ -327,7 +327,7 @@
                                 </tr>
                             </thead>
                             <tbody id="list-guru">
-                                <!-- Rendered JS -->
+                                <!-- Rendered JS via Event Listener -->
                             </tbody>
                         </table>
                     </div>
@@ -340,14 +340,14 @@
                             <i class="fa-solid fa-users text-emerald-600"></i> Data Siswa & Rombel
                         </h3>
                         <div class="flex flex-wrap items-center gap-2">
-                            <button onclick="downloadTemplateSiswa()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1">
+                            <button onclick="window.downloadTemplateSiswa()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1">
                                 <i class="fa-solid fa-download"></i> Template Excel
                             </button>
                             <label class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg cursor-pointer flex items-center gap-1">
                                 <i class="fa-solid fa-file-excel"></i> Upload Excel
-                                <input type="file" id="upload-excel-siswa" accept=".xlsx,.xls" class="hidden" onchange="importSiswaExcel(event)">
+                                <input type="file" id="upload-excel-siswa" accept=".xlsx,.xls" class="hidden" onchange="window.importSiswaExcel(event)">
                             </label>
-                            <button onclick="bukaModalSiswa()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1">
+                            <button onclick="window.bukaModalSiswa()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1">
                                 <i class="fa-solid fa-plus"></i> Tambah Manual
                             </button>
                         </div>
@@ -491,8 +491,8 @@
                 </select>
             </div>
             <div class="flex justify-end gap-2 pt-2">
-                <button onclick="toggleModal('modal-ta')" class="bg-slate-200 text-slate-700 text-xs px-3 py-2 rounded-lg font-semibold">Batal</button>
-                <button onclick="saveTahunAjaran()" class="bg-emerald-700 text-white text-xs px-4 py-2 rounded-lg font-bold">Simpan</button>
+                <button onclick="window.toggleModal('modal-ta')" class="bg-slate-200 text-slate-700 text-xs px-3 py-2 rounded-lg font-semibold">Batal</button>
+                <button onclick="window.saveTahunAjaran()" class="bg-emerald-700 text-white text-xs px-4 py-2 rounded-lg font-bold">Simpan</button>
             </div>
         </div>
     </div>
@@ -515,8 +515,8 @@
                 <input type="text" id="modal-mapel-fase" placeholder="Contoh: Kelompok A / Fase D" class="w-full text-sm border rounded-lg p-2">
             </div>
             <div class="flex justify-end gap-2 pt-2">
-                <button onclick="toggleModal('modal-mapel')" class="bg-slate-200 text-slate-700 text-xs px-3 py-2 rounded-lg font-semibold">Batal</button>
-                <button onclick="saveMasterMapel()" class="bg-emerald-700 text-white text-xs px-4 py-2 rounded-lg font-bold">Simpan Mapel</button>
+                <button onclick="window.toggleModal('modal-mapel')" class="bg-slate-200 text-slate-700 text-xs px-3 py-2 rounded-lg font-semibold">Batal</button>
+                <button onclick="window.saveMasterMapel()" class="bg-emerald-700 text-white text-xs px-4 py-2 rounded-lg font-bold">Simpan Mapel</button>
             </div>
         </div>
     </div>
@@ -549,8 +549,8 @@
                 <input type="password" id="modal-guru-pass" placeholder="Minimal 6 karakter" class="w-full text-sm border rounded p-2">
             </div>
             <div class="flex justify-end gap-2 pt-2">
-                <button onclick="toggleModal('modal-guru')" class="bg-slate-200 text-slate-700 text-xs px-3 py-2 rounded-lg font-semibold">Batal</button>
-                <button onclick="saveGuruManual()" class="bg-emerald-700 text-white text-xs px-4 py-2 rounded-lg font-bold">Simpan Guru</button>
+                <button onclick="window.toggleModal('modal-guru')" class="bg-slate-200 text-slate-700 text-xs px-3 py-2 rounded-lg font-semibold">Batal</button>
+                <button onclick="window.saveGuruManual()" class="bg-emerald-700 text-white text-xs px-4 py-2 rounded-lg font-bold">Simpan Guru</button>
             </div>
         </div>
     </div>
@@ -573,8 +573,8 @@
                 <input type="text" id="modal-siswa-rombel" placeholder="Contoh: Kelas VII-A" class="w-full text-sm border rounded p-2">
             </div>
             <div class="flex justify-end gap-2 pt-2">
-                <button onclick="toggleModal('modal-siswa')" class="bg-slate-200 text-slate-700 text-xs px-3 py-2 rounded-lg font-semibold">Batal</button>
-                <button onclick="saveSiswaManual()" class="bg-emerald-700 text-white text-xs px-4 py-2 rounded-lg font-bold">Simpan Siswa</button>
+                <button onclick="window.toggleModal('modal-siswa')" class="bg-slate-200 text-slate-700 text-xs px-3 py-2 rounded-lg font-semibold">Batal</button>
+                <button onclick="window.saveSiswaManual()" class="bg-emerald-700 text-white text-xs px-4 py-2 rounded-lg font-bold">Simpan Siswa</button>
             </div>
         </div>
     </div>
@@ -670,6 +670,7 @@
         const auth = getAuth(app);
 
         let currentRole = null;
+        let guruDataCache = {}; // Simpan cache data guru untuk akses cepat edit
 
         window.toggleModal = function(modalId) {
             document.getElementById(modalId).classList.toggle('hidden');
@@ -826,7 +827,7 @@
             document.getElementById('modal-ta-semester').value = semester;
             document.getElementById('modal-ta-status').value = status;
             document.getElementById('modal-ta-title').innerText = id ? "Edit Tahun Ajaran" : "Tambah Tahun Ajaran / Semester";
-            toggleModal('modal-ta');
+            window.toggleModal('modal-ta');
         }
 
         window.saveTahunAjaran = async function() {
@@ -842,7 +843,7 @@
                 } else {
                     await addDoc(collection(db, "tahun_ajaran"), data);
                 }
-                toggleModal('modal-ta');
+                window.toggleModal('modal-ta');
                 loadTahunAjaran();
             } catch(err) { alert("Error: " + err.message); }
         }
@@ -865,14 +866,15 @@
                             <td class="p-3 border-b">${d.semester}</td>
                             <td class="p-3 border-b"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${d.status === 'Aktif' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">${d.status}</span></td>
                             <td class="p-3 border-b text-center space-x-2">
-                                <button onclick="bukaModalTA('${docSnap.id}', '${d.tahun}', '${d.semester}', '${d.status}')" class="text-blue-600 hover:text-blue-800 font-bold"><i class="fa-solid fa-pen-to-square"></i></button>
-                                <button onclick="hapusData('tahun_ajaran', '${docSnap.id}', loadTahunAjaran)" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i></button>
+                                <button onclick="window.bukaModalTA('${docSnap.id}', '${d.tahun}', '${d.semester}', '${d.status}')" class="text-blue-600 hover:text-blue-800 font-bold"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button onclick="window.hapusData('tahun_ajaran', '${docSnap.id}', window.loadTahunAjaranRef)" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                     `;
                 });
             } catch(err) { tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-red-500">Gagal memuat data.</td></tr>'; }
         }
+        window.loadTahunAjaranRef = loadTahunAjaran;
 
         // --- 2. MASTER MATA PELAJARAN ---
         window.bukaModalMapel = function(id = '', kode = '', nama = '', fase = '') {
@@ -881,7 +883,7 @@
             document.getElementById('modal-mapel-nama').value = nama;
             document.getElementById('modal-mapel-fase').value = fase;
             document.getElementById('modal-mapel-title').innerText = id ? "Edit Mata Pelajaran" : "Tambah Mata Pelajaran";
-            toggleModal('modal-mapel');
+            window.toggleModal('modal-mapel');
         }
 
         window.saveMasterMapel = async function() {
@@ -897,7 +899,7 @@
                 } else {
                     await addDoc(collection(db, "mapel"), data);
                 }
-                toggleModal('modal-mapel');
+                window.toggleModal('modal-mapel');
                 loadMasterMapel();
             } catch(err) { alert("Error: " + err.message); }
         }
@@ -922,8 +924,8 @@
                             <td class="p-3 border-b">${d.nama}</td>
                             <td class="p-3 border-b">${d.fase}</td>
                             <td class="p-3 border-b text-center space-x-2">
-                                <button onclick="bukaModalMapel('${docSnap.id}', '${d.kode}', '${d.nama}', '${d.fase}')" class="text-blue-600 hover:text-blue-800 font-bold"><i class="fa-solid fa-pen-to-square"></i></button>
-                                <button onclick="hapusData('mapel', '${docSnap.id}', loadMasterMapel)" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i></button>
+                                <button onclick="window.bukaModalMapel('${docSnap.id}', '${d.kode}', '${d.nama}', '${d.fase}')" class="text-blue-600 hover:text-blue-800 font-bold"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button onclick="window.hapusData('mapel', '${docSnap.id}', window.loadMasterMapelRef)" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                     `;
@@ -931,6 +933,7 @@
                 });
             } catch(err) { tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-red-500">Gagal memuat mapel.</td></tr>'; }
         }
+        window.loadMasterMapelRef = loadMasterMapel;
 
         // --- 3. AKUN PIMPINAN (DUKUNGAN USERNAME ANGKA) ---
         window.savePimpinanAccount = async function(role) {
@@ -961,16 +964,27 @@
             } catch(err) { alert("Error: " + err.message); }
         }
 
-        // --- 4. DATA GURU (DIPERBAIKI AGAR TERIKAT KE WINDOW) ---
-        window.bukaModalGuru = function(id = '', nama = '', nip = '', mapel = '', username = '') {
-            document.getElementById('modal-guru-id').value = id;
-            document.getElementById('modal-guru-nama').value = nama;
-            document.getElementById('modal-guru-nip').value = nip;
-            document.getElementById('modal-guru-mapel').value = mapel;
-            document.getElementById('modal-guru-user').value = username;
-            document.getElementById('modal-guru-pass').value = '';
-            document.getElementById('modal-guru-title').innerText = id ? "Edit Data Guru" : "Input Data Guru Manual";
-            toggleModal('modal-guru');
+        // --- 4. DATA GURU (EVENT DELEGATION UNTUK EDIT/HAPUS TANPA ERROR STRINGS) ---
+        window.bukaModalGuru = function(id = '') {
+            if (id && guruDataCache[id]) {
+                const d = guruDataCache[id];
+                document.getElementById('modal-guru-id').value = id;
+                document.getElementById('modal-guru-nama').value = d.nama || '';
+                document.getElementById('modal-guru-nip').value = d.nip || '';
+                document.getElementById('modal-guru-mapel').value = d.mapel || '';
+                document.getElementById('modal-guru-user').value = d.username || '';
+                document.getElementById('modal-guru-pass').value = '';
+                document.getElementById('modal-guru-title').innerText = "Edit Data Guru";
+            } else {
+                document.getElementById('modal-guru-id').value = '';
+                document.getElementById('modal-guru-nama').value = '';
+                document.getElementById('modal-guru-nip').value = '';
+                document.getElementById('modal-guru-mapel').value = '';
+                document.getElementById('modal-guru-user').value = '';
+                document.getElementById('modal-guru-pass').value = '';
+                document.getElementById('modal-guru-title').innerText = "Input Data Guru Manual";
+            }
+            window.toggleModal('modal-guru');
         }
 
         window.saveGuruManual = async function() {
@@ -992,7 +1006,7 @@
                 } else {
                     await addDoc(collection(db, "guru"), data);
                 }
-                toggleModal('modal-guru');
+                window.toggleModal('modal-guru');
                 loadDataGuru();
             } catch(err) { alert("Error: " + err.message); }
         }
@@ -1000,6 +1014,7 @@
         async function loadDataGuru() {
             const tbody = document.getElementById('list-guru');
             tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-slate-400">Memuat data...</td></tr>';
+            guruDataCache = {};
             try {
                 const querySnapshot = await getDocs(collection(db, "guru"));
                 tbody.innerHTML = '';
@@ -1009,20 +1024,37 @@
                 }
                 querySnapshot.forEach((docSnap) => {
                     const d = docSnap.data();
+                    guruDataCache[docSnap.id] = d;
                     tbody.innerHTML += `
                         <tr class="hover:bg-slate-50">
                             <td class="p-3 border-b"><strong class="block text-slate-800">${d.nama}</strong><span class="text-[10px] text-slate-500">NIP: ${d.nip}</span></td>
                             <td class="p-3 border-b font-semibold text-emerald-700">${d.mapel}</td>
                             <td class="p-3 border-b">${d.username}</td>
                             <td class="p-3 border-b text-center space-x-2">
-                                <button onclick="window.bukaModalGuru('${docSnap.id}', '${d.nama}', '${d.nip}', '${d.mapel}', '${d.username}')" class="text-blue-600 hover:text-blue-800 font-bold"><i class="fa-solid fa-pen-to-square"></i></button>
-                                <button onclick="window.hapusData('guru', '${docSnap.id}', loadDataGuru)" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i></button>
+                                <button data-action="edit-guru" data-id="${docSnap.id}" class="btn-edit-guru text-blue-600 hover:text-blue-800 font-bold p-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button data-action="hapus-guru" data-id="${docSnap.id}" class="btn-hapus-guru text-red-600 hover:text-red-800 font-bold p-1"><i class="fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                     `;
                 });
             } catch(err) { tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-red-500">Gagal memuat guru.</td></tr>'; }
         }
+        window.loadDataGuruRef = loadDataGuru;
+
+        // Event Listener Terpusat untuk Tombol Edit & Hapus Guru (Bebas Error Karakter Simbol)
+        document.getElementById('list-guru').addEventListener('click', function(e) {
+            const targetBtn = e.target.closest('button');
+            if (!targetBtn) return;
+            
+            const action = targetBtn.getAttribute('data-action');
+            const docId = targetBtn.getAttribute('data-id');
+
+            if (action === 'edit-guru') {
+                window.bukaModalGuru(docId);
+            } else if (action === 'hapus-guru') {
+                window.hapusData('guru', docId, loadDataGuru);
+            }
+        });
 
         // --- 5. DATA SISWA ---
         window.bukaModalSiswa = function(id = '', nis = '', nama = '', rombel = '') {
@@ -1031,7 +1063,7 @@
             document.getElementById('modal-siswa-nama').value = nama;
             document.getElementById('modal-siswa-rombel').value = rombel;
             document.getElementById('modal-siswa-title').innerText = id ? "Edit Data Siswa" : "Input Data Siswa Manual";
-            toggleModal('modal-siswa');
+            window.toggleModal('modal-siswa');
         }
 
         window.saveSiswaManual = async function() {
@@ -1047,7 +1079,7 @@
                 } else {
                     await addDoc(collection(db, "siswa"), data);
                 }
-                toggleModal('modal-siswa');
+                window.toggleModal('modal-siswa');
                 loadDataSiswa();
             } catch(err) { alert("Error: " + err.message); }
         }
@@ -1071,20 +1103,23 @@
                             <td class="p-3 border-b"><span class="bg-slate-100 px-2 py-0.5 rounded font-bold">${d.rombel}</span></td>
                             <td class="p-3 border-b text-center space-x-2">
                                 <button onclick="window.bukaModalSiswa('${docSnap.id}', '${d.nis}', '${d.nama}', '${d.rombel}')" class="text-blue-600 hover:text-blue-800 font-bold"><i class="fa-solid fa-pen-to-square"></i></button>
-                                <button onclick="window.hapusData('siswa', '${docSnap.id}', loadDataSiswa)" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i></button>
+                                <button onclick="window.hapusData('siswa', '${docSnap.id}', window.loadDataSiswaRef)" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                     `;
                 });
             } catch(err) { tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-red-500">Gagal memuat siswa.</td></tr>'; }
         }
+        window.loadDataSiswaRef = loadDataSiswa;
 
         // --- UTILITY HAPUS ---
         window.hapusData = async function(colName, id, callback) {
             if(confirm("Yakin ingin menghapus data ini?")) {
                 try {
                     await deleteDoc(doc(db, colName, id));
-                    callback();
+                    if (typeof callback === 'function') {
+                        callback();
+                    }
                 } catch(err) { alert("Gagal menghapus: " + err.message); }
             }
         }
