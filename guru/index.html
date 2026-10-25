@@ -332,9 +332,68 @@
         </section>
     </main>
 
-    <!-- FOOTER -->
+    <!-- FOOTER MADRASAH -->
     <footer class="bg-emerald-950 text-emerald-100 mt-12 border-t-4 border-yellow-500">
-        <div class="max-w-7xl mx-auto px-4 py-6 text-center text-xs font-bold">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                
+                <!-- Kolom 1: Logo & Deskripsi Web -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-white rounded-xl p-1 border border-yellow-400 flex items-center justify-center shrink-0">
+                            <img src="../assets/mts.png" alt="Logo MTs" class="max-h-full max-w-full object-contain" onerror="this.src='https://via.placeholder.com/50?text=MTs'">
+                        </div>
+                        <div>
+                            <h2 class="text-base font-bold text-white tracking-wide">MTs AL ISHLAH PANAMBANGAN</h2>
+                            <p class="text-xs text-yellow-300 font-medium">Kabupaten Cirebon</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Aplikasi Sistem Informasi Administrasi &amp; Buku Kerja Guru Berbasis KMA Nomor 1503 Tahun 2025. Dirancang untuk memudahkan penyusunan, pengorganisasian, serta supervisi perangkat pembelajaran secara terpadu.
+                    </p>
+                </div>
+
+                <!-- Kolom 2: Contact Person & Alamat -->
+                <div class="space-y-2 text-xs md:col-span-2 md:pl-8">
+                    <h3 class="text-sm font-bold text-yellow-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-headset"></i> Kontak &amp; Alamat Madrasah
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="space-y-2">
+                            <p class="flex items-center gap-2">
+                                <i class="fa-solid fa-phone text-emerald-400 w-4"></i>
+                                <span>No. Telepon / HP: <strong>085879452960</strong></span>
+                            </p>
+                            <p class="flex items-center gap-2">
+                                <i class="fa-solid fa-envelope text-emerald-400 w-4"></i>
+                                <span>Email 1: <a href="mailto:syihabadawiyah9@gmail.com" class="hover:underline text-white">syihabadawiyah9@gmail.com</a></span>
+                            </p>
+                            <p class="flex items-center gap-2">
+                                <i class="fa-solid fa-envelope text-emerald-400 w-4"></i>
+                                <span>Email 2: <a href="mailto:admalishlahpanambangan@gmail.com" class="hover:underline text-white">admalishlahpanambangan@gmail.com</a></span>
+                            </p>
+                        </div>
+
+                        <div class="space-y-2">
+                            <p class="flex items-start gap-2">
+                                <i class="fa-solid fa-location-dot text-emerald-400 w-4 mt-0.5"></i>
+                                <span>Jl. Gardu No. 01 Desa Panambangan Kec. Sedong, Kabupaten Cirebon, Jawa Barat - 45189</span>
+                            </p>
+                            <div class="pt-1">
+                                <a href="https://wa.me/6285879452960" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition shadow">
+                                    <i class="fa-brands fa-whatsapp text-base"></i> Hubungi via WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Baris Bawah Copyright -->
+        <div class="bg-yellow-500 text-emerald-950 py-3 px-4 text-center text-xs font-bold border-t border-yellow-600">
             © 2026 MTs Al Ishlah Panambangan Cirebon • Portal Buku Kerja Guru Berbasis KMA Nomor 1503 Tahun 2025
         </div>
     </footer>
@@ -343,7 +402,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc, getDocs, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBVLJQxY3voHItmSL2mrSO3blD4L235TFw",
@@ -363,7 +422,6 @@
         let jurnalCache = {};
         let pelanggaranCache = {};
 
-        // Helper Konversi Username Angka Guru -> Format Email Internal Auth
         function formatGuruAuthEmail(input) {
             const trimmed = input.trim();
             if (!trimmed.includes('@')) {
@@ -419,9 +477,20 @@
             try {
                 await signInWithEmailAndPassword(auth, authEmail, pass);
             } catch(err) {
-                const errBox = document.getElementById('login-error');
-                errBox.innerText = "Login Gagal: " + err.message;
-                errBox.classList.remove('hidden');
+                if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
+                    try {
+                        await createUserWithEmailAndPassword(auth, authEmail, pass);
+                        await signInWithEmailAndPassword(auth, authEmail, pass);
+                    } catch(regErr) {
+                        const errBox = document.getElementById('login-error');
+                        errBox.innerText = "Login Gagal: " + regErr.message;
+                        errBox.classList.remove('hidden');
+                    }
+                } else {
+                    const errBox = document.getElementById('login-error');
+                    errBox.innerText = "Login Gagal: " + err.message;
+                    errBox.classList.remove('hidden');
+                }
             }
         });
 
