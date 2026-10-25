@@ -32,7 +32,7 @@
 </head>
 <body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col justify-between">
 
-    <!-- =================ur-HEADER ================= -->
+    <!-- HEADER -->
     <header class="header-bg text-white shadow-lg border-b-4 border-yellow-500">
         <div class="max-w-7xl mx-auto px-4 py-3">
             <div class="flex flex-col md:flex-row items-center justify-between gap-4">
@@ -88,13 +88,13 @@
                     <i class="fa-solid fa-chalkboard-user text-2xl text-yellow-400"></i>
                 </div>
                 <h2 class="text-xl font-bold">Login Portal Guru</h2>
-                <p class="text-xs text-emerald-200 mt-1">Masuk untuk mengelola Buku Kerja Guru KMA 1503</p>
+                <p class="text-xs text-emerald-200 mt-1">Masukan username angka (NIP/NIK) atau email</p>
             </div>
 
             <form id="form-login-guru" class="p-6 space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Username / Email Guru</label>
-                    <input type="text" id="login-username" required placeholder="Masukkan username / email..." class="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Username / NIP Guru</label>
+                    <input type="text" id="login-username" required placeholder="Contoh: 20244536196002" class="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 mb-1">Password</label>
@@ -154,7 +154,7 @@
                     <form id="form-bk1" class="space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">1. Kalender Pendidikan (Bisa diedit guru, dari Waka)</label>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">1. Kalender Pendidikan (Bisa disesuaikan guru)</label>
                                 <input type="text" id="bk1-kaldik" placeholder="Link GDrive Kalender Pendidikan..." class="w-full text-sm border rounded-lg p-2.5">
                             </div>
                             <div>
@@ -163,7 +163,7 @@
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">3. Alur Tujuan Pembelajaran (ATP) <a href="#" onclick="alert('Mengunduh Template Word ATP...')" class="text-blue-600 underline text-[10px] ml-2">(Download Template Word)</a></label>
-                                <input type="text" id="bk1-atp" placeholder="Link GDrive ATP terisi..." class="w-full text-sm border rounded-lg p-2.5">
+                                <input type="text" id="bk1-atp" placeholder="Link GDrive ATP..." class="w-full text-sm border rounded-lg p-2.5">
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">4. Modul Ajar / RPP <a href="#" onclick="alert('Mengunduh Template Word Modul Ajar...')" class="text-blue-600 underline text-[10px] ml-2">(Download Template Word)</a></label>
@@ -192,7 +192,6 @@
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-4">
                     <h3 class="text-lg font-bold text-slate-800 pb-2 border-b flex items-center justify-between">
                         <span class="flex items-center gap-2"><i class="fa-solid fa-book-journal-whills text-emerald-600"></i> Jurnal Mengajar Harian & Presensi</span>
-                        <!-- Dropdown Ekspor Serbaguna -->
                         <div class="flex gap-2">
                             <select id="export-format-bk2" class="text-xs border rounded-lg px-2 py-1 bg-slate-50 font-semibold">
                                 <option value="excel">Format Excel / CSV</option>
@@ -204,6 +203,7 @@
                     </h3>
                     
                     <form id="form-jurnal" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <input type="hidden" id="jurnal-edit-id">
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Tanggal KBM</label>
                             <input type="date" id="jurnal-tanggal" required class="w-full text-sm border rounded-lg p-2">
@@ -220,8 +220,9 @@
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Catatan KBM / Kehadiran</label>
                             <input type="text" id="jurnal-catatan" placeholder="Catatan kelas..." class="w-full text-sm border rounded-lg p-2">
                         </div>
-                        <div class="md:col-span-3">
+                        <div class="md:col-span-3 flex gap-2">
                             <button type="submit" class="bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow">Simpan Jurnal KBM</button>
+                            <button type="button" onclick="resetJurnalForm()" class="bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-2 rounded-lg">Batal / Reset</button>
                         </div>
                     </form>
 
@@ -232,7 +233,7 @@
                                     <th class="p-3 border-b">Tanggal</th>
                                     <th class="p-3 border-b">Kelas</th>
                                     <th class="p-3 border-b">Materi</th>
-                                    <th class="p-3 border-b text-center">Aksi (Edit/Hapus)</th>
+                                    <th class="p-3 border-b text-center">Aksi (Edit / Hapus)</th>
                                 </tr>
                             </thead>
                             <tbody id="list-jurnal">
@@ -249,6 +250,7 @@
                     </h3>
                     
                     <form id="form-pelanggaran" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <input type="hidden" id="pelanggaran-edit-id">
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Siswa</label>
                             <input type="text" id="pelanggaran-nama" required placeholder="Nama Siswa..." class="w-full text-sm border rounded-lg p-2">
@@ -268,8 +270,9 @@
                                 <option value="Membangkang/tidak sopan (30 Poin)">Membangkang/tidak sopan (30 Poin)</option>
                             </select>
                         </div>
-                        <div class="md:col-span-3">
+                        <div class="md:col-span-3 flex gap-2">
                             <button type="submit" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow">Simpan & Kirim Data Pelanggaran</button>
+                            <button type="button" onclick="resetPelanggaranForm()" class="bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-2 rounded-lg">Batal / Reset</button>
                         </div>
                     </form>
 
@@ -279,7 +282,7 @@
                                 <tr>
                                     <th class="p-3 border-b">Nama Siswa & Kelas</th>
                                     <th class="p-3 border-b">Pelanggaran & Poin</th>
-                                    <th class="p-3 border-b text-center">Aksi (Edit/Hapus)</th>
+                                    <th class="p-3 border-b text-center">Aksi (Edit / Hapus)</th>
                                 </tr>
                             </thead>
                             <tbody id="list-pelanggaran">
@@ -336,7 +339,7 @@
         </div>
     </footer>
 
-    <!-- FIREBASE SCRIPT -->
+    <!-- FIREBASE & LOGIKA SCRIPT -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc, getDocs, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
@@ -357,13 +360,36 @@
 
         let loggedInGuruId = null;
         let loggedInGuruName = "";
+        let jurnalCache = {};
+        let pelanggaranCache = {};
+
+        // Helper Konversi Username Angka Guru -> Format Email Internal Auth
+        function formatGuruAuthEmail(input) {
+            const trimmed = input.trim();
+            if (!trimmed.includes('@')) {
+                return `${trimmed}@madrasah.internal`;
+            }
+            return trimmed;
+        }
 
         // PERSISTENT SESSION GURU
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 try {
                     const q = query(collection(db, "guru"), where("username", "==", user.email));
-                    const snap = await getDocs(q);
+                    let snap = await getDocs(q);
+                    
+                    if (snap.empty) {
+                        const allGuru = await getDocs(collection(db, "guru"));
+                        allGuru.forEach(docSnap => {
+                            const d = docSnap.data();
+                            const generatedEmail = formatGuruAuthEmail(d.username);
+                            if (generatedEmail === user.email) {
+                                snap = { empty: false, docs: [docSnap] };
+                            }
+                        });
+                    }
+
                     if (!snap.empty) {
                         const gDoc = snap.docs[0];
                         const g = gDoc.data();
@@ -386,10 +412,12 @@
 
         document.getElementById('form-login-guru').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const email = document.getElementById('login-username').value;
+            const rawInput = document.getElementById('login-username').value;
             const pass = document.getElementById('login-password').value;
+            const authEmail = formatGuruAuthEmail(rawInput);
+
             try {
-                await signInWithEmailAndPassword(auth, email, pass);
+                await signInWithEmailAndPassword(auth, authEmail, pass);
             } catch(err) {
                 const errBox = document.getElementById('login-error');
                 errBox.innerText = "Login Gagal: " + err.message;
@@ -411,7 +439,7 @@
             document.getElementById(`btn-tab-${tabId}`).className = "tab-btn px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition bg-emerald-700 text-white";
         }
 
-        // SIMPAN BUKU KERJA 1 KE DRIVE BERSAMA / FIRESTORE
+        // SIMPAN BUKU KERJA 1
         document.getElementById('form-bk1').addEventListener('submit', async function(e) {
             e.preventDefault();
             if (!loggedInGuruId) return;
@@ -439,10 +467,11 @@
             } catch(err) { alert("Error: " + err.message); }
         });
 
-        // SIMPAN JURNAL KBM
+        // SIMPAN / UPDATE JURNAL KBM
         document.getElementById('form-jurnal').addEventListener('submit', async function(e) {
             e.preventDefault();
             if (!loggedInGuruId) return;
+            const editId = document.getElementById('jurnal-edit-id').value;
             const data = {
                 guruId: loggedInGuruId,
                 tanggal: document.getElementById('jurnal-tanggal').value,
@@ -451,17 +480,40 @@
                 catatan: document.getElementById('jurnal-catatan').value
             };
             try {
-                await addDoc(collection(db, "jurnal_guru"), data);
-                alert("Jurnal KBM Berhasil Disimpan!");
-                document.getElementById('form-jurnal').reset();
+                if (editId) {
+                    await updateDoc(doc(db, "jurnal_guru", editId), data);
+                    alert("Jurnal KBM Berhasil Diperbarui!");
+                } else {
+                    await addDoc(collection(db, "jurnal_guru"), data);
+                    alert("Jurnal KBM Berhasil Disimpan!");
+                }
+                resetJurnalForm();
                 loadJurnalGuru(loggedInGuruId);
             } catch(err) { alert("Error: " + err.message); }
         });
 
-        // SIMPAN PELANGGARAN SISWA
+        window.resetJurnalForm = function() {
+            document.getElementById('form-jurnal').reset();
+            document.getElementById('jurnal-edit-id').value = '';
+        }
+
+        window.editJurnal = function(id) {
+            if (jurnalCache[id]) {
+                const d = jurnalCache[id];
+                document.getElementById('jurnal-edit-id').value = id;
+                document.getElementById('jurnal-tanggal').value = d.tanggal || '';
+                document.getElementById('jurnal-kelas').value = d.kelas || '';
+                document.getElementById('jurnal-materi').value = d.materi || '';
+                document.getElementById('jurnal-catatan').value = d.catatan || '';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // SIMPAN / UPDATE PELANGGARAN SISWA
         document.getElementById('form-pelanggaran').addEventListener('submit', async function(e) {
             e.preventDefault();
             if (!loggedInGuruId) return;
+            const editId = document.getElementById('pelanggaran-edit-id').value;
             const data = {
                 guruId: loggedInGuruId,
                 namaGuru: loggedInGuruName,
@@ -471,16 +523,36 @@
                 tanggal: new Date().toLocaleDateString('id-ID')
             };
             try {
-                await addDoc(collection(db, "pelanggaran_siswa"), data);
-                alert("Data Pelanggaran Siswa Berhasil Disimpan & Terkirim ke Waka!");
-                document.getElementById('form-pelanggaran').reset();
+                if (editId) {
+                    await updateDoc(doc(db, "pelanggaran_siswa", editId), data);
+                    alert("Data Pelanggaran Siswa Berhasil Diperbarui!");
+                } else {
+                    await addDoc(collection(db, "pelanggaran_siswa"), data);
+                    alert("Data Pelanggaran Siswa Berhasil Disimpan & Terkirim ke Waka!");
+                }
+                resetPelanggaranForm();
                 loadPelanggaranGuru(loggedInGuruId);
             } catch(err) { alert("Error: " + err.message); }
         });
 
+        window.resetPelanggaranForm = function() {
+            document.getElementById('form-pelanggaran').reset();
+            document.getElementById('pelanggaran-edit-id').value = '';
+        }
+
+        window.editPelanggaran = function(id) {
+            if (pelanggaranCache[id]) {
+                const d = pelanggaranCache[id];
+                document.getElementById('pelanggaran-edit-id').value = id;
+                document.getElementById('pelanggaran-nama').value = d.namaSiswa || '';
+                document.getElementById('pelanggaran-kelas').value = d.kelas || '';
+                document.getElementById('pelanggaran-jenis').value = d.pelanggaran || '';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
         async function loadGuruData(gId) {
             try {
-                // Load BK1 & Verifikasi
                 const vQuery = query(collection(db, "verifikasi_guru"), where("guruId", "==", gId));
                 const vSnap = await getDocs(vQuery);
                 if (!vSnap.empty) {
@@ -491,7 +563,6 @@
                     document.getElementById('bk1-prota').value = d.prota || '';
                     document.getElementById('bk1-prosem').value = d.prosem || '';
 
-                    // Status Badge
                     const badge = document.getElementById('status-verifikasi-badge');
                     const catatan = document.getElementById('status-catatan-pimpinan');
                     const boxFinal = document.getElementById('box-download-final');
@@ -522,6 +593,7 @@
         async function loadJurnalGuru(gId) {
             const tbody = document.getElementById('list-jurnal');
             tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-slate-400">Memuat jurnal...</td></tr>';
+            jurnalCache = {};
             try {
                 const q = query(collection(db, "jurnal_guru"), where("guruId", "==", gId));
                 const snap = await getDocs(q);
@@ -532,12 +604,14 @@
                 }
                 snap.forEach(docSnap => {
                     const d = docSnap.data();
+                    jurnalCache[docSnap.id] = d;
                     tbody.innerHTML += `
                         <tr class="hover:bg-slate-50">
                             <td class="p-3 border-b font-medium">${d.tanggal}</td>
                             <td class="p-3 border-b">${d.kelas}</td>
                             <td class="p-3 border-b">${d.materi}</td>
                             <td class="p-3 border-b text-center space-x-2">
+                                <button onclick="editJurnal('${docSnap.id}')" class="text-blue-600 hover:text-blue-800 font-bold"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
                                 <button onclick="hapusData('jurnal_guru', '${docSnap.id}', () => loadJurnalGuru('${gId}'))" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i> Hapus</button>
                             </td>
                         </tr>
@@ -549,6 +623,7 @@
         async function loadPelanggaranGuru(gId) {
             const tbody = document.getElementById('list-pelanggaran');
             tbody.innerHTML = '<tr><td colspan="3" class="p-3 text-center text-slate-400">Memuat data pelanggaran...</td></tr>';
+            pelanggaranCache = {};
             try {
                 const q = query(collection(db, "pelanggaran_siswa"), where("guruId", "==", gId));
                 const snap = await getDocs(q);
@@ -559,11 +634,13 @@
                 }
                 snap.forEach(docSnap => {
                     const d = docSnap.data();
+                    pelanggaranCache[docSnap.id] = d;
                     tbody.innerHTML += `
                         <tr class="hover:bg-slate-50">
                             <td class="p-3 border-b font-medium">${d.namaSiswa}<br><span class="text-xs text-slate-500">Kelas: ${d.kelas}</span></td>
                             <td class="p-3 border-b text-red-600 font-semibold">${d.pelanggaran}</td>
-                            <td class="p-3 border-b text-center">
+                            <td class="p-3 border-b text-center space-x-2">
+                                <button onclick="editPelanggaran('${docSnap.id}')" class="text-blue-600 hover:text-blue-800 font-bold"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
                                 <button onclick="hapusData('pelanggaran_siswa', '${docSnap.id}', () => loadPelanggaranGuru('${gId}'))" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i> Hapus</button>
                             </td>
                         </tr>
