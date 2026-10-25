@@ -14,379 +14,538 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        /* Custom Header Styling */
         .header-bg {
             background: linear-gradient(135deg, #054f31 0%, #086b43 50%, #033a23 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .header-bg::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0, rgba(255,255,255,0.03) 10px, transparent 10px, transparent 20px);
+            pointer-events: none;
+        }
+        .arabic-text {
+            font-family: 'Traditional Arabic', 'Amiri', serif;
         }
     </style>
 </head>
 <body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col">
 
-    <!-- HEADER ADMIN -->
+    <!-- ========================================== -->
+    <!-- HEADER KHAS MADRASAH                      -->
+    <!-- ========================================== -->
     <header class="header-bg text-white shadow-lg border-b-4 border-yellow-500">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-4">
-                <div class="w-14 h-14 bg-white rounded-xl p-1 border border-yellow-400 flex items-center justify-center shrink-0">
-                    <img src="../assets/mts.png" alt="Logo" class="max-h-full max-w-full object-contain" onerror="this.src='https://placehold.co/50?text=MTs'">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                
+                <!-- Kiri: Logo & Info Madrasah -->
+                <div class="flex items-center gap-4">
+                    <div class="w-16 h-16 bg-white/10 rounded-xl p-1 border border-yellow-400/50 flex items-center justify-center shrink-0 shadow-inner">
+                        <img id="header-logo" src="../assets/mts.png" alt="Logo" class="max-h-full max-w-full object-contain" onerror="this.src='https://via.placeholder.com/60?text=MTs'">
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 id="header-nama-madrasah" class="text-xl md:text-2xl font-bold text-white tracking-wide">MTs AL ISHLAH PANAMBANGAN</h1>
+                            <span class="bg-yellow-400 text-emerald-950 text-xs font-black px-2.5 py-0.5 rounded-full uppercase shadow">CIREBON</span>
+                        </div>
+                        <p class="text-xs md:text-sm text-yellow-200 mt-0.5 flex items-center gap-2">
+                            <span class="arabic-text text-base font-semibold text-amber-300">بسم الله الرحمن الرحيم</span>
+                            <span>• Aplikasi Buku Kerja Guru Berbasis <strong class="text-white">KMA Nomor 1503 Tahun 2025</strong></span>
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="text-xl font-bold tracking-wide">PANEL ADMINISTRASI MADRASAH</h1>
-                    <p class="text-xs text-yellow-200">Pengelolaan Data Master, Akun Pimpinan, & Guru Berbasis KMA 1503</p>
+
+                <!-- Kanan: Status Login & Akses Cepat (Muncul Jika Sudah Login) -->
+                <div id="header-user-card" class="hidden bg-emerald-900/80 border border-emerald-600/60 rounded-xl p-3 flex items-center justify-between gap-4 w-full md:w-auto shadow-md">
+                    <div>
+                        <div id="header-role-badge" class="text-[10px] uppercase tracking-wider font-extrabold text-yellow-300">AKUN OPERATOR AKTIF</div>
+                        <div id="header-user-name" class="text-sm font-bold text-white">Administrator</div>
+                    </div>
+                    <button id="btn-logout" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition shadow">
+                        <i class="fa-solid fa-right-from-bracket"></i> Keluar
+                    </button>
                 </div>
+
             </div>
-            <div class="flex items-center gap-3">
-                <a href="../index.html" class="bg-emerald-800 hover:bg-emerald-900 px-3 py-2 rounded-lg text-xs font-bold border border-emerald-600 transition flex items-center gap-2">
-                    <i class="fa-solid fa-house"></i> Portal Utama
-                </a>
-                <div id="header-user-card" class="bg-emerald-950/80 px-3 py-2 rounded-lg border border-emerald-700 text-xs">
-                    <span id="header-role-badge" class="bg-yellow-400 text-emerald-950 px-2 py-0.5 rounded font-black uppercase text-[10px]">OPERATOR</span>
-                    <span id="header-user-name" class="ml-2 font-semibold text-white">operator@madrasah.sch.id</span>
+
+            <!-- Header Bottom Bar: Identity Info -->
+            <div class="mt-3 pt-2 border-t border-emerald-600/50 flex flex-wrap items-center justify-between text-xs text-emerald-100 gap-2">
+                <div class="flex flex-wrap items-center gap-4">
+                    <span class="flex items-center gap-1"><i class="fa-solid fa-id-card text-yellow-400"></i> NSM: <strong id="header-nsm" class="text-white">121232090014</strong></span>
+                    <span class="flex items-center gap-1"><i class="fa-solid fa-school text-yellow-400"></i> NPSN: <strong id="header-npsn" class="text-white">20278857</strong></span>
+                    <span class="flex items-center gap-1"><i class="fa-solid fa-location-dot text-yellow-400"></i> <span id="header-alamat">Jl. Gardu No.01 Panambangan, Sedong, Cirebon</span></span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-700/50">Kamad: <strong id="header-kamad" class="text-white">Siti Ramdhoni, S.Ag., M.Pd.</strong></span>
+                    <span class="bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-700/50">WKS Kurikulum: <strong id="header-waka" class="text-white">Hendrix Nurudin, S.Pd.I</strong></span>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- CONTAINER UTAMA -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6">
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6">
 
-        <!-- SECTION LOGIN (Jika belum login) -->
-        <section id="section-login" class="max-w-md mx-auto bg-white rounded-2xl shadow-xl border border-slate-200 p-8 my-12">
-            <div class="text-center mb-6">
-                <div class="w-16 h-16 bg-emerald-100 text-emerald-800 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3">
-                    <i class="fa-solid fa-lock"></i>
+        <!-- ========================================== -->
+        <!-- SECTION 1: GERBANG LOGIN ADMIN            -->
+        <!-- ========================================== -->
+        <section id="section-login" class="max-w-md mx-auto my-12 bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            <div class="bg-gradient-to-r from-emerald-800 to-emerald-900 text-white p-6 text-center">
+                <div class="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-3 border border-yellow-400/40">
+                    <i class="fa-solid fa-user-shield text-2xl text-yellow-400"></i>
                 </div>
-                <h2 class="text-xl font-black text-slate-800">Login Administrator</h2>
-                <p class="text-xs text-slate-500 mt-1">Silakan masuk sesuai peran dan kredensial Anda.</p>
+                <h2 class="text-xl font-bold">Login Sub-Halaman Admin</h2>
+                <p class="text-xs text-emerald-200 mt-1">Masuk sesuai hak akses akun pimpinan atau pengelola</p>
             </div>
 
-            <form id="form-login" class="space-y-4">
+            <form id="form-login" class="p-6 space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Peran Akses</label>
-                    <select id="login-role" class="w-full text-xs p-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 outline-none font-semibold">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Pilih Peran Login</label>
+                    <select id="login-role" class="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-slate-50 font-medium">
                         <option value="operator">Operator Madrasah</option>
                         <option value="waka">Waka Kurikulum</option>
                         <option value="kamad">Kepala Madrasah (Kamad)</option>
                     </select>
                 </div>
+
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Email / Username</label>
-                    <input type="email" id="login-username" required placeholder="operator@madrasah.sch.id" class="w-full text-xs p-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 outline-none">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Username / Email Admin</label>
+                    <input type="text" id="login-username" required placeholder="Masukkan username atau email" class="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                 </div>
+
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Password</label>
-                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full text-xs p-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 outline-none">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Password</label>
+                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                 </div>
-                <div id="login-error" class="hidden text-xs text-red-600 bg-red-50 p-2.5 rounded-lg border border-red-200"></div>
-                <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition text-xs shadow-md">
+
+                <div id="login-error" class="hidden text-xs text-red-600 bg-red-50 p-2.5 rounded-lg border border-red-200 font-medium"></div>
+
+                <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-lg transition text-sm shadow">
                     Masuk Dashboard Admin
                 </button>
+
+                <div class="text-center pt-2">
+                    <a href="../index.html" class="text-xs text-slate-500 hover:text-emerald-700 font-medium inline-flex items-center gap-1">
+                        <i class="fa-solid fa-arrow-left"></i> Kembali ke Portal Utama
+                    </a>
+                </div>
             </form>
         </section>
 
-        <!-- SECTION DASHBOARD (Muncul setelah login berhasil) -->
+
+        <!-- ========================================== -->
+        <!-- SECTION 2: DASHBOARD ADMIN INTERNAL       -->
+        <!-- ========================================== -->
         <section id="section-dashboard" class="hidden space-y-6">
 
-            <!-- 1. KELOLA TAHUN AJARAN & SEMESTER -->
-            <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 pb-3 border-b border-slate-100">
-                    <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                        <i class="fa-solid fa-calendar-days text-emerald-600"></i> Kelola Tahun Ajaran & Semester
-                    </h2>
-                    <button onclick="bukaModalTA()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-sm flex items-center gap-1.5">
-                        <i class="fa-solid fa-plus"></i> Tambah TA / Semester
-                    </button>
+            <!-- TAB NAVIGASI UTAMA -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-2 flex flex-wrap gap-2" id="nav-tabs">
+                <!-- Rendered via JS -->
+            </div>
+
+            <!-- ---------------------------------------- -->
+            <!-- TAB CONTENT 1: OPERATOR                  -->
+            <!-- ---------------------------------------- -->
+            <div id="tab-operator-content" class="hidden space-y-6">
+
+                <!-- 1A. Profil Sekolah & Kop Surat -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b flex items-center gap-2">
+                        <i class="fa-solid fa-school text-emerald-600"></i> Pengaturan Profil Madrasah & Kop Surat
+                    </h3>
+                    <form id="form-profil-sekolah" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Madrasah</label>
+                            <input type="text" id="prof-nama" class="w-full text-sm border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Kabupaten/Kota</label>
+                            <input type="text" id="prof-kota" class="w-full text-sm border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">NSM</label>
+                            <input type="text" id="prof-nsm" class="w-full text-sm border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">NPSN</label>
+                            <input type="text" id="prof-npsn" class="w-full text-sm border rounded-lg p-2">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Alamat Lengkap</label>
+                            <input type="text" id="prof-alamat" class="w-full text-sm border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Kepala Madrasah</label>
+                            <input type="text" id="prof-kamad" class="w-full text-sm border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Waka Kurikulum</label>
+                            <input type="text" id="prof-waka" class="w-full text-sm border rounded-lg p-2">
+                        </div>
+                        <div class="md:col-span-2">
+                            <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-4 py-2 rounded-lg text-xs shadow">
+                                Simpan Profil Madrasah
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs">
-                        <thead class="bg-slate-50 text-slate-600 uppercase font-bold">
-                            <tr>
-                                <th class="p-3">Tahun Ajaran</th>
-                                <th class="p-3">Semester</th>
-                                <th class="p-3">Status</th>
-                                <th class="p-3 text-center">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabel-ta-body" class="divide-y divide-slate-100">
-                            <!-- Data dinamis Firestore -->
-                        </tbody>
-                    </table>
+
+                <!-- 1B. Kelola Tahun Ajaran & Semester -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b flex items-center justify-between">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-calendar-days text-emerald-600"></i> Kelola Tahun Ajaran & Semester</span>
+                        <button onclick="bukaModalTA()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg">
+                            <i class="fa-solid fa-plus"></i> Tambah TA / Semester
+                        </button>
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left border-collapse">
+                            <thead class="bg-slate-50 text-slate-700 text-xs uppercase font-semibold">
+                                <tr>
+                                    <th class="p-3 border-b">Tahun Ajaran</th>
+                                    <th class="p-3 border-b">Semester</th>
+                                    <th class="p-3 border-b">Status</th>
+                                    <th class="p-3 border-b text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="list-ta">
+                                <!-- Rendered JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 1C. Kelola Master Mata Pelajaran (Fitur Baru) -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b flex items-center justify-between">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-book text-emerald-600"></i> Kelola Master Mata Pelajaran (Mapel)</span>
+                        <button onclick="bukaModalMapel()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg">
+                            <i class="fa-solid fa-plus"></i> Tambah Mata Pelajaran
+                        </button>
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left border-collapse">
+                            <thead class="bg-slate-50 text-slate-700 text-xs uppercase font-semibold">
+                                <tr>
+                                    <th class="p-3 border-b">Kode Mapel</th>
+                                    <th class="p-3 border-b">Nama Mata Pelajaran</th>
+                                    <th class="p-3 border-b">Kelompok / Fase</th>
+                                    <th class="p-3 border-b text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="list-mapel">
+                                <!-- Rendered JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 1D. Kontrol Akun Pimpinan (Kamad & Waka) -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b flex items-center gap-2">
+                        <i class="fa-solid fa-user-gear text-emerald-600"></i> Manajemen Akun Pimpinan (Kamad & Waka)
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                            <span class="text-xs font-bold text-red-600 uppercase tracking-wider">Akun Kepala Madrasah</span>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600">Nama Lengkap Kamad</label>
+                                <input type="text" id="pimpinan-kamad-nama" class="w-full text-sm border rounded p-2 bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600">Username / Email Kamad</label>
+                                <input type="text" id="pimpinan-kamad-user" class="w-full text-sm border rounded p-2 bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600">Password Baru</label>
+                                <input type="password" id="pimpinan-kamad-pass" placeholder="Kosongkan jika tidak diubah" class="w-full text-sm border rounded p-2 bg-white">
+                            </div>
+                            <button onclick="savePimpinanAccount('kamad')" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3 py-2 rounded shadow w-full">Simpan Akun Kamad</button>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                            <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Akun Waka Kurikulum</span>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600">Nama Lengkap Waka</label>
+                                <input type="text" id="pimpinan-waka-nama" class="w-full text-sm border rounded p-2 bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600">Username / Email Waka</label>
+                                <input type="text" id="pimpinan-waka-user" class="w-full text-sm border rounded p-2 bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600">Password Baru</label>
+                                <input type="password" id="pimpinan-waka-pass" placeholder="Kosongkan jika tidak diubah" class="w-full text-sm border rounded p-2 bg-white">
+                            </div>
+                            <button onclick="savePimpinanAccount('waka')" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3 py-2 rounded shadow w-full">Simpan Akun Waka</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1E. Manajemen Guru (Dropdown Mapel) -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 pb-2 border-b gap-3">
+                        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-chalkboard-user text-emerald-600"></i> Data Guru
+                        </h3>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button onclick="downloadTemplateGuru()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1">
+                                <i class="fa-solid fa-download"></i> Template Excel
+                            </button>
+                            <label class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg cursor-pointer flex items-center gap-1">
+                                <i class="fa-solid fa-file-excel"></i> Upload Excel
+                                <input type="file" id="upload-excel-guru" accept=".xlsx,.xls" class="hidden" onchange="importGuruExcel(event)">
+                            </label>
+                            <button onclick="bukaModalGuru()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1">
+                                <i class="fa-solid fa-plus"></i> Tambah Manual
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left border-collapse">
+                            <thead class="bg-slate-50 text-slate-700 text-xs uppercase font-semibold">
+                                <tr>
+                                    <th class="p-3 border-b">Nama & NIP</th>
+                                    <th class="p-3 border-b">Mapel / Fase</th>
+                                    <th class="p-3 border-b">Username</th>
+                                    <th class="p-3 border-b text-center">Aksi (Edit / Hapus)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="list-guru">
+                                <!-- Rendered JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 1F. Manajemen Siswa & Rombel -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-4 pb-2 border-b gap-3">
+                        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-users text-emerald-600"></i> Data Siswa & Rombel
+                        </h3>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button onclick="downloadTemplateSiswa()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1">
+                                <i class="fa-solid fa-download"></i> Template Excel
+                            </button>
+                            <label class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg cursor-pointer flex items-center gap-1">
+                                <i class="fa-solid fa-file-excel"></i> Upload Excel
+                                <input type="file" id="upload-excel-siswa" accept=".xlsx,.xls" class="hidden" onchange="importSiswaExcel(event)">
+                            </label>
+                            <button onclick="bukaModalSiswa()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1">
+                                <i class="fa-solid fa-plus"></i> Tambah Manual
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left border-collapse">
+                            <thead class="bg-slate-50 text-slate-700 text-xs uppercase font-semibold">
+                                <tr>
+                                    <th class="p-3 border-b">NIS / NISN</th>
+                                    <th class="p-3 border-b">Nama Siswa</th>
+                                    <th class="p-3 border-b">Rombel / Kelas</th>
+                                    <th class="p-3 border-b text-center">Aksi (Edit / Hapus)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="list-siswa">
+                                <!-- Rendered JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ---------------------------------------- -->
+            <!-- TAB CONTENT 2: WAKA KURIKULUM           -->
+            <!-- ---------------------------------------- -->
+            <div id="tab-waka-content" class="hidden space-y-6">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b flex items-center gap-2">
+                        <i class="fa-solid fa-file-signature text-emerald-600"></i> Verifikasi Perangkat Ajar Guru (Buku Kerja 1)
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left border-collapse">
+                            <thead class="bg-slate-50 text-slate-700 text-xs uppercase font-semibold">
+                                <tr>
+                                    <th class="p-3 border-b">Nama Guru</th>
+                                    <th class="p-3 border-b">Dokumen</th>
+                                    <th class="p-3 border-b">Status Verifikasi</th>
+                                    <th class="p-3 border-b text-center">Aksi Waka</th>
+                                </tr>
+                            </thead>
+                            <tbody id="list-verifikasi-waka">
+                                <tr>
+                                    <td class="p-3 border-b font-medium">Alifa Aulia, S.Pd.I</td>
+                                    <td class="p-3 border-b">Modul Ajar / Prosem PAI</td>
+                                    <td class="p-3 border-b"><span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2 py-0.5 rounded">Menunggu Verifikasi</span></td>
+                                    <td class="p-3 border-b text-center space-x-2">
+                                        <button class="bg-emerald-600 text-white text-xs px-2.5 py-1 rounded hover:bg-emerald-700">ACC Waka</button>
+                                        <button class="bg-red-600 text-white text-xs px-2.5 py-1 rounded hover:bg-red-700">Revisi</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <!-- 2. KELOLA MASTER MATA PELAJARAN (FITUR BARU) -->
-            <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 pb-3 border-b border-slate-100">
-                    <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                        <i class="fa-solid fa-book text-emerald-600"></i> Kelola Master Mata Pelajaran (Mapel)
-                    </h2>
-                    <button onclick="bukaModalMapel()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-sm flex items-center gap-1.5">
-                        <i class="fa-solid fa-plus"></i> Tambah Mata Pelajaran
-                    </button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs">
-                        <thead class="bg-slate-50 text-slate-600 uppercase font-bold">
-                            <tr>
-                                <th class="p-3">Kode Mapel</th>
-                                <th class="p-3">Nama Mata Pelajaran</th>
-                                <th class="p-3">Kelompok / Fase</th>
-                                <th class="p-3 text-center">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabel-mapel-body" class="divide-y divide-slate-100">
-                            <!-- Data dinamis Firestore -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- 3. MANAJEMEN AKUN PIMPINAN -->
-            <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
-                <h2 class="text-base font-bold text-slate-800 flex items-center gap-2 mb-4 pb-3 border-b border-slate-100">
-                    <i class="fa-solid fa-user-shield text-emerald-600"></i> Manajemen Akun Pimpinan (Kamad & Waka)
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Form Kamad -->
-                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-                        <h3 class="font-bold text-slate-700 text-sm">Akun Kepala Madrasah</h3>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Lengkap Kamad</label>
-                            <input type="text" id="kamad-nama" class="w-full text-xs p-2.5 rounded-lg border border-slate-300 bg-white" placeholder="Siti Ramdhoni, S.Ag., M.Pd.">
+            <!-- ---------------------------------------- -->
+            <!-- TAB CONTENT 3: KEPALA MADRASAH (KAMAD)   -->
+            <!-- ---------------------------------------- -->
+            <div id="tab-kamad-content" class="hidden space-y-6">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b flex items-center gap-2">
+                        <i class="fa-solid fa-signature text-emerald-600"></i> Upload Tanda Tangan Digital & Stempel
+                    </h3>
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="w-48 h-28 bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex items-center justify-center p-2">
+                            <img id="preview-ttd-kamad" src="https://via.placeholder.com/150x80?text=Preview+TTD" alt="TTD Kamad" class="max-h-full max-w-full object-contain">
                         </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Username / Email Kamad</label>
-                            <input type="email" id="kamad-email" class="w-full text-xs p-2.5 rounded-lg border border-slate-300 bg-white" placeholder="kamad@madrasah.sch.id">
+                        <div class="space-y-2">
+                            <p class="text-xs text-slate-500">Unggah file transparan (PNG) Tanda Tangan & Stempel resmi Kepala Madrasah.</p>
+                            <label class="inline-block bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-4 py-2 rounded-lg cursor-pointer shadow">
+                                <i class="fa-solid fa-upload"></i> Pilih Gambar TTD
+                                <input type="file" id="input-ttd-kamad" accept="image/png,image/jpeg" class="hidden">
+                            </label>
                         </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Password Baru</label>
-                            <input type="password" id="kamad-pass" class="w-full text-xs p-2.5 rounded-lg border border-slate-300 bg-white" placeholder="Kosongkan jika tidak diubah">
-                        </div>
-                        <button onclick="simpanAkunKamad()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-2.5 rounded-lg text-xs transition">
-                            Simpan Akun Kamad
-                        </button>
                     </div>
-                    <!-- Form Waka Kurikulum -->
-                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-                        <h3 class="font-bold text-slate-700 text-sm">Akun Waka Kurikulum</h3>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Lengkap Waka</label>
-                            <input type="text" id="waka-nama" class="w-full text-xs p-2.5 rounded-lg border border-slate-300 bg-white" placeholder="Hendrix Nurudin, S.Pd.I">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Username / Email Waka</label>
-                            <input type="email" id="waka-email" class="w-full text-xs p-2.5 rounded-lg border border-slate-300 bg-white" placeholder="waka@madrasah.sch.id">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Password Baru</label>
-                            <input type="password" id="waka-pass" class="w-full text-xs p-2.5 rounded-lg border border-slate-300 bg-white" placeholder="Kosongkan jika tidak diubah">
-                        </div>
-                        <button onclick="simpanAkunWaka()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-2.5 rounded-lg text-xs transition">
-                            Simpan Akun Waka
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 4. DATA GURU (DENGAN DROPDOWN MAPEL) -->
-            <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 pb-3 border-b border-slate-100">
-                    <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                        <i class="fa-solid fa-chalkboard-user text-emerald-600"></i> Data Guru
-                    </h2>
-                    <div class="flex flex-wrap gap-2">
-                        <button onclick="downloadTemplateGuru()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-2 rounded-xl border border-slate-300 transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-file-excel text-emerald-600"></i> Template Excel
-                        </button>
-                        <label class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-2 rounded-xl border border-emerald-300 cursor-pointer transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-upload"></i> Upload Excel
-                            <input type="file" id="file-excel-guru" accept=".xlsx, .xls" class="hidden" onchange="importExcelGuru(event)">
-                        </label>
-                        <button onclick="bukaModalGuru()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-3 py-2 rounded-xl transition shadow-sm flex items-center gap-1.5">
-                            <i class="fa-solid fa-plus"></i> Tambah Manual
-                        </button>
-                    </div>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs">
-                        <thead class="bg-slate-50 text-slate-600 uppercase font-bold">
-                            <tr>
-                                <th class="p-3">Nama & NIP</th>
-                                <th class="p-3">Mata Pelajaran (Mapel)</th>
-                                <th class="p-3">Username</th>
-                                <th class="p-3 text-center">Aksi (Edit / Hapus)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabel-guru-body" class="divide-y divide-slate-100">
-                            <!-- Data dinamis Firestore -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- 5. DATA SISWA & ROMBEL -->
-            <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 pb-3 border-b border-slate-100">
-                    <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                        <i class="fa-solid fa-user-graduate text-emerald-600"></i> Data Siswa & Rombel
-                    </h2>
-                    <div class="flex flex-wrap gap-2">
-                        <button onclick="downloadTemplateSiswa()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-2 rounded-xl border border-slate-300 transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-file-excel text-emerald-600"></i> Template Excel
-                        </button>
-                        <label class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-2 rounded-xl border border-emerald-300 cursor-pointer transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-upload"></i> Upload Excel
-                            <input type="file" id="file-excel-siswa" accept=".xlsx, .xls" class="hidden" onchange="importExcelSiswa(event)">
-                        </label>
-                        <button onclick="bukaModalSiswa()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-3 py-2 rounded-xl transition shadow-sm flex items-center gap-1.5">
-                            <i class="fa-solid fa-plus"></i> Tambah Manual
-                        </button>
-                    </div>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs">
-                        <thead class="bg-slate-50 text-slate-600 uppercase font-bold">
-                            <tr>
-                                <th class="p-3">NIS / NISN</th>
-                                <th class="p-3">Nama Siswa</th>
-                                <th class="p-3">Rombel / Kelas</th>
-                                <th class="p-3 text-center">Aksi (Edit / Hapus)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabel-siswa-body" class="divide-y divide-slate-100">
-                            <!-- Data dinamis Firestore -->
-                        </tbody>
-                    </table>
                 </div>
             </div>
 
         </section>
+
     </main>
 
-    <!-- MODAL TAMBAH/EDIT TAHUN AJARAN -->
-    <div id="modal-ta" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
-            <h3 id="modal-ta-title" class="font-bold text-base text-slate-800">Tambah Tahun Ajaran</h3>
-            <form id="form-ta" onsubmit="simpanDataTA(event)" class="space-y-3">
-                <input type="hidden" id="ta-id">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Tahun Ajaran</label>
-                    <input type="text" id="ta-tahun" required placeholder="2025/2026" class="w-full text-xs p-3 rounded-xl border border-slate-300">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Semester</label>
-                    <select id="ta-semester" class="w-full text-xs p-3 rounded-xl border border-slate-300">
-                        <option value="Ganjil">Ganjil</option>
-                        <option value="Genap">Genap</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Status Aktif</label>
-                    <select id="ta-status" class="w-full text-xs p-3 rounded-xl border border-slate-300">
-                        <option value="Aktif">Aktif</option>
-                        <option value="Tidak Aktif">Tidak Aktif</option>
-                    </select>
-                </div>
-                <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="tutupModal('modal-ta')" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-xs font-bold">Batal</button>
-                    <button type="submit" class="px-4 py-2 bg-emerald-700 text-white rounded-xl text-xs font-bold">Simpan</button>
-                </div>
-            </form>
+    <!-- ========================================== -->
+    <!-- MODAL POPUPS                               -->
+    <!-- ========================================== -->
+    
+    <!-- Modal Tahun Ajaran -->
+    <div id="modal-ta" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl shadow-xl max-w-md w-full p-6 space-y-4">
+            <h3 id="modal-ta-title" class="text-base font-bold text-slate-800">Tambah Tahun Ajaran / Semester</h3>
+            <input type="hidden" id="modal-ta-id">
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Tahun Ajaran</label>
+                <input type="text" id="modal-ta-nama" placeholder="Contoh: 2025/2026" class="w-full text-sm border rounded-lg p-2">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Semester</label>
+                <select id="modal-ta-semester" class="w-full text-sm border rounded-lg p-2">
+                    <option value="Ganjil">Ganjil</option>
+                    <option value="Genap">Genap</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Status</label>
+                <select id="modal-ta-status" class="w-full text-sm border rounded-lg p-2">
+                    <option value="Aktif">Aktif</option>
+                    <option value="Tidak Aktif">Tidak Aktif</option>
+                </select>
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="toggleModal('modal-ta')" class="bg-slate-200 text-slate-700 text-xs px-3 py-2 rounded-lg font-semibold">Batal</button>
+                <button onclick="saveTahunAjaran()" class="bg-emerald-700 text-white text-xs px-4 py-2 rounded-lg font-bold">Simpan</button>
+            </div>
         </div>
     </div>
 
-    <!-- MODAL TAMBAH/EDIT MASTER MAPEL -->
-    <div id="modal-mapel" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
-            <h3 id="modal-mapel-title" class="font-bold text-base text-slate-800">Tambah Mata Pelajaran</h3>
-            <form id="form-mapel" onsubmit="simpanDataMapel(event)" class="space-y-3">
-                <input type="hidden" id="mapel-id">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Kode Mapel</label>
-                    <input type="text" id="mapel-kode" required placeholder="MPL-01" class="w-full text-xs p-3 rounded-xl border border-slate-300">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Mata Pelajaran</label>
-                    <input type="text" id="mapel-nama" required placeholder="Al-Qur'an Hadits" class="w-full text-xs p-3 rounded-xl border border-slate-300">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Kelompok / Fase</label>
-                    <input type="text" id="mapel-fase" required placeholder="Kelompok A / Fase D" class="w-full text-xs p-3 rounded-xl border border-slate-300">
-                </div>
-                <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="tutupModal('modal-mapel')" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-xs font-bold">Batal</button>
-                    <button type="submit" class="px-4 py-2 bg-emerald-700 text-white rounded-xl text-xs font-bold">Simpan</button>
-                </div>
-            </form>
+    <!-- Modal Master Mapel -->
+    <div id="modal-mapel" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl shadow-xl max-w-md w-full p-6 space-y-4">
+            <h3 id="modal-mapel-title" class="text-base font-bold text-slate-800">Tambah Mata Pelajaran</h3>
+            <input type="hidden" id="modal-mapel-id">
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Kode Mapel</label>
+                <input type="text" id="modal-mapel-kode" placeholder="Contoh: MPL-01" class="w-full text-sm border rounded-lg p-2">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Mata Pelajaran</label>
+                <input type="text" id="modal-mapel-nama" placeholder="Contoh: Al-Qur'an Hadits" class="w-full text-sm border rounded-lg p-2">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Kelompok / Fase</label>
+                <input type="text" id="modal-mapel-fase" placeholder="Contoh: Kelompok A / Fase D" class="w-full text-sm border rounded-lg p-2">
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="toggleModal('modal-mapel')" class="bg-slate-200 text-slate-700 text-xs px-3 py-2 rounded-lg font-semibold">Batal</button>
+                <button onclick="saveMasterMapel()" class="bg-emerald-700 text-white text-xs px-4 py-2 rounded-lg font-bold">Simpan Mapel</button>
+            </div>
         </div>
     </div>
 
-    <!-- MODAL TAMBAH/EDIT GURU (DENGAN DROPDOWN MAPEL) -->
-    <div id="modal-guru" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
-            <h3 id="modal-guru-title" class="font-bold text-base text-slate-800">Tambah Data Guru</h3>
-            <form id="form-guru" onsubmit="simpanDataGuru(event)" class="space-y-3">
-                <input type="hidden" id="guru-id">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Lengkap & Gelar</label>
-                    <input type="text" id="guru-nama" required placeholder="Ahmad Fauzi, S.Pd.I" class="w-full text-xs p-3 rounded-xl border border-slate-300">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">NIP / NUPTK</label>
-                    <input type="text" id="guru-nip" required placeholder="19800101..." class="w-full text-xs p-3 rounded-xl border border-slate-300">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Mata Pelajaran (Pilih dari Master Mapel)</label>
-                    <!-- Dropdown otomatis terisi dari koleksi Mapel Firestore -->
-                    <select id="guru-mapel" required class="w-full text-xs p-3 rounded-xl border border-slate-300 bg-white font-semibold">
-                        <option value="">-- Pilih Mata Pelajaran --</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Email / Username Login Guru</label>
-                    <input type="email" id="guru-username" required placeholder="guru@madrasah.sch.id" class="w-full text-xs p-3 rounded-xl border border-slate-300">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Password Akun</label>
-                    <input type="password" id="guru-password" placeholder="Minimal 6 karakter" class="w-full text-xs p-3 rounded-xl border border-slate-300">
-                </div>
-                <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="tutupModal('modal-guru')" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-xs font-bold">Batal</button>
-                    <button type="submit" class="px-4 py-2 bg-emerald-700 text-white rounded-xl text-xs font-bold">Simpan</button>
-                </div>
-            </form>
+    <!-- Modal Input Guru (Dengan Dropdown Mapel) -->
+    <div id="modal-guru" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl shadow-xl max-w-lg w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+            <h3 id="modal-guru-title" class="text-base font-bold text-slate-800">Input Data Guru Manual</h3>
+            <input type="hidden" id="modal-guru-id">
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap & Gelar</label>
+                <input type="text" id="modal-guru-nama" class="w-full text-sm border rounded p-2">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">NIP / NUPTK</label>
+                <input type="text" id="modal-guru-nip" class="w-full text-sm border rounded p-2">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Mata Pelajaran (Pilih dari Master Mapel)</label>
+                <!-- Dropdown otomatis terisi dari Firestore -->
+                <select id="modal-guru-mapel" class="w-full text-sm border rounded p-2 bg-white font-semibold">
+                    <option value="">-- Pilih Mata Pelajaran --</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Username / Email Login Guru</label>
+                <input type="text" id="modal-guru-user" class="w-full text-sm border rounded p-2">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Password Login</label>
+                <input type="password" id="modal-guru-pass" placeholder="Minimal 6 karakter" class="w-full text-sm border rounded p-2">
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="toggleModal('modal-guru')" class="bg-slate-200 text-slate-700 text-xs px-3 py-2 rounded-lg font-semibold">Batal</button>
+                <button onclick="saveGuruManual()" class="bg-emerald-700 text-white text-xs px-4 py-2 rounded-lg font-bold">Simpan Guru</button>
+            </div>
         </div>
     </div>
 
-    <!-- MODAL TAMBAH/EDIT SISWA -->
-    <div id="modal-siswa" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
-            <h3 id="modal-siswa-title" class="font-bold text-base text-slate-800">Tambah Data Siswa</h3>
-            <form id="form-siswa" onsubmit="simpanDataSiswa(event)" class="space-y-3">
-                <input type="hidden" id="siswa-id">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">NIS / NISN</label>
-                    <input type="text" id="siswa-nis" required placeholder="232401..." class="w-full text-xs p-3 rounded-xl border border-slate-300">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Lengkap Siswa</label>
-                    <input type="text" id="siswa-nama" required placeholder="Muhammad Rizki" class="w-full text-xs p-3 rounded-xl border border-slate-300">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Rombel / Kelas</label>
-                    <input type="text" id="siswa-rombel" required placeholder="VII-A" class="w-full text-xs p-3 rounded-xl border border-slate-300">
-                </div>
-                <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="tutupModal('modal-siswa')" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-xs font-bold">Batal</button>
-                    <button type="submit" class="px-4 py-2 bg-emerald-700 text-white rounded-xl text-xs font-bold">Simpan</button>
-                </div>
-            </form>
+    <!-- Modal Input Siswa -->
+    <div id="modal-siswa" class="hidden fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl shadow-xl max-w-lg w-full p-6 space-y-4">
+            <h3 id="modal-siswa-title" class="text-base font-bold text-slate-800">Input Data Siswa Manual</h3>
+            <input type="hidden" id="modal-siswa-id">
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">NIS / NISN</label>
+                <input type="text" id="modal-siswa-nis" class="w-full text-sm border rounded p-2">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap Siswa</label>
+                <input type="text" id="modal-siswa-nama" class="w-full text-sm border rounded p-2">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Rombel / Kelas</label>
+                <input type="text" id="modal-siswa-rombel" placeholder="Contoh: Kelas VII-A" class="w-full text-sm border rounded p-2">
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="toggleModal('modal-siswa')" class="bg-slate-200 text-slate-700 text-xs px-3 py-2 rounded-lg font-semibold">Batal</button>
+                <button onclick="saveSiswaManual()" class="bg-emerald-700 text-white text-xs px-4 py-2 rounded-lg font-bold">Simpan Siswa</button>
+            </div>
         </div>
     </div>
 
-    <!-- SCRIPT FIREBASE & LOGIKA APLIKASI -->
+    <!-- ========================================== -->
+    <!-- FIREBASE & LOGIKA APLIKASI SCRIPT         -->
+    <!-- ========================================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, setDoc, addDoc, updateDoc, deleteDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBVLJQxY3voHItmSL2mrSO3blD4L235TFw",
@@ -398,12 +557,16 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
         const db = getFirestore(app);
+        const auth = getAuth(app);
 
-        let currentRole = 'operator';
+        let currentRole = null;
 
-        // LOGIN HANDLER
+        window.toggleModal = function(modalId) {
+            document.getElementById(modalId).classList.toggle('hidden');
+        }
+
+        // Login Handler
         document.getElementById('form-login').addEventListener('submit', async function(e) {
             e.preventDefault();
             const role = document.getElementById('login-role').value;
@@ -415,10 +578,13 @@
                 currentRole = role;
                 document.getElementById('section-login').classList.add('hidden');
                 document.getElementById('section-dashboard').classList.remove('hidden');
-                document.getElementById('header-role-badge').innerText = `AKUN ${role.toUpperCase()}`;
+                document.getElementById('header-user-card').classList.remove('hidden');
+
+                document.getElementById('header-role-badge').innerText = `AKUN ${role.toUpperCase()} AKTIF`;
                 document.getElementById('header-user-name').innerText = userCred.user.email;
-                
-                loadAllData();
+
+                renderTabsByRole(role);
+                loadAllDataFromFirestore();
             } catch (err) {
                 const errBox = document.getElementById('login-error');
                 errBox.innerText = "Login Gagal: " + err.message;
@@ -426,31 +592,112 @@
             }
         });
 
-        async function loadAllData() {
+        // Logout
+        document.getElementById('btn-logout').addEventListener('click', function() {
+            currentRole = null;
+            document.getElementById('section-dashboard').classList.add('hidden');
+            document.getElementById('header-user-card').classList.add('hidden');
+            document.getElementById('section-login').classList.remove('hidden');
+        });
+
+        function renderTabsByRole(role) {
+            const tabsContainer = document.getElementById('nav-tabs');
+            tabsContainer.innerHTML = '';
+            let tabs = [];
+            if (role === 'operator') {
+                tabs = [{ id: 'operator', name: 'Akses Operator (Data Master & Sistem)', icon: 'fa-gears' }];
+            } else if (role === 'waka') {
+                tabs = [{ id: 'waka', name: 'Akses Waka Kurikulum (KBM & Verifikasi)', icon: 'fa-book-bookmark' }];
+            } else if (role === 'kamad') {
+                tabs = [{ id: 'kamad', name: 'Akses Kamad (Supervisi & Approval)', icon: 'fa-user-tie' }];
+            }
+
+            tabs.forEach((t, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition ${idx === 0 ? 'bg-emerald-700 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`;
+                btn.innerHTML = `<i class="fa-solid ${t.icon}"></i> ${t.name}`;
+                btn.onclick = () => switchTab(t.id);
+                tabsContainer.appendChild(btn);
+            });
+            switchTab(tabs[0].id);
+        }
+
+        window.switchTab = function(tabId) {
+            document.getElementById('tab-operator-content').classList.add('hidden');
+            document.getElementById('tab-waka-content').classList.add('hidden');
+            document.getElementById('tab-kamad-content').classList.add('hidden');
+            document.getElementById(`tab-${tabId}-content`).classList.remove('hidden');
+        }
+
+        async function loadAllDataFromFirestore() {
+            loadProfil();
             loadTahunAjaran();
             loadMasterMapel();
-            loadAkunPimpinan();
             loadDataGuru();
             loadDataSiswa();
         }
 
-        // --- 1. TAHUN AJARAN ---
-        window.bukaModalTA = function(id = '', tahun = '', semester = 'Ganjil', status = 'Aktif') {
-            document.getElementById('ta-id').value = id;
-            document.getElementById('ta-tahun').value = tahun;
-            document.getElementById('ta-semester').value = semester;
-            document.getElementById('ta-status').value = status;
-            document.getElementById('modal-ta-title').innerText = id ? "Edit Tahun Ajaran" : "Tambah Tahun Ajaran";
-            document.getElementById('modal-ta').classList.remove('hidden');
+        // --- PROFIL SEKOLAH ---
+        async function loadProfil() {
+            try {
+                const docSnap = await getDoc(doc(db, "profil", "sekolah"));
+                if (docSnap.exists()) {
+                    const d = docSnap.data();
+                    document.getElementById('header-nama-madrasah').innerText = d.nama || 'MTs AL ISHLAH PANAMBANGAN';
+                    document.getElementById('header-nsm').innerText = d.nsm || '-';
+                    document.getElementById('header-npsn').innerText = d.npsn || '-';
+                    document.getElementById('header-alamat').innerText = d.alamat || '-';
+                    document.getElementById('header-kamad').innerText = d.kamad || '-';
+                    document.getElementById('header-waka').innerText = d.waka || '-';
+
+                    document.getElementById('prof-nama').value = d.nama || '';
+                    document.getElementById('prof-kota').value = d.kota || '';
+                    document.getElementById('prof-nsm').value = d.nsm || '';
+                    document.getElementById('prof-npsn').value = d.npsn || '';
+                    document.getElementById('prof-alamat').value = d.alamat || '';
+                    document.getElementById('prof-kamad').value = d.kamad || '';
+                    document.getElementById('prof-waka').value = d.waka || '';
+
+                    document.getElementById('pimpinan-kamad-nama').value = d.kamad || '';
+                    document.getElementById('pimpinan-kamad-user').value = d.kamadEmail || '';
+                    document.getElementById('pimpinan-waka-nama').value = d.waka || '';
+                    document.getElementById('pimpinan-waka-user').value = d.wakaEmail || '';
+                }
+            } catch (err) { console.log(err); }
         }
 
-        window.simpanDataTA = async function(e) {
+        document.getElementById('form-profil-sekolah').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const id = document.getElementById('ta-id').value;
             const data = {
-                tahun: document.getElementById('ta-tahun').value,
-                semester: document.getElementById('ta-semester').value,
-                status: document.getElementById('ta-status').value
+                nama: document.getElementById('prof-nama').value,
+                kota: document.getElementById('prof-kota').value,
+                nsm: document.getElementById('prof-nsm').value,
+                npsn: document.getElementById('prof-npsn').value,
+                alamat: document.getElementById('prof-alamat').value,
+                kamad: document.getElementById('prof-kamad').value,
+                waka: document.getElementById('prof-waka').value
+            };
+            await setDoc(doc(db, "profil", "sekolah"), data, { merge: true });
+            alert("Profil Madrasah Berhasil Disimpan!");
+            loadProfil();
+        });
+
+        // --- 1. TAHUN AJARAN ---
+        window.bukaModalTA = function(id = '', tahun = '', semester = 'Ganjil', status = 'Aktif') {
+            document.getElementById('modal-ta-id').value = id;
+            document.getElementById('modal-ta-nama').value = tahun;
+            document.getElementById('modal-ta-semester').value = semester;
+            document.getElementById('modal-ta-status').value = status;
+            document.getElementById('modal-ta-title').innerText = id ? "Edit Tahun Ajaran" : "Tambah Tahun Ajaran / Semester";
+            toggleModal('modal-ta');
+        }
+
+        window.saveTahunAjaran = async function() {
+            const id = document.getElementById('modal-ta-id').value;
+            const data = {
+                tahun: document.getElementById('modal-ta-nama').value,
+                semester: document.getElementById('modal-ta-semester').value,
+                status: document.getElementById('modal-ta-status').value
             };
             try {
                 if(id) {
@@ -458,13 +705,13 @@
                 } else {
                     await addDoc(collection(db, "tahun_ajaran"), data);
                 }
-                tutupModal('modal-ta');
+                toggleModal('modal-ta');
                 loadTahunAjaran();
             } catch(err) { alert("Error: " + err.message); }
         }
 
         async function loadTahunAjaran() {
-            const tbody = document.getElementById('tabel-ta-body');
+            const tbody = document.getElementById('list-ta');
             tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-slate-400">Memuat data...</td></tr>';
             try {
                 const querySnapshot = await getDocs(collection(db, "tahun_ajaran"));
@@ -477,10 +724,10 @@
                     const d = docSnap.data();
                     tbody.innerHTML += `
                         <tr class="hover:bg-slate-50">
-                            <td class="p-3 font-bold">${d.tahun}</td>
-                            <td class="p-3">${d.semester}</td>
-                            <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${d.status === 'Aktif' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">${d.status}</span></td>
-                            <td class="p-3 text-center space-x-2">
+                            <td class="p-3 border-b font-bold">${d.tahun}</td>
+                            <td class="p-3 border-b">${d.semester}</td>
+                            <td class="p-3 border-b"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${d.status === 'Aktif' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">${d.status}</span></td>
+                            <td class="p-3 border-b text-center space-x-2">
                                 <button onclick="bukaModalTA('${docSnap.id}', '${d.tahun}', '${d.semester}', '${d.status}')" class="text-blue-600 hover:text-blue-800 font-bold"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button onclick="hapusData('tahun_ajaran', '${docSnap.id}', loadTahunAjaran)" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i></button>
                             </td>
@@ -492,21 +739,20 @@
 
         // --- 2. MASTER MATA PELAJARAN ---
         window.bukaModalMapel = function(id = '', kode = '', nama = '', fase = '') {
-            document.getElementById('mapel-id').value = id;
-            document.getElementById('mapel-kode').value = kode;
-            document.getElementById('mapel-nama').value = nama;
-            document.getElementById('mapel-fase').value = fase;
+            document.getElementById('modal-mapel-id').value = id;
+            document.getElementById('modal-mapel-kode').value = kode;
+            document.getElementById('modal-mapel-nama').value = nama;
+            document.getElementById('modal-mapel-fase').value = fase;
             document.getElementById('modal-mapel-title').innerText = id ? "Edit Mata Pelajaran" : "Tambah Mata Pelajaran";
-            document.getElementById('modal-mapel').classList.remove('hidden');
+            toggleModal('modal-mapel');
         }
 
-        window.simpanDataMapel = async function(e) {
-            e.preventDefault();
-            const id = document.getElementById('mapel-id').value;
+        window.saveMasterMapel = async function() {
+            const id = document.getElementById('modal-mapel-id').value;
             const data = {
-                kode: document.getElementById('mapel-kode').value,
-                nama: document.getElementById('mapel-nama').value,
-                fase: document.getElementById('mapel-fase').value
+                kode: document.getElementById('modal-mapel-kode').value,
+                nama: document.getElementById('modal-mapel-nama').value,
+                fase: document.getElementById('modal-mapel-fase').value
             };
             try {
                 if(id) {
@@ -514,14 +760,14 @@
                 } else {
                     await addDoc(collection(db, "mapel"), data);
                 }
-                tutupModal('modal-mapel');
+                toggleModal('modal-mapel');
                 loadMasterMapel();
             } catch(err) { alert("Error: " + err.message); }
         }
 
         async function loadMasterMapel() {
-            const tbody = document.getElementById('tabel-mapel-body');
-            const selectDropdown = document.getElementById('guru-mapel');
+            const tbody = document.getElementById('list-mapel');
+            const selectDropdown = document.getElementById('modal-guru-mapel');
             tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-slate-400">Memuat data...</td></tr>';
             selectDropdown.innerHTML = '<option value="">-- Pilih Mata Pelajaran --</option>';
             try {
@@ -535,78 +781,56 @@
                     const d = docSnap.data();
                     tbody.innerHTML += `
                         <tr class="hover:bg-slate-50">
-                            <td class="p-3 font-bold">${d.kode}</td>
-                            <td class="p-3">${d.nama}</td>
-                            <td class="p-3">${d.fase}</td>
-                            <td class="p-3 text-center space-x-2">
+                            <td class="p-3 border-b font-bold">${d.kode}</td>
+                            <td class="p-3 border-b">${d.nama}</td>
+                            <td class="p-3 border-b">${d.fase}</td>
+                            <td class="p-3 border-b text-center space-x-2">
                                 <button onclick="bukaModalMapel('${docSnap.id}', '${d.kode}', '${d.nama}', '${d.fase}')" class="text-blue-600 hover:text-blue-800 font-bold"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button onclick="hapusData('mapel', '${docSnap.id}', loadMasterMapel)" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                     `;
-                    // Isi dropdown guru
                     selectDropdown.innerHTML += `<option value="${d.nama}">${d.nama} (${d.fase})</option>`;
                 });
             } catch(err) { tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-red-500">Gagal memuat mapel.</td></tr>'; }
         }
 
         // --- 3. AKUN PIMPINAN ---
-        async function loadAkunPimpinan() {
-            try {
-                const docSnap = await getDoc(doc(db, "profil", "sekolah"));
-                if(docSnap.exists()) {
-                    const d = docSnap.data();
-                    if(d.kamad) document.getElementById('kamad-nama').value = d.kamad;
-                    if(d.kamadEmail) document.getElementById('kamad-email').value = d.kamadEmail;
-                    if(d.waka) document.getElementById('waka-nama').value = d.waka;
-                    if(d.wakaEmail) document.getElementById('waka-email').value = d.wakaEmail;
-                }
-            } catch(err) { console.log("Gagal memuat profil pimpinan"); }
-        }
-
-        window.simpanAkunKamad = async function() {
-            const nama = document.getElementById('kamad-nama').value;
-            const email = document.getElementById('kamad-email').value;
-            const pass = document.getElementById('kamad-pass').value;
+        window.savePimpinanAccount = async function(role) {
+            const nama = document.getElementById(`pimpinan-${role}-nama`).value;
+            const email = document.getElementById(`pimpinan-${role}-user`).value;
+            const pass = document.getElementById(`pimpinan-${role}-pass`).value;
             try {
                 if(pass) await createUserWithEmailAndPassword(auth, email, pass).catch(() => {});
-                await setDoc(doc(db, "profil", "sekolah"), { kamad: nama, kamadEmail: email }, { merge: true });
-                alert("Akun Kepala Madrasah berhasil disimpan!");
-            } catch(err) { alert("Error: " + err.message); }
-        }
-
-        window.simpanAkunWaka = async function() {
-            const nama = document.getElementById('waka-nama').value;
-            const email = document.getElementById('waka-email').value;
-            const pass = document.getElementById('waka-pass').value;
-            try {
-                if(pass) await createUserWithEmailAndPassword(auth, email, pass).catch(() => {});
-                await setDoc(doc(db, "profil", "sekolah"), { waka: nama, wakaEmail: email }, { merge: true });
-                alert("Akun Waka Kurikulum berhasil disimpan!");
+                const updateObj = {};
+                updateObj[role] = nama;
+                updateObj[`${role}Email`] = email;
+                await setDoc(doc(db, "profil", "sekolah"), updateObj, { merge: true });
+                alert(`Akun ${role === 'kamad' ? 'Kepala Madrasah' : 'Waka Kurikulum'} berhasil disimpan!`);
+                loadProfil();
             } catch(err) { alert("Error: " + err.message); }
         }
 
         // --- 4. DATA GURU ---
         window.bukaModalGuru = function(id = '', nama = '', nip = '', mapel = '', username = '') {
-            document.getElementById('guru-id').value = id;
-            document.getElementById('guru-nama').value = nama;
-            document.getElementById('guru-nip').value = nip;
-            document.getElementById('guru-mapel').value = mapel;
-            document.getElementById('guru-username').value = username;
-            document.getElementById('guru-password').value = '';
-            document.getElementById('modal-guru-title').innerText = id ? "Edit Data Guru" : "Tambah Data Guru";
-            document.getElementById('modal-guru').classList.remove('hidden');
+            document.getElementById('modal-guru-id').value = id;
+            document.getElementById('modal-guru-nama').value = nama;
+            document.getElementById('modal-guru-nip').value = nip;
+            document.getElementById('modal-guru-mapel').value = mapel;
+            document.getElementById('modal-guru-user').value = username;
+            document.getElementById('modal-guru-pass').value = '';
+            document.getElementById('modal-guru-title').innerText = id ? "Edit Data Guru" : "Input Data Guru Manual";
+            toggleModal('modal-guru');
         }
 
-        window.simpanDataGuru = async function(e) {
-            e.preventDefault();
-            const id = document.getElementById('guru-id').value;
-            const email = document.getElementById('guru-username').value;
-            const pass = document.getElementById('guru-password').value;
+        window.saveGuruManual = async function() {
+            const id = document.getElementById('modal-guru-id').value;
+            const email = document.getElementById('modal-guru-user').value;
+            const pass = document.getElementById('modal-guru-pass').value;
             const data = {
-                nama: document.getElementById('guru-nama').value,
-                nip: document.getElementById('guru-nip').value,
-                mapel: document.getElementById('guru-mapel').value,
+                nama: document.getElementById('modal-guru-nama').value,
+                nip: document.getElementById('modal-guru-nip').value,
+                mapel: document.getElementById('modal-guru-mapel').value,
                 username: email
             };
             try {
@@ -618,13 +842,13 @@
                 } else {
                     await addDoc(collection(db, "guru"), data);
                 }
-                tutupModal('modal-guru');
+                toggleModal('modal-guru');
                 loadDataGuru();
             } catch(err) { alert("Error: " + err.message); }
         }
 
         async function loadDataGuru() {
-            const tbody = document.getElementById('tabel-guru-body');
+            const tbody = document.getElementById('list-guru');
             tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-slate-400">Memuat data...</td></tr>';
             try {
                 const querySnapshot = await getDocs(collection(db, "guru"));
@@ -637,36 +861,35 @@
                     const d = docSnap.data();
                     tbody.innerHTML += `
                         <tr class="hover:bg-slate-50">
-                            <td class="p-3"><strong class="block text-slate-800">${d.nama}</strong><span class="text-[10px] text-slate-500">NIP: ${d.nip}</span></td>
-                            <td class="p-3 font-semibold text-emerald-700">${d.mapel}</td>
-                            <td class="p-3">${d.username}</td>
-                            <td class="p-3 text-center space-x-2">
+                            <td class="p-3 border-b"><strong class="block text-slate-800">${d.nama}</strong><span class="text-[10px] text-slate-500">NIP: ${d.nip}</span></td>
+                            <td class="p-3 border-b font-semibold text-emerald-700">${d.mapel}</td>
+                            <td class="p-3 border-b">${d.username}</td>
+                            <td class="p-3 border-b text-center space-x-2">
                                 <button onclick="bukaModalGuru('${docSnap.id}', '${d.nama}', '${d.nip}', '${d.mapel}', '${d.username}')" class="text-blue-600 hover:text-blue-800 font-bold"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button onclick="hapusData('guru', '${docSnap.id}', loadDataGuru)" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                     `;
                 });
-            } catch(err) { tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-red-500">Gagal memuat data guru.</td></tr>'; }
+            } catch(err) { tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-red-500">Gagal memuat guru.</td></tr>'; }
         }
 
         // --- 5. DATA SISWA ---
         window.bukaModalSiswa = function(id = '', nis = '', nama = '', rombel = '') {
-            document.getElementById('siswa-id').value = id;
-            document.getElementById('siswa-nis').value = nis;
-            document.getElementById('siswa-nama').value = nama;
-            document.getElementById('siswa-rombel').value = rombel;
-            document.getElementById('modal-siswa-title').innerText = id ? "Edit Data Siswa" : "Tambah Data Siswa";
-            document.getElementById('modal-siswa').classList.remove('hidden');
+            document.getElementById('modal-siswa-id').value = id;
+            document.getElementById('modal-siswa-nis').value = nis;
+            document.getElementById('modal-siswa-nama').value = nama;
+            document.getElementById('modal-siswa-rombel').value = rombel;
+            document.getElementById('modal-siswa-title').innerText = id ? "Edit Data Siswa" : "Input Data Siswa Manual";
+            toggleModal('modal-siswa');
         }
 
-        window.simpanDataSiswa = async function(e) {
-            e.preventDefault();
-            const id = document.getElementById('siswa-id').value;
+        window.saveSiswaManual = async function() {
+            const id = document.getElementById('modal-siswa-id').value;
             const data = {
-                nis: document.getElementById('siswa-nis').value,
-                nama: document.getElementById('siswa-nama').value,
-                rombel: document.getElementById('siswa-rombel').value
+                nis: document.getElementById('modal-siswa-nis').value,
+                nama: document.getElementById('modal-siswa-nama').value,
+                rombel: document.getElementById('modal-siswa-rombel').value
             };
             try {
                 if(id) {
@@ -674,13 +897,13 @@
                 } else {
                     await addDoc(collection(db, "siswa"), data);
                 }
-                tutupModal('modal-siswa');
+                toggleModal('modal-siswa');
                 loadDataSiswa();
             } catch(err) { alert("Error: " + err.message); }
         }
 
         async function loadDataSiswa() {
-            const tbody = document.getElementById('tabel-siswa-body');
+            const tbody = document.getElementById('list-siswa');
             tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-slate-400">Memuat data...</td></tr>';
             try {
                 const querySnapshot = await getDocs(collection(db, "siswa"));
@@ -693,10 +916,10 @@
                     const d = docSnap.data();
                     tbody.innerHTML += `
                         <tr class="hover:bg-slate-50">
-                            <td class="p-3 font-bold">${d.nis}</td>
-                            <td class="p-3">${d.nama}</td>
-                            <td class="p-3"><span class="bg-slate-100 px-2 py-0.5 rounded font-bold">${d.rombel}</span></td>
-                            <td class="p-3 text-center space-x-2">
+                            <td class="p-3 border-b font-bold">${d.nis}</td>
+                            <td class="p-3 border-b">${d.nama}</td>
+                            <td class="p-3 border-b"><span class="bg-slate-100 px-2 py-0.5 rounded font-bold">${d.rombel}</span></td>
+                            <td class="p-3 border-b text-center space-x-2">
                                 <button onclick="bukaModalSiswa('${docSnap.id}', '${d.nis}', '${d.nama}', '${d.rombel}')" class="text-blue-600 hover:text-blue-800 font-bold"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button onclick="hapusData('siswa', '${docSnap.id}', loadDataSiswa)" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i></button>
                             </td>
@@ -706,7 +929,7 @@
             } catch(err) { tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-red-500">Gagal memuat siswa.</td></tr>'; }
         }
 
-        // --- UTILITY HAPUS & MODAL ---
+        // --- UTILITY HAPUS ---
         window.hapusData = async function(colName, id, callback) {
             if(confirm("Yakin ingin menghapus data ini?")) {
                 try {
@@ -716,45 +939,30 @@
             }
         }
 
-        window.tutupModal = function(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
-        }
-
-        // --- EXCEL TEMPLATE & IMPORT ---
+        // --- EXCEL HANDLERS ---
         window.downloadTemplateGuru = function() {
-            const ws = XLSX.utils.json_to_sheet([
-                { Nama: "Ahmad Fauzi, S.Pd.I", NIP: "19800101...", Mapel: "Al-Qur'an Hadits", Username: "guru1@madrasah.sch.id", Password: "password123" }
-            ]);
+            const ws = XLSX.utils.json_to_sheet([{ Nama: "Ahmad Fauzi, S.Pd.I", NIP: "19800101...", Mapel: "Al-Qur'an Hadits", Username: "guru1@madrasah.sch.id", Password: "password123" }]);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Template Guru");
             XLSX.writeFile(wb, "Template_Data_Guru.xlsx");
         }
 
         window.downloadTemplateSiswa = function() {
-            const ws = XLSX.utils.json_to_sheet([
-                { NIS: "23240101", Nama: "Muhammad Rizki", Rombel: "VII-A" }
-            ]);
+            const ws = XLSX.utils.json_to_sheet([{ NIS: "23240101", Nama: "Muhammad Rizki", Rombel: "VII-A" }]);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Template Siswa");
             XLSX.writeFile(wb, "Template_Data_Siswa.xlsx");
         }
 
-        window.importExcelGuru = function(e) {
+        window.importGuruExcel = function(e) {
             const file = e.target.files[0];
             const reader = new FileReader();
             reader.onload = async function(evt) {
                 const data = new Uint8Array(evt.target.result);
                 const workbook = XLSX.read(data, {type: 'array'});
-                const sheetName = workbook.SheetNames[0];
-                const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-                
+                const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
                 for(let r of rows) {
-                    await addDoc(collection(db, "guru"), {
-                        nama: r.Nama,
-                        nip: String(r.NIP),
-                        mapel: r.Mapel,
-                        username: r.Username
-                    });
+                    await addDoc(collection(db, "guru"), { nama: r.Nama, nip: String(r.NIP), mapel: r.Mapel, username: r.Username });
                 }
                 alert("Impor Excel Guru Berhasil!");
                 loadDataGuru();
@@ -762,21 +970,15 @@
             reader.readAsArrayBuffer(file);
         }
 
-        window.importExcelSiswa = function(e) {
+        window.importSiswaExcel = function(e) {
             const file = e.target.files[0];
             const reader = new FileReader();
             reader.onload = async function(evt) {
                 const data = new Uint8Array(evt.target.result);
                 const workbook = XLSX.read(data, {type: 'array'});
-                const sheetName = workbook.SheetNames[0];
-                const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-                
+                const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
                 for(let r of rows) {
-                    await addDoc(collection(db, "siswa"), {
-                        nis: String(r.NIS),
-                        nama: r.Nama,
-                        rombel: r.Rombel
-                    });
+                    await addDoc(collection(db, "siswa"), { nis: String(r.NIS), nama: r.Nama, rombel: r.Rombel });
                 }
                 alert("Impor Excel Siswa Berhasil!");
                 loadDataSiswa();
