@@ -961,7 +961,7 @@
             } catch(err) { alert("Error: " + err.message); }
         }
 
-        // --- 4. DATA GURU ---
+        // --- 4. DATA GURU (DIPERBAIKI AGAR TERIKAT KE WINDOW) ---
         window.bukaModalGuru = function(id = '', nama = '', nip = '', mapel = '', username = '') {
             document.getElementById('modal-guru-id').value = id;
             document.getElementById('modal-guru-nama').value = nama;
@@ -1015,8 +1015,8 @@
                             <td class="p-3 border-b font-semibold text-emerald-700">${d.mapel}</td>
                             <td class="p-3 border-b">${d.username}</td>
                             <td class="p-3 border-b text-center space-x-2">
-                                <button onclick="bukaModalGuru('${docSnap.id}', '${d.nama}', '${d.nip}', '${d.mapel}', '${d.username}')" class="text-blue-600 hover:text-blue-800 font-bold"><i class="fa-solid fa-pen-to-square"></i></button>
-                                <button onclick="hapusData('guru', '${docSnap.id}', loadDataGuru)" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i></button>
+                                <button onclick="window.bukaModalGuru('${docSnap.id}', '${d.nama}', '${d.nip}', '${d.mapel}', '${d.username}')" class="text-blue-600 hover:text-blue-800 font-bold"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button onclick="window.hapusData('guru', '${docSnap.id}', loadDataGuru)" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                     `;
@@ -1070,8 +1070,8 @@
                             <td class="p-3 border-b">${d.nama}</td>
                             <td class="p-3 border-b"><span class="bg-slate-100 px-2 py-0.5 rounded font-bold">${d.rombel}</span></td>
                             <td class="p-3 border-b text-center space-x-2">
-                                <button onclick="bukaModalSiswa('${docSnap.id}', '${d.nis}', '${d.nama}', '${d.rombel}')" class="text-blue-600 hover:text-blue-800 font-bold"><i class="fa-solid fa-pen-to-square"></i></button>
-                                <button onclick="hapusData('siswa', '${docSnap.id}', loadDataSiswa)" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i></button>
+                                <button onclick="window.bukaModalSiswa('${docSnap.id}', '${d.nis}', '${d.nama}', '${d.rombel}')" class="text-blue-600 hover:text-blue-800 font-bold"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button onclick="window.hapusData('siswa', '${docSnap.id}', loadDataSiswa)" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                     `;
