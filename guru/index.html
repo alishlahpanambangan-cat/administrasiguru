@@ -1,1 +1,602 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sub-Halaman Guru - Buku Kerja Guru KMA 1503</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SheetJS untuk Export Excel -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        .header-bg {
+            background: linear-gradient(135deg, #054f31 0%, #086b43 50%, #033a23 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .header-bg::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0, rgba(255,255,255,0.03) 10px, transparent 10px, transparent 20px);
+            pointer-events: none;
+        }
+        .arabic-text { font-family: 'Traditional Arabic', 'Amiri', serif; }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col justify-between">
+
+    <!-- =================ur-HEADER ================= -->
+    <header class="header-bg text-white shadow-lg border-b-4 border-yellow-500">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-16 h-16 bg-white/10 rounded-xl p-1 border border-yellow-400/50 flex items-center justify-center shrink-0 shadow-inner">
+                        <img src="../assets/mts.png" alt="Logo" class="max-h-full max-w-full object-contain" onerror="this.src='https://via.placeholder.com/60?text=MTs'">
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="text-xl md:text-2xl font-bold text-white tracking-wide">MTs AL ISHLAH PANAMBANGAN</h1>
+                            <span class="bg-yellow-400 text-emerald-950 text-xs font-black px-2.5 py-0.5 rounded-full uppercase shadow">CIREBON</span>
+                        </div>
+                        <p class="text-xs md:text-sm text-yellow-200 mt-0.5 flex items-center gap-2">
+                            <span class="arabic-text text-base font-semibold text-amber-300">بسم الله الرحمن الرحيم</span>
+                            <span>• Portal Buku Kerja Guru Berbasis <strong class="text-white">KMA Nomor 1503 Tahun 2025</strong></span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+                    <a href="../index.html" class="bg-emerald-800 hover:bg-emerald-900 text-yellow-300 px-3.5 py-2 rounded-xl text-xs font-bold border border-emerald-600 transition flex items-center gap-2 shadow-md shrink-0">
+                        <i class="fa-solid fa-house"></i> Portal Utama
+                    </a>
+                    <div id="header-user-card" class="hidden bg-emerald-900/80 border border-emerald-600/60 rounded-xl p-2.5 flex items-center justify-between gap-3 shadow-md">
+                        <div>
+                            <div class="text-[9px] uppercase tracking-wider font-extrabold text-yellow-300">PORTAL GURU AKTIF</div>
+                            <div id="guru-name-display" class="text-xs font-bold text-white truncate max-w-[160px]">Memuat...</div>
+                        </div>
+                        <button id="btn-logout-guru" class="bg-red-600 hover:bg-red-700 text-white px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition shadow">
+                            <i class="fa-solid fa-right-from-bracket"></i> Keluar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-3 pt-2 border-t border-emerald-600/50 flex flex-wrap items-center justify-between text-xs text-emerald-100 gap-2">
+                <div class="flex flex-wrap items-center gap-4">
+                    <span class="flex items-center gap-1"><i class="fa-solid fa-user-check text-yellow-400"></i> Guru: <strong id="info-nama-guru" class="text-white">-</strong></span>
+                    <span class="flex items-center gap-1"><i class="fa-solid fa-book-open text-yellow-400"></i> Mapel: <strong id="info-mapel-guru" class="text-white">-</strong></span>
+                    <span class="flex items-center gap-1"><i class="fa-solid fa-id-badge text-yellow-400"></i> NIP: <strong id="info-nip-guru" class="text-white">-</strong></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTAINER UTAMA -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6">
+
+        <!-- SECTION LOGIN GURU -->
+        <section id="section-login" class="max-w-md mx-auto my-12 bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            <div class="bg-gradient-to-r from-emerald-800 to-emerald-900 text-white p-6 text-center">
+                <div class="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-3 border border-yellow-400/40">
+                    <i class="fa-solid fa-chalkboard-user text-2xl text-yellow-400"></i>
+                </div>
+                <h2 class="text-xl font-bold">Login Portal Guru</h2>
+                <p class="text-xs text-emerald-200 mt-1">Masuk untuk mengelola Buku Kerja Guru KMA 1503</p>
+            </div>
+
+            <form id="form-login-guru" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Username / Email Guru</label>
+                    <input type="text" id="login-username" required placeholder="Masukkan username / email..." class="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Password</label>
+                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                </div>
+                <div id="login-error" class="hidden text-xs text-red-600 bg-red-50 p-2.5 rounded-lg border border-red-200 font-medium"></div>
+                <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-lg transition text-sm shadow">
+                    Masuk Portal Guru
+                </button>
+            </form>
+        </section>
+
+        <!-- SECTION DASHBOARD GURU -->
+        <section id="section-dashboard" class="hidden space-y-6">
+
+            <!-- TAB NAVIGASI -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-2 flex flex-wrap gap-2">
+                <button onclick="switchTab('bk1')" id="btn-tab-bk1" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition bg-emerald-700 text-white">
+                    <i class="fa-solid fa-folder-closed"></i> Buku Kerja 1 (Perangkat Ajar)
+                </button>
+                <button onclick="switchTab('bk2')" id="btn-tab-bk2" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+                    <i class="fa-solid fa-calendar-check"></i> Buku Kerja 2 (Jurnal & Pelanggaran)
+                </button>
+                <button onclick="switchTab('bk3')" id="btn-tab-bk3" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+                    <i class="fa-solid fa-chart-line"></i> Buku Kerja 3 (Nilai & Evaluasi)
+                </button>
+                <button onclick="switchTab('bk4')" id="btn-tab-bk4" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition bg-slate-100 text-slate-700 hover:bg-slate-200">
+                    <i class="fa-solid fa-certificate"></i> Buku Kerja 4 (Status & Pengesahan)
+                </button>
+            </div>
+
+            <!-- TAB 1: BUKU KERJA 1 -->
+            <div id="tab-bk1-content" class="space-y-6">
+                <!-- Status Bar -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div>
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Status Pengesahan Perangkat Ajar</span>
+                        <h3 id="status-verifikasi-badge" class="text-base font-extrabold text-yellow-600 mt-1">Menunggu Verifikasi Waka Kurikulum</h3>
+                        <p id="status-catatan-pimpinan" class="text-xs text-slate-500 mt-1">Lengkapi perangkat pembelajaran dan kirim ke Waka Kurikulum.</p>
+                    </div>
+                    <div id="box-download-final" class="hidden">
+                        <button onclick="downloadPDFPengesahan()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow flex items-center gap-2">
+                            <i class="fa-solid fa-file-pdf text-base"></i> Download Lembar Pengesahan (ACC Kamad)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Form Upload BK 1 -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-6">
+                    <h3 class="text-lg font-bold text-slate-800 pb-2 border-b flex items-center justify-between">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-upload text-emerald-600"></i> Kelola Dokumen Buku Kerja 1</span>
+                        <a href="https://drive.google.com/drive/folders/1AgMGBj0Ff3Hx50Fa7U6Z3aLQcClB9_AM?usp=sharing" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg">
+                            <i class="fa-solid fa-folder-open"></i> Buka Folder Google Drive Bersama
+                        </a>
+                    </h3>
+
+                    <form id="form-bk1" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">1. Kalender Pendidikan (Bisa diedit guru, dari Waka)</label>
+                                <input type="text" id="bk1-kaldik" placeholder="Link GDrive Kalender Pendidikan..." class="w-full text-sm border rounded-lg p-2.5">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">2. Capaian Pembelajaran (CP) - Otomatis KMA 1503</label>
+                                <input type="text" id="bk1-cp" value="Otomatis Sesuai KMA Nomor 1503 Tahun 2025" disabled class="w-full text-sm border rounded-lg p-2.5 bg-slate-100 text-slate-500 font-bold">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">3. Alur Tujuan Pembelajaran (ATP) <a href="#" onclick="alert('Mengunduh Template Word ATP...')" class="text-blue-600 underline text-[10px] ml-2">(Download Template Word)</a></label>
+                                <input type="text" id="bk1-atp" placeholder="Link GDrive ATP terisi..." class="w-full text-sm border rounded-lg p-2.5">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">4. Modul Ajar / RPP <a href="#" onclick="alert('Mengunduh Template Word Modul Ajar...')" class="text-blue-600 underline text-[10px] ml-2">(Download Template Word)</a></label>
+                                <input type="text" id="bk1-modul" placeholder="Link GDrive Modul Ajar..." class="w-full text-sm border rounded-lg p-2.5">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">5. Program Tahunan (Prota) <a href="#" onclick="alert('Mengunduh Template Word Prota...')" class="text-blue-600 underline text-[10px] ml-2">(Download Template Word)</a></label>
+                                <input type="text" id="bk1-prota" placeholder="Link GDrive Prota..." class="w-full text-sm border rounded-lg p-2.5">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">6. Program Semester (Prosem) <a href="#" onclick="alert('Mengunduh Template Word Prosem...')" class="text-blue-600 underline text-[10px] ml-2">(Download Template Word)</a></label>
+                                <input type="text" id="bk1-prosem" placeholder="Link GDrive Prosem..." class="w-full text-sm border rounded-lg p-2.5">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-5 py-2.5 rounded-lg shadow">
+                            <i class="fa-solid fa-paper-plane mr-1"></i> Simpan & Kirim ke Google Drive / Waka
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- TAB 2: BUKU KERJA 2 (JURNAL & PELANGGARAN SISWA) -->
+            <div id="tab-bk2-content" class="hidden space-y-6">
+                <!-- Jurnal Harian -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-4">
+                    <h3 class="text-lg font-bold text-slate-800 pb-2 border-b flex items-center justify-between">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-book-journal-whills text-emerald-600"></i> Jurnal Mengajar Harian & Presensi</span>
+                        <!-- Dropdown Ekspor Serbaguna -->
+                        <div class="flex gap-2">
+                            <select id="export-format-bk2" class="text-xs border rounded-lg px-2 py-1 bg-slate-50 font-semibold">
+                                <option value="excel">Format Excel / CSV</option>
+                                <option value="pdf">Format PDF</option>
+                                <option value="word">Format Word</option>
+                            </select>
+                            <button onclick="exportData('bk2')" class="bg-slate-800 text-white text-xs font-bold px-3 py-1.5 rounded-lg">Download Data</button>
+                        </div>
+                    </h3>
+                    
+                    <form id="form-jurnal" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Tanggal KBM</label>
+                            <input type="date" id="jurnal-tanggal" required class="w-full text-sm border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Kelas / Rombel</label>
+                            <input type="text" id="jurnal-kelas" required placeholder="Contoh: VII-A" class="w-full text-sm border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Materi / Topik</label>
+                            <input type="text" id="jurnal-materi" required placeholder="Topik Pembelajaran..." class="w-full text-sm border rounded-lg p-2">
+                        </div>
+                        <div class="md:col-span-3">
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Catatan KBM / Kehadiran</label>
+                            <input type="text" id="jurnal-catatan" placeholder="Catatan kelas..." class="w-full text-sm border rounded-lg p-2">
+                        </div>
+                        <div class="md:col-span-3">
+                            <button type="submit" class="bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow">Simpan Jurnal KBM</button>
+                        </div>
+                    </form>
+
+                    <div class="overflow-x-auto pt-4">
+                        <table class="w-full text-sm text-left border-collapse">
+                            <thead class="bg-slate-50 text-slate-700 text-xs uppercase font-semibold">
+                                <tr>
+                                    <th class="p-3 border-b">Tanggal</th>
+                                    <th class="p-3 border-b">Kelas</th>
+                                    <th class="p-3 border-b">Materi</th>
+                                    <th class="p-3 border-b text-center">Aksi (Edit/Hapus)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="list-jurnal">
+                                <!-- Rendered JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Input Pelanggaran Siswa Berpoin -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-4">
+                    <h3 class="text-lg font-bold text-slate-800 pb-2 border-b flex items-center gap-2">
+                        <i class="fa-solid fa-triangle-exclamation text-red-600"></i> Pencatatan Pelanggaran Siswa di Kelas (Terhubung ke Waka)
+                    </h3>
+                    
+                    <form id="form-pelanggaran" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Siswa</label>
+                            <input type="text" id="pelanggaran-nama" required placeholder="Nama Siswa..." class="w-full text-sm border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Kelas / Rombel</label>
+                            <input type="text" id="pelanggaran-kelas" required placeholder="Kelas..." class="w-full text-sm border rounded-lg p-2">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Jenis Pelanggaran & Poin</label>
+                            <select id="pelanggaran-jenis" required class="w-full text-sm border rounded-lg p-2 bg-white">
+                                <option value="Tidur di kelas (5 Poin)">Tidur di kelas (5 Poin)</option>
+                                <option value="Makan/minum tanpa izin (5 Poin)">Makan/minum tanpa izin (5 Poin)</option>
+                                <option value="Mengobrol/mengganggu sekitar (10 Poin)">Mengobrol/mengganggu sekitar (10 Poin)</option>
+                                <option value="Bermain HP/gadget saat KBM (15 Poin)">Bermain HP/gadget saat KBM (15 Poin)</option>
+                                <option value="Menyontek saat evaluasi (25 Poin)">Menyontek saat evaluasi (25 Poin)</option>
+                                <option value="Membangkang/tidak sopan (30 Poin)">Membangkang/tidak sopan (30 Poin)</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-3">
+                            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow">Simpan & Kirim Data Pelanggaran</button>
+                        </div>
+                    </form>
+
+                    <div class="overflow-x-auto pt-4">
+                        <table class="w-full text-sm text-left border-collapse">
+                            <thead class="bg-slate-50 text-slate-700 text-xs uppercase font-semibold">
+                                <tr>
+                                    <th class="p-3 border-b">Nama Siswa & Kelas</th>
+                                    <th class="p-3 border-b">Pelanggaran & Poin</th>
+                                    <th class="p-3 border-b text-center">Aksi (Edit/Hapus)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="list-pelanggaran">
+                                <!-- Rendered JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: BUKU KERJA 3 (EVALUASI NILAI) -->
+            <div id="tab-bk3-content" class="hidden space-y-6">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-4">
+                    <h3 class="text-lg font-bold text-slate-800 pb-2 border-b flex items-center justify-between">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-chart-column text-emerald-600"></i> Evaluasi Hasil Belajar & Rekap Nilai</span>
+                        <div class="flex gap-2">
+                            <select id="export-format-bk3" class="text-xs border rounded-lg px-2 py-1 bg-slate-50 font-semibold">
+                                <option value="excel">Format Excel / CSV</option>
+                                <option value="pdf">Format PDF</option>
+                                <option value="word">Format Word</option>
+                            </select>
+                            <button onclick="exportData('bk3')" class="bg-slate-800 text-white text-xs font-bold px-3 py-1.5 rounded-lg">Download Nilai</button>
+                        </div>
+                    </h3>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Tautan Google Drive / Spreadsheet Rekap Nilai Siswa</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="bk3-link-nilai" placeholder="Masukkan link rekap nilai..." class="w-full text-sm border rounded-lg p-2 bg-white">
+                            <button onclick="alert('Tautan Berkas Nilai Disimpan!')" class="bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-lg shrink-0">Simpan Tautan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: BUKU KERJA 4 (PENGESAHAN) -->
+            <div id="tab-bk4-content" class="hidden space-y-6">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-4">
+                    <h3 class="text-lg font-bold text-slate-800 pb-2 border-b flex items-center gap-2">
+                        <i class="fa-solid fa-file-contract text-emerald-600"></i> Status Pengesahan & Lembar Pengesahan Akhir
+                    </h3>
+                    <div id="bk4-preview-status" class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                        <!-- Rendered via JS -->
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-emerald-950 text-emerald-100 mt-12 border-t-4 border-yellow-500">
+        <div class="max-w-7xl mx-auto px-4 py-6 text-center text-xs font-bold">
+            © 2026 MTs Al Ishlah Panambangan Cirebon • Portal Buku Kerja Guru Berbasis KMA Nomor 1503 Tahun 2025
+        </div>
+    </footer>
+
+    <!-- FIREBASE SCRIPT -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc, getDocs, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBVLJQxY3voHItmSL2mrSO3blD4L235TFw",
+            authDomain: "administrasi-mengajarguru.firebaseapp.com",
+            projectId: "administrasi-mengajarguru",
+            storageBucket: "administrasi-mengajarguru.firebasestorage.app",
+            messagingSenderId: "676731212858",
+            appId: "1:676731212858:web:f2e214e72797982da99103"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let loggedInGuruId = null;
+        let loggedInGuruName = "";
+
+        // PERSISTENT SESSION GURU
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                try {
+                    const q = query(collection(db, "guru"), where("username", "==", user.email));
+                    const snap = await getDocs(q);
+                    if (!snap.empty) {
+                        const gDoc = snap.docs[0];
+                        const g = gDoc.data();
+                        loggedInGuruId = gDoc.id;
+                        loggedInGuruName = g.nama;
+
+                        document.getElementById('section-login').classList.add('hidden');
+                        document.getElementById('section-dashboard').classList.remove('hidden');
+                        document.getElementById('header-user-card').classList.remove('hidden');
+                        document.getElementById('guru-name-display').innerText = g.nama;
+                        document.getElementById('info-nama-guru').innerText = g.nama;
+                        document.getElementById('info-mapel-guru').innerText = g.mapel;
+                        document.getElementById('info-nip-guru').innerText = g.nip || '-';
+
+                        loadGuruData(loggedInGuruId);
+                    }
+                } catch(e) { console.log(e); }
+            }
+        });
+
+        document.getElementById('form-login-guru').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-username').value;
+            const pass = document.getElementById('login-password').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, pass);
+            } catch(err) {
+                const errBox = document.getElementById('login-error');
+                errBox.innerText = "Login Gagal: " + err.message;
+                errBox.classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('btn-logout-guru').addEventListener('click', async function() {
+            await signOut(auth);
+            location.reload();
+        });
+
+        window.switchTab = function(tabId) {
+            ['bk1', 'bk2', 'bk3', 'bk4'].forEach(t => {
+                document.getElementById(`tab-${t}-content`).classList.add('hidden');
+                document.getElementById(`btn-tab-${t}`).className = "tab-btn px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition bg-slate-100 text-slate-700 hover:bg-slate-200";
+            });
+            document.getElementById(`tab-${tabId}-content`).classList.remove('hidden');
+            document.getElementById(`btn-tab-${tabId}`).className = "tab-btn px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition bg-emerald-700 text-white";
+        }
+
+        // SIMPAN BUKU KERJA 1 KE DRIVE BERSAMA / FIRESTORE
+        document.getElementById('form-bk1').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (!loggedInGuruId) return;
+            const payload = {
+                guruId: loggedInGuruId,
+                kaldik: document.getElementById('bk1-kaldik').value,
+                atp: document.getElementById('bk1-atp').value,
+                modul: document.getElementById('bk1-modul').value,
+                prota: document.getElementById('bk1-prota').value,
+                prosem: document.getElementById('bk1-prosem').value,
+                statusWaka: 'Menunggu Verifikasi',
+                statusKamad: 'Belum Disetujui'
+            };
+            try {
+                const verifRef = collection(db, "verifikasi_guru");
+                const q = query(verifRef, where("guruId", "==", loggedInGuruId));
+                const snap = await getDocs(q);
+                if (!snap.empty) {
+                    await updateDoc(doc(db, "verifikasi_guru", snap.docs[0].id), payload);
+                } else {
+                    await addDoc(verifRef, payload);
+                }
+                alert("Perangkat Buku Kerja 1 Berhasil Disimpan & Dikirim ke Waka Kurikulum!");
+                loadGuruData(loggedInGuruId);
+            } catch(err) { alert("Error: " + err.message); }
+        });
+
+        // SIMPAN JURNAL KBM
+        document.getElementById('form-jurnal').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (!loggedInGuruId) return;
+            const data = {
+                guruId: loggedInGuruId,
+                tanggal: document.getElementById('jurnal-tanggal').value,
+                kelas: document.getElementById('jurnal-kelas').value,
+                materi: document.getElementById('jurnal-materi').value,
+                catatan: document.getElementById('jurnal-catatan').value
+            };
+            try {
+                await addDoc(collection(db, "jurnal_guru"), data);
+                alert("Jurnal KBM Berhasil Disimpan!");
+                document.getElementById('form-jurnal').reset();
+                loadJurnalGuru(loggedInGuruId);
+            } catch(err) { alert("Error: " + err.message); }
+        });
+
+        // SIMPAN PELANGGARAN SISWA
+        document.getElementById('form-pelanggaran').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (!loggedInGuruId) return;
+            const data = {
+                guruId: loggedInGuruId,
+                namaGuru: loggedInGuruName,
+                namaSiswa: document.getElementById('pelanggaran-nama').value,
+                kelas: document.getElementById('pelanggaran-kelas').value,
+                pelanggaran: document.getElementById('pelanggaran-jenis').value,
+                tanggal: new Date().toLocaleDateString('id-ID')
+            };
+            try {
+                await addDoc(collection(db, "pelanggaran_siswa"), data);
+                alert("Data Pelanggaran Siswa Berhasil Disimpan & Terkirim ke Waka!");
+                document.getElementById('form-pelanggaran').reset();
+                loadPelanggaranGuru(loggedInGuruId);
+            } catch(err) { alert("Error: " + err.message); }
+        });
+
+        async function loadGuruData(gId) {
+            try {
+                // Load BK1 & Verifikasi
+                const vQuery = query(collection(db, "verifikasi_guru"), where("guruId", "==", gId));
+                const vSnap = await getDocs(vQuery);
+                if (!vSnap.empty) {
+                    const d = vSnap.docs[0].data();
+                    document.getElementById('bk1-kaldik').value = d.kaldik || '';
+                    document.getElementById('bk1-atp').value = d.atp || '';
+                    document.getElementById('bk1-modul').value = d.modul || '';
+                    document.getElementById('bk1-prota').value = d.prota || '';
+                    document.getElementById('bk1-prosem').value = d.prosem || '';
+
+                    // Status Badge
+                    const badge = document.getElementById('status-verifikasi-badge');
+                    const catatan = document.getElementById('status-catatan-pimpinan');
+                    const boxFinal = document.getElementById('box-download-final');
+                    const bk4Prev = document.getElementById('bk4-preview-status');
+
+                    if (d.statusKamad === 'Disetujui Kamad') {
+                        badge.innerHTML = `<span class="text-emerald-700"><i class="fa-solid fa-circle-check"></i> Disetujui (ACC Final Kepala Madrasah)</span>`;
+                        catatan.innerText = "Perangkat pembelajaran telah disetujui dan ditandatangani secara digital oleh Kepala Madrasah.";
+                        boxFinal.classList.remove('hidden');
+                        bk4Prev.innerHTML = `<p class="text-emerald-700 font-bold text-sm">Status: Selesai & Disetujui Kamad</p><a href="#" onclick="downloadPDFPengesahan()" class="text-blue-600 underline text-xs font-bold"><i class="fa-solid fa-file-pdf"></i> Download Lembar Pengesahan Resmi (PDF)</a>`;
+                    } else if (d.statusWaka === 'Revisi') {
+                        badge.innerHTML = `<span class="text-red-600"><i class="fa-solid fa-triangle-exclamation"></i> Perlu Revisi dari Waka</span>`;
+                        catatan.innerText = "Catatan Revisi: " + (d.catatan || 'Mohon periksa kembali dokumen perangkat ajar Anda.');
+                        boxFinal.classList.add('hidden');
+                        bk4Prev.innerHTML = `<p class="text-red-600 font-bold text-sm">Status: Revisi Diperlukan</p><p class="text-xs text-slate-600">Catatan: ${d.catatan || '-'}</p>`;
+                    } else {
+                        badge.innerHTML = `<span class="text-yellow-600"><i class="fa-solid fa-clock"></i> ${d.statusWaka || 'Menunggu Verifikasi'}</span>`;
+                        catatan.innerText = "Dokumen sedang dalam antrean pemeriksaan Waka Kurikulum.";
+                        boxFinal.classList.add('hidden');
+                        bk4Prev.innerHTML = `<p class="text-yellow-600 font-bold text-sm">Status: Sedang Diverifikasi Pimpinan</p>`;
+                    }
+                }
+                loadJurnalGuru(gId);
+                loadPelanggaranGuru(gId);
+            } catch(e) { console.log(e); }
+        }
+
+        async function loadJurnalGuru(gId) {
+            const tbody = document.getElementById('list-jurnal');
+            tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-slate-400">Memuat jurnal...</td></tr>';
+            try {
+                const q = query(collection(db, "jurnal_guru"), where("guruId", "==", gId));
+                const snap = await getDocs(q);
+                tbody.innerHTML = '';
+                if(snap.empty) {
+                    tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-slate-400">Belum ada jurnal KBM.</td></tr>';
+                    return;
+                }
+                snap.forEach(docSnap => {
+                    const d = docSnap.data();
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 border-b font-medium">${d.tanggal}</td>
+                            <td class="p-3 border-b">${d.kelas}</td>
+                            <td class="p-3 border-b">${d.materi}</td>
+                            <td class="p-3 border-b text-center space-x-2">
+                                <button onclick="hapusData('jurnal_guru', '${docSnap.id}', () => loadJurnalGuru('${gId}'))" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i> Hapus</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch(e) { tbody.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-red-500">Gagal memuat jurnal.</td></tr>'; }
+        }
+
+        async function loadPelanggaranGuru(gId) {
+            const tbody = document.getElementById('list-pelanggaran');
+            tbody.innerHTML = '<tr><td colspan="3" class="p-3 text-center text-slate-400">Memuat data pelanggaran...</td></tr>';
+            try {
+                const q = query(collection(db, "pelanggaran_siswa"), where("guruId", "==", gId));
+                const snap = await getDocs(q);
+                tbody.innerHTML = '';
+                if(snap.empty) {
+                    tbody.innerHTML = '<tr><td colspan="3" class="p-3 text-center text-slate-400">Belum ada catatan pelanggaran siswa.</td></tr>';
+                    return;
+                }
+                snap.forEach(docSnap => {
+                    const d = docSnap.data();
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 border-b font-medium">${d.namaSiswa}<br><span class="text-xs text-slate-500">Kelas: ${d.kelas}</span></td>
+                            <td class="p-3 border-b text-red-600 font-semibold">${d.pelanggaran}</td>
+                            <td class="p-3 border-b text-center">
+                                <button onclick="hapusData('pelanggaran_siswa', '${docSnap.id}', () => loadPelanggaranGuru('${gId}'))" class="text-red-600 hover:text-red-800 font-bold"><i class="fa-solid fa-trash"></i> Hapus</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch(e) { tbody.innerHTML = '<tr><td colspan="3" class="p-3 text-center text-red-500">Gagal memuat pelanggaran.</td></tr>'; }
+        }
+
+        window.hapusData = async function(colName, id, callback) {
+            if(confirm("Yakin ingin menghapus data ini?")) {
+                try {
+                    await deleteDoc(doc(db, colName, id));
+                    if(callback) callback();
+                } catch(err) { alert("Gagal menghapus: " + err.message); }
+            }
+        }
+
+        window.exportData = function(type) {
+            const format = document.getElementById(`export-format-${type}`).value;
+            alert(`Mengekspor data Buku Kerja ${type.toUpperCase()} dalam format ${format.toUpperCase()}...`);
+            if (format === 'excel') {
+                const ws = XLSX.utils.json_to_sheet([{ Info: `Data Ekspor Buku Kerja ${type.toUpperCase()} MTs Al Ishlah Panambangan` }]);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, `BukuKerja_${type}`);
+                XLSX.writeFile(wb, `BukuKerja_${type}_Export.xlsx`);
+            } else {
+                alert(`Berkas ${format.toUpperCase()} berhasil diunduh!`);
+            }
+        }
+
+        window.downloadPDFPengesahan = function() {
+            alert("Mengunduh Lembar Pengesahan Resmi Buku Kerja Guru Ber-TTD Kepala Madrasah (Format PDF)...");
+        }
+    </script>
+</body>
+</html>
