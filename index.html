@@ -20,7 +20,7 @@
 <body class="bg-gray-100 min-h-screen flex flex-col justify-between font-sans">
 
     <!-- HEADER -->
-    <header class="bg-pattern text-white border-b-4 border-amber-400">
+    <header class="bg-pattern text-white border-b-4 border-amber-400 relative z-50">
         <div class="max-w-7xl mx-auto px-4 py-4">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                 
@@ -38,19 +38,28 @@
                     </div>
                 </div>
 
-                <!-- Navigasi & Akun -->
+                <!-- Navigasi & Tombol Dropdown Login -->
                 <div class="flex items-center gap-3">
                     <a href="index.html" class="border border-emerald-400 bg-emerald-800/50 hover:bg-emerald-700 text-amber-300 px-3 py-1.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
                         <i class="fa-solid font-bold fa-house"></i> Portal Utama
                     </a>
-                    <div class="border border-emerald-600 bg-emerald-900/60 rounded-lg px-3 py-1 flex items-center gap-3">
-                        <div class="text-right">
-                            <p class="text-[10px] text-amber-300 font-bold uppercase tracking-wider">AKUN WAKA AKTIF</p>
-                            <p class="text-xs font-mono font-bold text-white">91000079121840</p>
-                        </div>
-                        <button class="bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 rounded text-xs font-bold flex items-center gap-1 transition">
-                            <i class="fa-solid fa-right-from-bracket"></i> Keluar
+                    
+                    <!-- Dropdown Login Container -->
+                    <div class="relative">
+                        <button id="loginDropdownBtn" class="bg-amber-400 hover:bg-amber-500 text-emerald-950 px-4 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 shadow transition">
+                            <i class="fa-solid fa-right-to-bracket"></i> Login <i class="fa-solid fa-chevron-down text-xs ml-1"></i>
                         </button>
+                        
+                        <!-- Menu Dropdown -->
+                        <div id="loginDropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-200 py-2 text-gray-800 z-50">
+                            <div class="px-3 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Pilih Hak Akses</div>
+                            <a href="admin/index.html" class="flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold hover:bg-emerald-50 hover:text-emerald-800 transition">
+                                <i class="fa-solid fa-user-gear text-emerald-700 w-4"></i> Login Admin
+                            </a>
+                            <a href="guru/index.html" class="flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold hover:bg-amber-50 hover:text-amber-800 transition">
+                                <i class="fa-solid fa-chalkboard-user text-amber-600 w-4"></i> Login Guru
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -184,6 +193,25 @@
             © 2026 MTs Al Ishlah Panambangan • Aplikasi Buku Kerja Guru Berbasis KMA Nomor 1503 Tahun 2025
         </div>
     </footer>
+
+    <!-- Script untuk Interaksi Dropdown & Firebase -->
+    <script>
+        // Logika Dropdown Tombol Login
+        const dropdownBtn = document.getElementById('loginDropdownBtn');
+        const dropdownMenu = document.getElementById('loginDropdownMenu');
+
+        dropdownBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('hidden');
+        });
+
+        // Tutup dropdown jika mengklik di luar area tombol/menu
+        window.addEventListener('click', () => {
+            if (!dropdownMenu.classList.contains('hidden')) {
+                dropdownMenu.classList.add('hidden');
+            }
+        });
+    </script>
 
     <!-- Firebase SDK Integration -->
     <script type="module">
