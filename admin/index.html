@@ -1,1 +1,344 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Admin - MTsS Al Ishlah Panambangan</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .bg-pattern {
+            background-color: #064e3b;
+            background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.03) 0, rgba(255, 255, 255, 0.03) 10px, transparent 0, transparent 20px);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col justify-between font-sans">
 
+    <!-- HEADER -->
+    <header class="bg-pattern text-white border-b-4 border-amber-400 relative z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                
+                <!-- Identitas Madrasah -->
+                <div class="flex items-center gap-3">
+                    <img src="../assets/mts.png" alt="Logo MTs" class="w-16 h-16 object-contain">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="text-xl md:text-2xl font-bold tracking-wide">MTsS Al Ishlah Panambangan</h1>
+                            <span class="bg-emerald-600 text-white text-xs font-extrabold px-2 py-0.5 rounded-full uppercase border border-emerald-400">Portal Admin</span>
+                        </div>
+                        <p class="text-xs md:text-sm text-emerald-100 italic mt-0.5">
+                            <span class="font-semibold">بسم الله الرحمن الرحيم</span> • Panel Kontrol & Administrasi Buku Kerja Guru
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Navigasi Cepat & Keluar -->
+                <div class="flex items-center gap-3">
+                    <a href="../index.html" class="border border-emerald-400 bg-emerald-800/50 hover:bg-emerald-700 text-amber-300 px-3 py-1.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
+                        <i class="fa-solid font-bold fa-house"></i> Portal Utama
+                    </a>
+                    <a href="../index.html" class="bg-red-600 hover:bg-red-700 text-white px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 shadow transition">
+                        <i class="fa-solid fa-right-from-bracket"></i> Keluar
+                    </a>
+                </div>
+            </div>
+
+            <!-- Detail Info Tambahan -->
+            <div class="mt-4 pt-2 border-t border-emerald-700/60 flex flex-wrap justify-between items-center text-xs text-emerald-100 gap-2">
+                <div class="flex items-center gap-4">
+                    <span><i class="fa-solid fa-address-card text-amber-400 mr-1"></i> <strong>NSM:</strong> 121232090014</span>
+                    <span><i class="fa-solid fa-school text-amber-400 mr-1"></i> <strong>NPSN:</strong> 20278857</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="bg-emerald-900/80 px-2 py-0.5 rounded border border-emerald-700">Status: <strong class="text-amber-300">Admin Aktif</strong></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENT UTAMA ADMIN -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
+        
+        <!-- Welcome Banner -->
+        <div class="bg-gradient-to-r from-emerald-800 to-teal-900 text-white rounded-xl p-6 shadow-md mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h2 class="text-2xl font-bold mb-1">Dashboard Pengelolaan Data</h2>
+                <p class="text-emerald-100 text-sm">
+                    Kelola data master mata pelajaran, guru, kelas, rombel, dan siswa berdasarkan standar KMA Nomor 1503 Tahun 2025.
+                </p>
+            </div>
+            <div class="bg-emerald-900/80 border border-emerald-600 px-4 py-2.5 rounded-xl text-center">
+                <span class="block text-[10px] text-amber-300 font-bold uppercase tracking-wider">Tahun Ajaran</span>
+                <span class="text-sm font-bold text-white">2026/2027 (Ganjil)</span>
+            </div>
+        </div>
+
+        <!-- TAB NAVIGASI MODUL ADMIN -->
+        <div class="flex flex-wrap gap-2 mb-6 border-b border-gray-200 pb-3">
+            <button onclick="switchTab('mapel')" id="btn-mapel" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold bg-emerald-800 text-white shadow transition flex items-center gap-2">
+                <i class="fa-solid fa-book"></i> 1. Mata Pelajaran
+            </button>
+            <button onclick="switchTab('kelas')" id="btn-kelas" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 transition flex items-center gap-2">
+                <i class="fa-solid fa-school-flag"></i> 2. Data Kelas & Rombel
+            </button>
+            <button onclick="switchTab('guru')" id="btn-guru" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 transition flex items-center gap-2">
+                <i class="fa-solid fa-chalkboard-user"></i> 3. Data Guru
+            </button>
+            <button onclick="switchTab('siswa')" id="btn-siswa" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 transition flex items-center gap-2">
+                <i class="fa-solid fa-user-graduate"></i> 4. Data Siswa
+            </button>
+        </div>
+
+        <!-- KONTEN TAB: 1. MATA PELAJARAN -->
+        <div id="tab-mapel" class="tab-content bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800">Manajemen Mata Pelajaran</h3>
+                    <p class="text-xs text-gray-500">Atur daftar mata pelajaran yang nantinya akan dipilih saat penginputan data guru.</p>
+                </div>
+                <button class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow transition flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i> Tambah Mapel
+                </button>
+            </div>
+            <!-- Tabel Simulasi Data Mapel -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-emerald-50 text-emerald-900 border-b border-gray-200">
+                            <th class="p-3 font-bold">No</th>
+                            <th class="p-3 font-bold">Kode Mapel</th>
+                            <th class="p-3 font-bold">Nama Mata Pelajaran</th>
+                            <th class="p-3 font-bold">Fase</th>
+                            <th class="p-3 font-bold text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 text-gray-700">
+                        <tr>
+                            <td class="p-3">1</td>
+                            <td class="p-3 font-mono font-semibold">PAI-01</td>
+                            <td class="p-3 font-semibold">Al-Qur'an Hadis / Fikih / Akidah Akhlak</td>
+                            <td class="p-3"><span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold">Fase D</span></td>
+                            <td class="p-3 text-center">
+                                <button class="text-blue-600 hover:text-blue-800 mr-2"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="text-red-600 hover:text-red-800"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-3">2</td>
+                            <td class="p-3 font-mono font-semibold">MAT-02</td>
+                            <td class="p-3 font-semibold">Matematika</td>
+                            <td class="p-3"><span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold">Fase D</span></td>
+                            <td class="p-3 text-center">
+                                <button class="text-blue-600 hover:text-blue-800 mr-2"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="text-red-600 hover:text-red-800"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- KONTEN TAB: 2. DATA KELAS & ROMBEL -->
+        <div id="tab-kelas" class="tab-content hidden bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800">Manajemen Tingkat & Rombel Kelas</h3>
+                    <p class="text-xs text-gray-500">Tingkat menggunakan pilihan dropdown (VII, VIII, IX) dan rombel diisi manual.</p>
+                </div>
+                <button class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow transition flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i> Tambah Kelas
+                </button>
+            </div>
+            <!-- Tabel Simulasi Data Kelas -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-emerald-50 text-emerald-900 border-b border-gray-200">
+                            <th class="p-3 font-bold">No</th>
+                            <th class="p-3 font-bold">Tingkat (Dropdown Acuan)</th>
+                            <th class="p-3 font-bold">Nama Rombel / Kelas (Manual)</th>
+                            <th class="p-3 font-bold text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 text-gray-700">
+                        <tr>
+                            <td class="p-3">1</td>
+                            <td class="p-3"><span class="bg-blue-100 text-blue-800 px-2.5 py-0.5 rounded font-bold">VII (Tujuh)</span></td>
+                            <td class="p-3 font-semibold">VII-A</td>
+                            <td class="p-3 text-center">
+                                <button class="text-blue-600 hover:text-blue-800 mr-2"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="text-red-600 hover:text-red-800"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-3">2</td>
+                            <td class="p-3"><span class="bg-blue-100 text-blue-800 px-2.5 py-0.5 rounded font-bold">VIII (Delapan)</span></td>
+                            <td class="p-3 font-semibold">VIII-B</td>
+                            <td class="p-3 text-center">
+                                <button class="text-blue-600 hover:text-blue-800 mr-2"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="text-red-600 hover:text-red-800"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- KONTEN TAB: 3. DATA GURU -->
+        <div id="tab-guru" class="tab-content hidden bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800">Manajemen Data Guru</h3>
+                    <p class="text-xs text-gray-500">Input manual atau template Excel (Nama, Peg ID, NPK, Mapel, Password). Username otomatis Peg ID.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow transition flex items-center gap-2">
+                        <i class="fa-solid fa-file-excel"></i> Template Excel
+                    </button>
+                    <button class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow transition flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Tambah Guru
+                    </button>
+                </div>
+            </div>
+            <!-- Tabel Simulasi Data Guru -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-emerald-50 text-emerald-900 border-b border-gray-200">
+                            <th class="p-3 font-bold">No</th>
+                            <th class="p-3 font-bold">Nama Guru & Gelar</th>
+                            <th class="p-3 font-bold">Peg ID (Username)</th>
+                            <th class="p-3 font-bold">NPK</th>
+                            <th class="p-3 font-bold">Mata Pelajaran</th>
+                            <th class="p-3 font-bold text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 text-gray-700">
+                        <tr>
+                            <td class="p-3">1</td>
+                            <td class="p-3 font-semibold">Hendrix Nurudin, S.Pd.</td>
+                            <td class="p-3 font-mono text-emerald-800 font-bold">91000079121840</td>
+                            <td class="p-3 font-mono">12345678</td>
+                            <td class="p-3">Matematika</td>
+                            <td class="p-3 text-center">
+                                <button class="text-blue-600 hover:text-blue-800 mr-2"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="text-red-600 hover:text-red-800"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- KONTEN TAB: 4. DATA SISWA -->
+        <div id="tab-siswa" class="tab-content hidden bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800">Manajemen Data Siswa</h3>
+                    <p class="text-xs text-gray-500">Input manual / template Excel (NISN, Nama, Tingkat, Kelas/Rombel, JK). Tingkat & Rombel terikat data kelas.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow transition flex items-center gap-2">
+                        <i class="fa-solid fa-file-excel"></i> Template Excel
+                    </button>
+                    <button class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow transition flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Tambah Siswa
+                    </button>
+                </div>
+            </div>
+            <!-- Tabel Simulasi Data Siswa -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-emerald-50 text-emerald-900 border-b border-gray-200">
+                            <th class="p-3 font-bold">No</th>
+                            <th class="p-3 font-bold">NISN</th>
+                            <th class="p-3 font-bold">Nama Siswa</th>
+                            <th class="p-3 font-bold">Tingkat</th>
+                            <th class="p-3 font-bold">Kelas / Rombel</th>
+                            <th class="p-3 font-bold">L/P</th>
+                            <th class="p-3 font-bold text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 text-gray-700">
+                        <tr>
+                            <td class="p-3">1</td>
+                            <td class="p-3 font-mono">0091234567</td>
+                            <td class="p-3 font-semibold">Ahmad Fauzan</td>
+                            <td class="p-3">VII</td>
+                            <td class="p-3 font-semibold text-emerald-800">VII-A</td>
+                            <td class="p-3">L</td>
+                            <td class="p-3 text-center">
+                                <button class="text-blue-600 hover:text-blue-800 mr-2"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="text-red-600 hover:text-red-800"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-emerald-950 text-emerald-100 pt-8 border-t-4 border-amber-400">
+        <div class="max-w-7xl mx-auto px-4 pb-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="flex flex-col gap-3">
+                <div class="flex items-center gap-3">
+                    <img src="../assets/mts.png" alt="Logo MTs" class="w-12 h-12 object-contain">
+                    <div>
+                        <h4 class="font-bold text-white leading-tight">MTs AL ISHLAH PANAMBANGAN</h4>
+                        <p class="text-xs text-amber-400">Kabupaten Cirebon</p>
+                    </div>
+                </div>
+                <p class="text-xs text-emerald-200/80 leading-relaxed mt-1">
+                    Panel Admin Sistem Informasi Administrasi & Buku Kerja Guru Berbasis KMA Nomor 1503 Tahun 2025.
+                </p>
+            </div>
+            <div>
+                <h5 class="text-amber-400 font-bold text-sm uppercase mb-3 tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-headset"></i> KONTAK & BANTUAN
+                </h5>
+                <p class="text-xs text-emerald-200">No. HP / WhatsApp: <strong class="text-white">085879452960</strong></p>
+            </div>
+            <div class="flex flex-col justify-between">
+                <div class="text-xs text-emerald-200">
+                    <i class="fa-solid fa-location-dot text-emerald-400 mr-1"></i> Jl. Gardu No. 01 Desa Panambangan Kec. Sedong, Cirebon
+                </div>
+                <div>
+                    <a href="https://wa.me/6285879452960" target="_blank" class="inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-4 py-2.5 rounded-lg shadow transition w-full md:w-auto mt-4 md:mt-0">
+                        <i class="fa-brands fa-whatsapp text-base"></i> Hubungi via WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="bg-amber-400 py-2.5 px-4 text-center text-xs font-bold text-emerald-950">
+            © 2026 MTs Al Ishlah Panambangan • Portal Admin Buku Kerja Guru
+        </div>
+    </footer>
+
+    <!-- Script Tab Switching -->
+    <script>
+        function switchTab(tabName) {
+            // Sembunyikan semua konten tab
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // Reset semua style tombol tab
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('bg-emerald-800', 'text-white', 'shadow');
+                el.classList.add('bg-white', 'text-gray-700', 'border', 'border-gray-200');
+            });
+            // Tampilkan tab yang dipilih
+            document.getElementById('tab-' + tabName).classList.remove('hidden');
+            // Aktifkan style tombol yang diklik
+            const activeBtn = document.getElementById('btn-' + tabName);
+            activeBtn.classList.remove('bg-white', 'text-gray-700', 'border', 'border-gray-200');
+            activeBtn.classList.add('bg-emerald-800', 'text-white', 'shadow');
+        }
+    </script>
+</body>
+</html>
